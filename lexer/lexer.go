@@ -2,8 +2,6 @@
 package lexer
 
 import (
-	"log"
-
 	"github.com/gmlewis/go-monkey/token"
 )
 
@@ -35,6 +33,9 @@ func (le *Lexer) readChar() {
 // NextToken returns the next token.
 func (le *Lexer) NextToken() token.Token {
 	var tok token.Token
+
+	le.skipWhitespace()
+
 	switch le.ch {
 	case '=':
 		tok = newToken(token.ASSIGN, le.ch)
@@ -56,7 +57,17 @@ func (le *Lexer) NextToken() token.Token {
 		tok.Literal = ""
 		tok.Type = token.EOF
 	default:
-		log.Fatalf("unknown token %c", le.ch)
+		if isLetter(le.ch) {
+			tok.Literal = le.readIdentifier()
+			tok.Type = token.LookupIdent(tok.Literal)
+			return tok
+		}
+		if isDigit(le.ch) {
+			tok.Type = token.INT
+			tok.Literal = le.readNumber()
+			return tok
+		}
+		tok = newToken(token.ILLEGAL, le.ch)
 	}
 	le.readChar()
 	return tok
@@ -64,4 +75,34 @@ func (le *Lexer) NextToken() token.Token {
 
 func newToken(tokenType token.T, ch byte) token.Token {
 	return token.Token{Type: tokenType, Literal: string(ch)}
+}
+
+func (le *Lexer) readIdentifier() string {
+	position := le.position
+	for isLetter(le.ch) {
+		le.readChar()
+	}
+	return le.input[position:le.position]
+}
+
+func isLetter(ch byte) bool {
+	return 'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '_'
+}
+
+func (le *Lexer) skipWhitespace() {
+	for le.ch == ' ' || le.ch == '\t' || le.ch == '\n' || le.ch == '\r' {
+		le.readChar()
+	}
+}
+
+func (le *Lexer) readNumber() string {
+	position := le.position
+	for isDigit(le.ch) {
+		le.readChar()
+	}
+	return le.input[position:le.position]
+}
+
+func isDigit(ch byte) bool {
+	return '0' <= ch && ch <= '9'
 }

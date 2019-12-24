@@ -37,3 +37,16 @@ const (
 	FUNCTION = "FUNCTION"
 	LET      = "LET"
 )
+
+var keywords = map[string]T{
+	"fn":  FUNCTION,
+	"let": LET,
+}
+
+// LookupIdent looks up an identifier and returns the type of token.
+func LookupIdent(ident string) T {
+	if tok, ok := keywords[ident]; ok {
+		return tok
+	}
+	return IDENT
+}
