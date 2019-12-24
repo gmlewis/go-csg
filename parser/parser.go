@@ -2,6 +2,8 @@
 package parser
 
 import (
+	"fmt"
+
 	"github.com/gmlewis/go-monkey/ast"
 	"github.com/gmlewis/go-monkey/lexer"
 	"github.com/gmlewis/go-monkey/token"
@@ -10,6 +12,8 @@ import (
 // Parser represents our language parser.
 type Parser struct {
 	le *lexer.Lexer
+
+	errors []string
 
 	curToken  token.Token
 	peekToken token.Token
@@ -23,6 +27,16 @@ func New(le *lexer.Lexer) *Parser {
 	p.nextToken()
 
 	return p
+}
+
+// Errors returns parsing errors.
+func (p *Parser) Errors() []string {
+	return p.errors
+}
+
+func (p *Parser) peekError(t token.T) {
+	msg := fmt.Sprintf("expected next token to be %v, got %v", t, p.peekToken.Type)
+	p.errors = append(p.errors, msg)
 }
 
 func (p *Parser) nextToken() {
@@ -49,6 +63,8 @@ func (p *Parser) parseStatement() ast.Statement {
 	switch p.curToken.Type {
 	case token.LET:
 		return p.parseLetStatement()
+	case token.RETURN:
+		return p.parseReturnStatement()
 	default:
 		return nil
 	}
@@ -74,6 +90,18 @@ func (p *Parser) parseLetStatement() *ast.LetStatement {
 	return stmt
 }
 
+func (p *Parser) parseReturnStatement() *ast.ReturnStatement {
+	stmt := &ast.ReturnStatement{Token: p.curToken}
+
+	p.nextToken()
+
+	for !p.curTokenIs(token.SEMICOLON) {
+		p.nextToken()
+	}
+
+	return stmt
+}
+
 func (p *Parser) curTokenIs(t token.T) bool {
 	return p.curToken.Type == t
 }
@@ -87,5 +115,6 @@ func (p *Parser) expectPeek(t token.T) bool {
 		p.nextToken()
 		return true
 	}
+	p.peekError(t)
 	return false
 }
