@@ -434,3 +434,75 @@ func TestIfExpression(t *testing.T) {
 		t.Errorf("exp.Alternative = %v, want nil", exp.Alternative)
 	}
 }
+
+func TestFunctionLiteralExpression(t *testing.T) {
+	input := `fn(x, y) { x + y; }`
+
+	le := lexer.New(input)
+	p := New(le)
+	program := p.ParseProgram()
+	checkParserErrors(t, p)
+
+	if len(program.Statements) != 1 {
+		t.Fatalf("program len(statements) = %v, want 1", len(program.Statements))
+	}
+
+	stmt, ok := program.Statements[0].(*ast.ExpressionStatement)
+	if !ok {
+		t.Fatalf("program.Statements[0] = %T, want *ast.ExpressionsStatment", program.Statements[0])
+	}
+
+	function, ok := stmt.Expression.(*ast.FunctionLiteral)
+	if !ok {
+		t.Fatalf("exp = %T, want *ast.FunctionLiteral", stmt.Expression)
+	}
+
+	if len(function.Parameters) != 2 {
+		t.Fatalf("len(parameters) = %v, want 2", len(function.Parameters))
+	}
+
+	testLiteralExpression(t, function.Parameters[0], "x")
+	testLiteralExpression(t, function.Parameters[1], "y")
+
+	if len(function.Body.Statements) != 1 {
+		t.Fatalf("len(Body.Statements) = %v, want 1", len(function.Body.Statements))
+	}
+
+	bodyStmt, ok := function.Body.Statements[0].(*ast.ExpressionStatement)
+	if !ok {
+		t.Fatalf("bodyStmt = %T, want *ast.ExpressionStatement", function.Body.Statements[0])
+	}
+
+	testInfixExpression(t, bodyStmt.Expression, "x", "+", "y")
+}
+
+func TestFunctionParameterParsing(t *testing.T) {
+	tests := []struct {
+		input string
+		want  []string
+	}{
+		{"fn() {};", nil},
+		{"fn(x) {}; ", []string{"x"}},
+		{"fn(x, y, z) {};", []string{"x", "y", "z"}},
+	}
+
+	for i, tt := range tests {
+		t.Run(fmt.Sprintf("test #%v", i), func(t *testing.T) {
+			le := lexer.New(tt.input)
+			p := New(le)
+			program := p.ParseProgram()
+			checkParserErrors(t, p)
+
+			stmt := program.Statements[0].(*ast.ExpressionStatement)
+			function := stmt.Expression.(*ast.FunctionLiteral)
+
+			if len(function.Parameters) != len(tt.want) {
+				t.Errorf("len(params) = %v, want %v", len(function.Parameters), len(tt.want))
+			}
+
+			for j, ident := range tt.want {
+				testLiteralExpression(t, function.Parameters[j], ident)
+			}
+		})
+	}
+}

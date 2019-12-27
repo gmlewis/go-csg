@@ -3,6 +3,7 @@ package ast
 
 import (
 	"bytes"
+	"strings"
 
 	"github.com/gmlewis/go-monkey/token"
 )
@@ -267,3 +268,33 @@ func (bs *BlockStatement) String() string {
 
 // TokenLiteral returns the token literal.
 func (bs *BlockStatement) TokenLiteral() string { return bs.Token.Literal }
+
+// FunctionLiteral represents a function literal.
+type FunctionLiteral struct {
+	Token      token.Token // The "fn" token
+	Parameters []*Identifier
+	Body       *BlockStatement
+}
+
+func (fl *FunctionLiteral) expressionNode() {}
+
+// String returns the string representation of the Node.
+func (fl *FunctionLiteral) String() string {
+	var out bytes.Buffer
+
+	var params []string
+	for _, p := range fl.Parameters {
+		params = append(params, p.String())
+	}
+
+	out.WriteString(fl.TokenLiteral())
+	out.WriteString("(")
+	out.WriteString(strings.Join(params, ", "))
+	out.WriteString(")")
+	out.WriteString(fl.Body.String())
+
+	return out.String()
+}
+
+// TokenLiteral returns the token literal.
+func (fl *FunctionLiteral) TokenLiteral() string { return fl.Token.Literal }
