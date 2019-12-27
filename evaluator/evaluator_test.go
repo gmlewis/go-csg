@@ -190,6 +190,49 @@ func TestLetStatements(t *testing.T) {
 	}
 }
 
+func TestFunctionObject(t *testing.T) {
+	input := "fn(x) { x + 2; };"
+
+	got := testEval(input)
+	fn, ok := got.(*object.Function)
+	if !ok {
+		t.Fatalf("got = %T (%+v), want *object.Function", got, got)
+	}
+
+	if len(fn.Parameters) != 1 {
+		t.Fatalf("len(params) = %v, want 1", len(fn.Parameters))
+	}
+
+	if fn.Parameters[0].String() != "x" {
+		t.Fatalf("params[0] = %v, want x", fn.Parameters[0].String())
+	}
+
+	if want := "(x + 2)"; fn.Body.String() != want {
+		t.Fatalf("body = %v, want %v", fn.Body.String(), want)
+	}
+}
+
+func TestFunctionApplication(t *testing.T) {
+	tests := []struct {
+		input string
+		want  int64
+	}{
+		{"let identity = fn(x) { x; }; identity(5);", 5},
+		{"let identity = fn(x) { return x; }; identity(5);", 5},
+		{"let double = fn(x) { x * 2; }; double(5);", 10},
+		{"let add = fn(x, y) { x + y; }; add(5, 5);", 10},
+		{"let add = fn(x, y) { x + y; }; add(5 + 5, add(5, 5));", 20},
+		{"fn(x) { x; }(5)", 5},
+	}
+
+	for i, tt := range tests {
+		t.Run(fmt.Sprintf("test #%v", i), func(t *testing.T) {
+			got := testEval(tt.input)
+			testIntegerObject(t, got, tt.want)
+		})
+	}
+}
+
 func testEval(input string) object.Object {
 	le := lexer.New(input)
 	p := parser.New(le)

@@ -1,7 +1,13 @@
 // Package object implements the objects system for the language.
 package object
 
-import "fmt"
+import (
+	"bytes"
+	"fmt"
+	"strings"
+
+	"github.com/gmlewis/go-monkey/ast"
+)
 
 // T represents the type of the object.
 type T string
@@ -13,6 +19,7 @@ const (
 	NullT        = "NULL"
 	ReturnValueT = "RETURN_VALUE"
 	ErrorT       = "ERROR"
+	FunctionT    = "FUNCTION"
 )
 
 // Object represents an object or value type within the language.
@@ -73,3 +80,32 @@ func (e *Error) Inspect() string { return "ERROR: " + e.Message }
 
 // Type returns the type of the object.
 func (e *Error) Type() T { return ErrorT }
+
+// Function represents an object of that type.
+type Function struct {
+	Parameters []*ast.Identifier
+	Body       *ast.BlockStatement
+	Env        *Environment
+}
+
+// Inspect returns a representation of the object value.
+func (f *Function) Inspect() string {
+	var out bytes.Buffer
+
+	var params []string
+	for _, p := range f.Parameters {
+		params = append(params, p.String())
+	}
+
+	out.WriteString("fn")
+	out.WriteString("(")
+	out.WriteString(strings.Join(params, ", "))
+	out.WriteString(") {\n")
+	out.WriteString(f.Body.String())
+	out.WriteString("\n}")
+
+	return out.String()
+}
+
+// Type returns the type of the object.
+func (f *Function) Type() T { return FunctionT }
