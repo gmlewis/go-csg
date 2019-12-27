@@ -94,6 +94,51 @@ func TestBangOperator(t *testing.T) {
 	}
 }
 
+func TestIfElseExpressions(t *testing.T) {
+	tests := []struct {
+		input string
+		want  interface{}
+	}{
+		{"if (true) { 10 }", 10},
+		{"if (false) { 10 }", nil},
+		{"if (1) { 10 }", 10},
+		{"if (1 < 2) { 10 }", 10},
+		{"if (1 > 2) { 10 }", nil},
+		{"if (1 > 2) { 10 } else { 20 }", 20},
+		{"if (1 < 2) { 10 } else { 20 }", 10},
+	}
+
+	for i, tt := range tests {
+		t.Run(fmt.Sprintf("test #%v", i), func(t *testing.T) {
+			got := testEval(tt.input)
+			if integer, ok := tt.want.(int); ok {
+				testIntegerObject(t, got, int64(integer))
+			} else {
+				testNullObject(t, got)
+			}
+		})
+	}
+}
+
+func TestReturnStatements(t *testing.T) {
+	tests := []struct {
+		input string
+		want  int64
+	}{
+		{"return 10;", 10},
+		{"return 10; 9;", 10},
+		{"return 2 * 5; 9;", 10},
+		{"9; return 2 * 5; 9;", 10},
+	}
+
+	for i, tt := range tests {
+		t.Run(fmt.Sprintf("test #%v", i), func(t *testing.T) {
+			got := testEval(tt.input)
+			testIntegerObject(t, got, tt.want)
+		})
+	}
+}
+
 func testEval(input string) object.Object {
 	le := lexer.New(input)
 	p := parser.New(le)
@@ -126,6 +171,15 @@ func testBooleanObject(t *testing.T, obj object.Object, want bool) bool {
 
 	if result.Value != want {
 		t.Errorf("value = %v, want %v", result.Value, want)
+		return false
+	}
+
+	return true
+}
+
+func testNullObject(t *testing.T, obj object.Object) bool {
+	if obj != Null {
+		t.Errorf("got = %T (%+v), want Null", obj, obj)
 		return false
 	}
 

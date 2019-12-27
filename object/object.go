@@ -8,9 +8,10 @@ type T string
 
 // Object types.
 const (
-	BooleanT = "BOOLEAN"
-	IntegerT = "INTEGER"
-	NullT    = "NULL"
+	BooleanT     = "BOOLEAN"
+	IntegerT     = "INTEGER"
+	NullT        = "NULL"
+	ReturnValueT = "RETURN_VALUE"
 )
 
 // Object represents an object or value type within the language.
@@ -36,16 +37,27 @@ type Boolean struct {
 }
 
 // Inspect returns a representation of the object value.
-func (i *Boolean) Inspect() string { return fmt.Sprintf("%v", i.Value) }
+func (b *Boolean) Inspect() string { return fmt.Sprintf("%v", b.Value) }
 
 // Type returns the type of the object.
-func (i *Boolean) Type() T { return BooleanT }
+func (b *Boolean) Type() T { return BooleanT }
 
 // Null represents an object of that type.
 type Null struct{}
 
 // Inspect returns a representation of the object value.
-func (i *Null) Inspect() string { return "null" }
+func (n *Null) Inspect() string { return "null" }
 
 // Type returns the type of the object.
-func (i *Null) Type() T { return NullT }
+func (n *Null) Type() T { return NullT }
+
+// ReturnValue represents an object of that type.
+type ReturnValue struct {
+	Value Object
+}
+
+// Inspect returns a representation of the object value.
+func (r *ReturnValue) Inspect() string { return r.Value.Inspect() }
+
+// Type returns the type of the object.
+func (r *ReturnValue) Type() T { return ReturnValueT }
