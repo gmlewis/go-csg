@@ -12,6 +12,7 @@ const (
 	IntegerT     = "INTEGER"
 	NullT        = "NULL"
 	ReturnValueT = "RETURN_VALUE"
+	ErrorT       = "ERROR"
 )
 
 // Object represents an object or value type within the language.
@@ -61,3 +62,14 @@ func (r *ReturnValue) Inspect() string { return r.Value.Inspect() }
 
 // Type returns the type of the object.
 func (r *ReturnValue) Type() T { return ReturnValueT }
+
+// Error represents an object of that type.
+type Error struct {
+	Message string
+}
+
+// Inspect returns a representation of the object value.
+func (e *Error) Inspect() string { return "ERROR: " + e.Message }
+
+// Type returns the type of the object.
+func (e *Error) Type() T { return ErrorT }

@@ -140,6 +140,36 @@ func TestReturnStatements(t *testing.T) {
 	}
 }
 
+func TestErrorHandling(t *testing.T) {
+	tests := []struct {
+		input string
+		want  string
+	}{
+		{"5 + true;", "type mismatch: INTEGER + BOOLEAN"},
+		{"5 + true; 5;", "type mismatch: INTEGER + BOOLEAN"},
+		{"-true", "unknown operator: -BOOLEAN"},
+		{"true + false;", "unknown operator: BOOLEAN + BOOLEAN"},
+		{"5; true + false; 5", "unknown operator: BOOLEAN + BOOLEAN"},
+		{"if (10 > 1) { true + false; }", "unknown operator: BOOLEAN + BOOLEAN"},
+		{` if (10 > 1) { if (10 > 1) { return true + false; } return 1; } `, "unknown operator: BOOLEAN + BOOLEAN"},
+	}
+
+	for i, tt := range tests {
+		t.Run(fmt.Sprintf("test #%v", i), func(t *testing.T) {
+			got := testEval(tt.input)
+
+			errObj, ok := got.(*object.Error)
+			if !ok {
+				t.Fatalf("got = %T (%+v), want *object.Error", got, got)
+			}
+
+			if errObj.Message != tt.want {
+				t.Errorf("error = %v, want %v", errObj.Message, tt.want)
+			}
+		})
+	}
+}
+
 func testEval(input string) object.Object {
 	le := lexer.New(input)
 	p := parser.New(le)

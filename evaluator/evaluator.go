@@ -2,6 +2,8 @@
 package evaluator
 
 import (
+	"fmt"
+
 	"github.com/gmlewis/go-monkey/ast"
 	"github.com/gmlewis/go-monkey/object"
 )
@@ -70,7 +72,7 @@ func evalBangOperatorExpression(right object.Object) object.Object {
 
 func evalMinusOperatorExpression(right object.Object) object.Object {
 	if right.Type() != object.IntegerT {
-		return Null
+		return newError("unknown operator: -%v", right.Type())
 	}
 
 	value := right.(*object.Integer).Value
@@ -91,8 +93,10 @@ func evalInfixExpression(operator string, left, right object.Object) object.Obje
 			return True
 		}
 		return False
+	case left.Type() != right.Type():
+		return newError("type mismatch: %v %v %v", left.Type(), operator, right.Type())
 	}
-	return Null
+	return newError("unknown operator: %v %v %v", left.Type(), operator, right.Type())
 }
 
 func evalIntegerInfixExpression(operator string, left, right object.Object) object.Object {
@@ -130,7 +134,8 @@ func evalIntegerInfixExpression(operator string, left, right object.Object) obje
 		}
 		return False
 	}
-	return Null
+
+	return newError("unknown operator: %v %v %v", left.Type(), operator, right.Type())
 }
 
 func evalPrefixExpression(operator string, right object.Object) object.Object {
@@ -140,7 +145,7 @@ func evalPrefixExpression(operator string, right object.Object) object.Object {
 	case "-":
 		return evalMinusOperatorExpression(right)
 	}
-	return Null
+	return newError("unknown operator: %v%v", operator, right.Type())
 }
 
 func evalProgram(program *ast.Program) object.Object {
@@ -149,8 +154,11 @@ func evalProgram(program *ast.Program) object.Object {
 	for _, statement := range program.Statements {
 		result = Eval(statement)
 
-		if returnValue, ok := result.(*object.ReturnValue); ok {
-			return returnValue.Value
+		switch result := result.(type) {
+		case *object.ReturnValue:
+			return result.Value
+		case *object.Error:
+			return result
 		}
 	}
 
@@ -163,8 +171,10 @@ func evalBlockStatement(block *ast.BlockStatement) object.Object {
 	for _, statement := range block.Statements {
 		result = Eval(statement)
 
-		if result != nil && result.Type() == object.ReturnValueT {
-			return result
+		if result != nil {
+			if rt := result.Type(); rt == object.ReturnValueT || rt == object.ErrorT {
+				return result
+			}
 		}
 	}
 
@@ -195,4 +205,8 @@ func isTruthy(obj object.Object) bool {
 	}
 
 	return true
+}
+
+func newError(format string, args ...interface{}) *object.Error {
+	return &object.Error{Message: fmt.Sprintf(format, args...)}
 }
