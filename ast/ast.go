@@ -152,7 +152,7 @@ func (il *IntegerLiteral) String() string { return il.Token.Literal }
 // TokenLiteral returns the token literal.
 func (il *IntegerLiteral) TokenLiteral() string { return il.Token.Literal }
 
-// PrefixExpression represents an integer literal.
+// PrefixExpression represents a prefix expression.
 type PrefixExpression struct {
 	Token    token.Token // The prefix token, e.g. !
 	Operator string
@@ -176,7 +176,7 @@ func (pe *PrefixExpression) String() string {
 // TokenLiteral returns the token literal.
 func (pe *PrefixExpression) TokenLiteral() string { return pe.Token.Literal }
 
-// InfixExpression represents an integer literal.
+// InfixExpression represents an infix expression.
 type InfixExpression struct {
 	Token    token.Token // The infix token, e.g. ==
 	Left     Expression
@@ -215,3 +215,55 @@ func (bl *BooleanLiteral) String() string { return bl.Token.Literal }
 
 // TokenLiteral returns the token literal.
 func (bl *BooleanLiteral) TokenLiteral() string { return bl.Token.Literal }
+
+// IfExpression represents an "if" expression.
+type IfExpression struct {
+	Token       token.Token // The "if" token
+	Condition   Expression
+	Consequence *BlockStatement
+	Alternative *BlockStatement
+}
+
+func (ie *IfExpression) expressionNode() {}
+
+// String returns the string representation of the Node.
+func (ie *IfExpression) String() string {
+	var out bytes.Buffer
+
+	out.WriteString("if")
+	out.WriteString(ie.Condition.String())
+	out.WriteString(" ")
+	out.WriteString(ie.Consequence.String())
+
+	if ie.Alternative != nil {
+		out.WriteString("else ")
+		out.WriteString(ie.Alternative.String())
+	}
+
+	return out.String()
+}
+
+// TokenLiteral returns the token literal.
+func (ie *IfExpression) TokenLiteral() string { return ie.Token.Literal }
+
+// BlockStatement represents a block statement.
+type BlockStatement struct {
+	Token      token.Token // The "if" token
+	Statements []Statement
+}
+
+func (bs *BlockStatement) expressionNode() {}
+
+// String returns the string representation of the Node.
+func (bs *BlockStatement) String() string {
+	var out bytes.Buffer
+
+	for _, s := range bs.Statements {
+		out.WriteString(s.String())
+	}
+
+	return out.String()
+}
+
+// TokenLiteral returns the token literal.
+func (bs *BlockStatement) TokenLiteral() string { return bs.Token.Literal }
