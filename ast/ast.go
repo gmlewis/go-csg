@@ -137,3 +137,41 @@ func (es *ExpressionStatement) String() string {
 
 // TokenLiteral returns the token literal.
 func (es *ExpressionStatement) TokenLiteral() string { return es.Token.Literal }
+
+// IntegerLiteral represents an integer literal.
+type IntegerLiteral struct {
+	Token token.Token
+	Value int64
+}
+
+func (il *IntegerLiteral) expressionNode() {}
+
+// String returns the string representation of the Node.
+func (il *IntegerLiteral) String() string { return il.Token.Literal }
+
+// TokenLiteral returns the token literal.
+func (il *IntegerLiteral) TokenLiteral() string { return il.Token.Literal }
+
+// PrefixExpression represents an integer literal.
+type PrefixExpression struct {
+	Token    token.Token // The prefix token, e.g. !
+	Operator string
+	Right    Expression
+}
+
+func (pe *PrefixExpression) expressionNode() {}
+
+// String returns the string representation of the Node.
+func (pe *PrefixExpression) String() string {
+	var out bytes.Buffer
+
+	out.WriteString("(")
+	out.WriteString(pe.Operator)
+	out.WriteString(pe.Right.String())
+	out.WriteString(")")
+
+	return out.String()
+}
+
+// TokenLiteral returns the token literal.
+func (pe *PrefixExpression) TokenLiteral() string { return pe.Token.Literal }
