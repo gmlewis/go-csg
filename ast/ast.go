@@ -201,3 +201,17 @@ func (pe *InfixExpression) String() string {
 
 // TokenLiteral returns the token literal.
 func (pe *InfixExpression) TokenLiteral() string { return pe.Token.Literal }
+
+// BooleanLiteral represents a boolean literal.
+type BooleanLiteral struct {
+	Token token.Token
+	Value bool
+}
+
+func (bl *BooleanLiteral) expressionNode() {}
+
+// String returns the string representation of the Node.
+func (bl *BooleanLiteral) String() string { return bl.Token.Literal }
+
+// TokenLiteral returns the token literal.
+func (bl *BooleanLiteral) TokenLiteral() string { return bl.Token.Literal }
