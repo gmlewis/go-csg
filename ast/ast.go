@@ -175,3 +175,29 @@ func (pe *PrefixExpression) String() string {
 
 // TokenLiteral returns the token literal.
 func (pe *PrefixExpression) TokenLiteral() string { return pe.Token.Literal }
+
+// InfixExpression represents an integer literal.
+type InfixExpression struct {
+	Token    token.Token // The infix token, e.g. ==
+	Left     Expression
+	Operator string
+	Right    Expression
+}
+
+func (pe *InfixExpression) expressionNode() {}
+
+// String returns the string representation of the Node.
+func (pe *InfixExpression) String() string {
+	var out bytes.Buffer
+
+	out.WriteString("(")
+	out.WriteString(pe.Left.String())
+	out.WriteString(" " + pe.Operator + " ")
+	out.WriteString(pe.Right.String())
+	out.WriteString(")")
+
+	return out.String()
+}
+
+// TokenLiteral returns the token literal.
+func (pe *InfixExpression) TokenLiteral() string { return pe.Token.Literal }

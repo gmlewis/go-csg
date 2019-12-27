@@ -256,3 +256,85 @@ func testIntegerLiteral(t *testing.T, il ast.Expression, value int64) bool {
 
 	return true
 }
+
+func TestParsingInfixExpressions(t *testing.T) {
+	tests := []struct {
+		input    string
+		leftVal  int64
+		operator string
+		rightVal int64
+	}{
+		{"5 + 5;", 5, "+", 5},
+		{"5 - 5;", 5, "-", 5},
+		{"5 * 5;", 5, "*", 5},
+		{"5 / 5;", 5, "/", 5},
+		{"5 > 5;", 5, ">", 5},
+		{"5 < 5;", 5, "<", 5},
+		{"5 == 5;", 5, "==", 5},
+		{"5 != 5;", 5, "!=", 5},
+	}
+
+	for i, tt := range tests {
+		t.Run(fmt.Sprintf("test #%v", i), func(t *testing.T) {
+			le := lexer.New(tt.input)
+			p := New(le)
+			program := p.ParseProgram()
+			checkParserErrors(t, p)
+
+			if len(program.Statements) != 1 {
+				t.Fatalf("program len(statements) = %v, want 1", len(program.Statements))
+			}
+			stmt, ok := program.Statements[0].(*ast.ExpressionStatement)
+			if !ok {
+				t.Fatalf("program.Statements[0] = %T, want *ast.ExpressionsStatment", program.Statements[0])
+			}
+			exp, ok := stmt.Expression.(*ast.InfixExpression)
+			if !ok {
+				t.Fatalf("exp = %T, want *ast.InfixExpression", stmt.Expression)
+			}
+			if !testIntegerLiteral(t, exp.Left, tt.leftVal) {
+				return
+			}
+			if exp.Operator != tt.operator {
+				t.Errorf("exp.Operator = %v, want %v", exp.Operator, tt.operator)
+			}
+			if !testIntegerLiteral(t, exp.Right, tt.rightVal) {
+				return
+			}
+		})
+	}
+}
+
+func TestOperatorPrecedenceParsing(t *testing.T) {
+	tests := []struct {
+		input string
+		want  string
+	}{
+		{"-a * b", "((-a) * b)"},
+		{"!-a", "(!(-a))"},
+		{"a + b + c", "((a + b) + c)"},
+		{"a + b - c", "((a + b) - c)"},
+		{"a * b * c", "((a * b) * c)"},
+		{"a * b / c", "((a * b) / c)"},
+		{"a + b / c", "(a + (b / c))"},
+		{"a + b * c + d / e - f", "(((a + (b * c)) + (d / e)) - f)"},
+		{"3 + 4; -5 * 5", "(3 + 4)((-5) * 5)"},
+		{"5 > 4 == 3 < 4", "((5 > 4) == (3 < 4))"},
+		{"5 < 4 != 3 > 4", "((5 < 4) != (3 > 4))"},
+		{"3 + 4 * 5 == 3 * 1 + 4 * 5", "((3 + (4 * 5)) == ((3 * 1) + (4 * 5)))"},
+	}
+
+	for i, tt := range tests {
+		t.Run(fmt.Sprintf("test #%v", i), func(t *testing.T) {
+			le := lexer.New(tt.input)
+			p := New(le)
+			program := p.ParseProgram()
+			checkParserErrors(t, p)
+
+			got := program.String()
+			if got != tt.want {
+				t.Errorf("string = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
