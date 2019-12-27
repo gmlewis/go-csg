@@ -7,7 +7,7 @@ import (
 	"io"
 
 	"github.com/gmlewis/go-monkey/lexer"
-	"github.com/gmlewis/go-monkey/token"
+	"github.com/gmlewis/go-monkey/parser"
 )
 
 // PROMPT is the repl prompt.
@@ -25,9 +25,22 @@ func Start(in io.Reader, out io.Writer) {
 
 		line := scanner.Text()
 		le := lexer.New(line)
+		p := parser.New(le)
 
-		for tok := le.NextToken(); tok.Type != token.EOF; tok = le.NextToken() {
-			fmt.Printf("%+v\n", tok)
+		program := p.ParseProgram()
+
+		if len(p.Errors()) != 0 {
+			printParserErrors(out, p.Errors())
+			continue
 		}
+
+		io.WriteString(out, program.String())
+		io.WriteString(out, "\n")
+	}
+}
+
+func printParserErrors(out io.Writer, errors []string) {
+	for _, msg := range errors {
+		io.WriteString(out, "\t"+msg+"\n")
 	}
 }
