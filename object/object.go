@@ -22,6 +22,7 @@ const (
 	FunctionT    = "FUNCTION"
 	StringT      = "STRING"
 	BuiltinT     = "BUILTIN"
+	ArrayT       = "ARRAY"
 )
 
 // Object represents an object or value type within the language.
@@ -136,3 +137,27 @@ func (s *Builtin) Inspect() string { return "builtin function" }
 
 // Type returns the type of the object.
 func (s *Builtin) Type() T { return BuiltinT }
+
+// Array represents an object of that type.
+type Array struct {
+	Elements []Object
+}
+
+// Inspect returns a representation of the object value.
+func (a *Array) Inspect() string {
+	var out bytes.Buffer
+
+	var elements []string
+	for _, e := range a.Elements {
+		elements = append(elements, e.Inspect())
+	}
+
+	out.WriteString("[")
+	out.WriteString(strings.Join(elements, ", "))
+	out.WriteString("]")
+
+	return out.String()
+}
+
+// Type returns the type of the object.
+func (a *Array) Type() T { return ArrayT }
