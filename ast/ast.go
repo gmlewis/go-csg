@@ -153,6 +153,20 @@ func (il *IntegerLiteral) String() string { return il.Token.Literal }
 // TokenLiteral returns the token literal.
 func (il *IntegerLiteral) TokenLiteral() string { return il.Token.Literal }
 
+// StringLiteral represents a string literal.
+type StringLiteral struct {
+	Token token.Token
+	Value string
+}
+
+func (sl *StringLiteral) expressionNode() {}
+
+// String returns the string representation of the Node.
+func (sl *StringLiteral) String() string { return sl.Token.Literal }
+
+// TokenLiteral returns the token literal.
+func (sl *StringLiteral) TokenLiteral() string { return sl.Token.Literal }
+
 // PrefixExpression represents a prefix expression.
 type PrefixExpression struct {
 	Token    token.Token // The prefix token, e.g. !
