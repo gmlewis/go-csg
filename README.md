@@ -1,6 +1,9 @@
-# go-openscad
+# go-csg
 
-An experimental OpenSCAD interpreter and converter written in Go.
+An experimental CSG interpreter and converter written in Go.
+
+CSG is an intermediate file format that is output by CAD tools
+such as OpenSCAD.
 
 This project is based on the "Monkey language" from the book
 `Writing An Interpreter in Go` by Thorsten Ball:
@@ -17,7 +20,7 @@ in the hope of making IRMF more accessible to more people.
 ## Running an example
 
 You can use the `run.sh` bash script and the example number found in
-the [examples directory](/examples) to convert an OpenSCAD example
+the [examples directory](/examples) to convert a CSG example file
 to IRMF.
 
 ```sh
