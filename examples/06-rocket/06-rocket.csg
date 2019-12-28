@@ -1,0 +1,43 @@
+group() {
+	cylinder($fn = 100, $fa = 12, $fs = 2, h = 100, r1 = 15, r2 = 15, center = false);
+	multmatrix([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 100], [0, 0, 0, 1]]) {
+		rotate_extrude(convexity = 2, $fn = 100, $fa = 12, $fs = 2) {
+			polygon(points = [[0, 0], [20, 0], [0, 40]], paths = undef, convexity = 1);
+		}
+	}
+	group() {
+		multmatrix([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]) {
+			group() {
+				multmatrix([[1, 0, 0, 14], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]) {
+					multmatrix([[1, 0, 0, 0], [0, 2.22045e-16, -1, 0], [0, 1, 2.22045e-16, 0], [0, 0, 0, 1]]) {
+						linear_extrude(height = 2, center = true, convexity = 1, scale = [1, 1], $fn = 100, $fa = 12, $fs = 2) {
+							polygon(points = [[0, 0], [40, 0], [0, 40]], paths = undef, convexity = 1);
+						}
+					}
+				}
+			}
+		}
+		multmatrix([[-0.5, -0.866025, 0, 0], [0.866025, -0.5, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]) {
+			group() {
+				multmatrix([[1, 0, 0, 14], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]) {
+					multmatrix([[1, 0, 0, 0], [0, 2.22045e-16, -1, 0], [0, 1, 2.22045e-16, 0], [0, 0, 0, 1]]) {
+						linear_extrude(height = 2, center = true, convexity = 1, scale = [1, 1], $fn = 100, $fa = 12, $fs = 2) {
+							polygon(points = [[0, 0], [40, 0], [0, 40]], paths = undef, convexity = 1);
+						}
+					}
+				}
+			}
+		}
+		multmatrix([[-0.5, 0.866025, 0, 0], [-0.866025, -0.5, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]) {
+			group() {
+				multmatrix([[1, 0, 0, 14], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]) {
+					multmatrix([[1, 0, 0, 0], [0, 2.22045e-16, -1, 0], [0, 1, 2.22045e-16, 0], [0, 0, 0, 1]]) {
+						linear_extrude(height = 2, center = true, convexity = 1, scale = [1, 1], $fn = 100, $fa = 12, $fs = 2) {
+							polygon(points = [[0, 0], [40, 0], [0, 40]], paths = undef, convexity = 1);
+						}
+					}
+				}
+			}
+		}
+	}
+}
