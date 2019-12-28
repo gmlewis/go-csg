@@ -154,7 +154,7 @@ func TestErrorHandling(t *testing.T) {
 		{` if (10 > 1) { if (10 > 1) { return true + false; } return 1; } `, "unknown operator: BOOLEAN + BOOLEAN"},
 		{"foobar", "identifier not found: foobar"},
 		{`"Hello" - "World"`, "unknown operator: STRING - STRING"},
-		{`{"name": "Monkey"}[fn(x) { x }];`, "unusable as hash key: FUNCTION"},
+		{`{"name": "Monkey"}[function(x) { x }];`, "unusable as hash key: FUNCTION"},
 	}
 
 	for i, tt := range tests {
@@ -193,7 +193,7 @@ func TestLetStatements(t *testing.T) {
 }
 
 func TestFunctionObject(t *testing.T) {
-	input := "fn(x) { x + 2; };"
+	input := "function(x) { x + 2; };"
 
 	got := testEval(input)
 	fn, ok := got.(*object.Function)
@@ -247,12 +247,12 @@ func TestFunctionApplication(t *testing.T) {
 		input string
 		want  int64
 	}{
-		{"let identity = fn(x) { x; }; identity(5);", 5},
-		{"let identity = fn(x) { return x; }; identity(5);", 5},
-		{"let double = fn(x) { x * 2; }; double(5);", 10},
-		{"let add = fn(x, y) { x + y; }; add(5, 5);", 10},
-		{"let add = fn(x, y) { x + y; }; add(5 + 5, add(5, 5));", 20},
-		{"fn(x) { x; }(5)", 5},
+		{"let identity = function(x) { x; }; identity(5);", 5},
+		{"let identity = function(x) { return x; }; identity(5);", 5},
+		{"let double = function(x) { x * 2; }; double(5);", 10},
+		{"let add = function(x, y) { x + y; }; add(5, 5);", 10},
+		{"let add = function(x, y) { x + y; }; add(5 + 5, add(5, 5));", 20},
+		{"function(x) { x; }(5)", 5},
 	}
 
 	for i, tt := range tests {
@@ -264,7 +264,7 @@ func TestFunctionApplication(t *testing.T) {
 }
 
 func TestClosures(t *testing.T) {
-	input := ` let newAdder = fn(x) { fn(y) { x + y }; }; let addTwo = newAdder(2); addTwo(2);`
+	input := ` let newAdder = function(x) { function(y) { x + y }; }; let addTwo = newAdder(2); addTwo(2);`
 
 	got := testEval(input)
 	testIntegerObject(t, got, 4)
@@ -420,7 +420,7 @@ func testEval(input string) object.Object {
 func testIntegerObject(t *testing.T, obj object.Object, want int64) bool {
 	result, ok := obj.(*object.Integer)
 	if !ok {
-		t.Errorf("object = %T, want *object.Integer", obj)
+		t.Errorf("object = %T (%+v), want *object.Integer", obj, obj)
 		return false
 	}
 

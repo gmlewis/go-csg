@@ -285,7 +285,7 @@ func (bs *BlockStatement) TokenLiteral() string { return bs.Token.Literal }
 
 // FunctionLiteral represents a function literal.
 type FunctionLiteral struct {
-	Token      token.Token // The "fn" token
+	Token      token.Token // The "function" token
 	Parameters []*Identifier
 	Body       *BlockStatement
 }

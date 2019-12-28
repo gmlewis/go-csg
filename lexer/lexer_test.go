@@ -8,10 +8,21 @@ import (
 )
 
 func TestNextToken(t *testing.T) {
-	input := `let five = 5;
+	input := `sphere(20);
+$fa=0.5; // default minimum facet angle is now 0.5
+cylinder(r=3,h=10);
+cube([20,10,5]);
+
+union()
+{
+  cube([20,20,20], center=true);
+  sphere(14);
+}
+
+let five = 5;
 let ten = 10;
 
-let add = fn(x, y) {
+let add = function(x, y) {
 	x + y;
 };
 
@@ -37,6 +48,69 @@ if (5 < 10) {
 		expectedType    token.T
 		expectedLiteral string
 	}{
+		{token.SPHERE, "sphere"},
+		{token.LPAREN, "("},
+		{token.INT, "20"},
+		{token.RPAREN, ")"},
+		{token.SEMICOLON, ";"},
+
+		{token.DOLLAR, "$"},
+		{token.IDENT, "fa"},
+		{token.ASSIGN, "="},
+		{token.FLOAT, "0.5"},
+		{token.SEMICOLON, ";"},
+		{token.LINECOMMENT, " default minimum facet angle is now 0.5"},
+
+		{token.CYLINDER, "cylinder"},
+		{token.LPAREN, "("},
+		{token.IDENT, "r"},
+		{token.ASSIGN, "="},
+		{token.INT, "3"},
+		{token.COMMA, ","},
+		{token.IDENT, "h"},
+		{token.ASSIGN, "="},
+		{token.INT, "10"},
+		{token.RPAREN, ")"},
+		{token.SEMICOLON, ";"},
+
+		{token.CUBE, "cube"},
+		{token.LPAREN, "("},
+		{token.LBRACKET, "["},
+		{token.INT, "20"},
+		{token.COMMA, ","},
+		{token.INT, "10"},
+		{token.COMMA, ","},
+		{token.INT, "5"},
+		{token.RBRACKET, "]"},
+		{token.RPAREN, ")"},
+		{token.SEMICOLON, ";"},
+
+		{token.UNION, "union"},
+		{token.LPAREN, "("},
+		{token.RPAREN, ")"},
+		{token.LBRACE, "{"},
+		{token.CUBE, "cube"},
+		{token.LPAREN, "("},
+		{token.LBRACKET, "["},
+		{token.INT, "20"},
+		{token.COMMA, ","},
+		{token.INT, "20"},
+		{token.COMMA, ","},
+		{token.INT, "20"},
+		{token.RBRACKET, "]"},
+		{token.COMMA, ","},
+		{token.IDENT, "center"},
+		{token.ASSIGN, "="},
+		{token.TRUE, "true"},
+		{token.RPAREN, ")"},
+		{token.SEMICOLON, ";"},
+		{token.SPHERE, "sphere"},
+		{token.LPAREN, "("},
+		{token.INT, "14"},
+		{token.RPAREN, ")"},
+		{token.SEMICOLON, ";"},
+		{token.RBRACE, "}"},
+
 		{token.LET, "let"},
 		{token.IDENT, "five"},
 		{token.ASSIGN, "="},
@@ -50,7 +124,7 @@ if (5 < 10) {
 		{token.LET, "let"},
 		{token.IDENT, "add"},
 		{token.ASSIGN, "="},
-		{token.FUNCTION, "fn"},
+		{token.FUNCTION, "function"},
 		{token.LPAREN, "("},
 		{token.IDENT, "x"},
 		{token.COMMA, ","},

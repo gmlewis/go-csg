@@ -647,7 +647,7 @@ func TestIfExpression(t *testing.T) {
 }
 
 func TestFunctionLiteralExpression(t *testing.T) {
-	input := `fn(x, y) { x + y; }`
+	input := `function(x, y) { x + y; }`
 
 	le := lexer.New(input)
 	p := New(le)
@@ -692,9 +692,9 @@ func TestFunctionParameterParsing(t *testing.T) {
 		input string
 		want  []string
 	}{
-		{"fn() {};", nil},
-		{"fn(x) {}; ", []string{"x"}},
-		{"fn(x, y, z) {};", []string{"x", "y", "z"}},
+		{"function() {};", nil},
+		{"function(x) {}; ", []string{"x"}},
+		{"function(x, y, z) {};", []string{"x", "y", "z"}},
 	}
 
 	for i, tt := range tests {

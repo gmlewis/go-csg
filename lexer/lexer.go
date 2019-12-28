@@ -64,7 +64,13 @@ func (le *Lexer) NextToken() token.Token {
 			tok = newToken(token.BANG, le.ch)
 		}
 	case '/':
-		tok = newToken(token.SLASH, le.ch)
+		if le.peekChar() == '/' {
+			le.readChar()
+			tok.Type = token.LINECOMMENT
+			tok.Literal = le.readLineComment()
+		} else {
+			tok = newToken(token.SLASH, le.ch)
+		}
 	case '*':
 		tok = newToken(token.ASTERISK, le.ch)
 	case '<':
@@ -87,6 +93,8 @@ func (le *Lexer) NextToken() token.Token {
 		tok = newToken(token.RBRACKET, le.ch)
 	case ':':
 		tok = newToken(token.COLON, le.ch)
+	case '$':
+		tok = newToken(token.DOLLAR, le.ch)
 	default:
 		if isLetter(le.ch) {
 			tok.Literal = le.readIdentifier()
@@ -94,8 +102,7 @@ func (le *Lexer) NextToken() token.Token {
 			return tok
 		}
 		if isDigit(le.ch) {
-			tok.Type = token.INT
-			tok.Literal = le.readNumber()
+			tok.Literal, tok.Type = le.readNumber()
 			return tok
 		}
 		tok = newToken(token.ILLEGAL, le.ch)
@@ -126,12 +133,16 @@ func (le *Lexer) skipWhitespace() {
 	}
 }
 
-func (le *Lexer) readNumber() string {
+func (le *Lexer) readNumber() (string, token.T) {
 	position := le.position
-	for isDigit(le.ch) {
+	var tokType token.T = token.INT
+	for isDigit(le.ch) || le.ch == '.' {
+		if le.ch == '.' {
+			tokType = token.FLOAT
+		}
 		le.readChar()
 	}
-	return le.input[position:le.position]
+	return le.input[position:le.position], tokType
 }
 
 func (le *Lexer) readString() string {
@@ -139,6 +150,17 @@ func (le *Lexer) readString() string {
 	for {
 		le.readChar()
 		if le.ch == '"' || le.ch == 0 {
+			break
+		}
+	}
+	return le.input[position:le.position]
+}
+
+func (le *Lexer) readLineComment() string {
+	position := le.position + 1
+	for {
+		le.readChar()
+		if le.ch == '\n' || le.ch == 0 {
 			break
 		}
 	}
