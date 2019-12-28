@@ -341,3 +341,30 @@ func (ce *CallExpression) String() string {
 
 // TokenLiteral returns the token literal.
 func (ce *CallExpression) TokenLiteral() string { return ce.Token.Literal }
+
+// ArrayLiteral represents a prefix expression.
+type ArrayLiteral struct {
+	Token    token.Token // The '[' token
+	Elements []Expression
+}
+
+func (al *ArrayLiteral) expressionNode() {}
+
+// String returns the string representation of the Node.
+func (al *ArrayLiteral) String() string {
+	var out bytes.Buffer
+
+	var elements []string
+	for _, el := range al.Elements {
+		elements = append(elements, el.String())
+	}
+
+	out.WriteString("[")
+	out.WriteString(strings.Join(elements, ", "))
+	out.WriteString("]")
+
+	return out.String()
+}
+
+// TokenLiteral returns the token literal.
+func (al *ArrayLiteral) TokenLiteral() string { return al.Token.Literal }
