@@ -1,6 +1,10 @@
 package evaluator
 
-import "github.com/gmlewis/go-monkey/object"
+import (
+	"fmt"
+
+	"github.com/gmlewis/go-monkey/object"
+)
 
 var builtins = map[string]*object.Builtin{
 	"len": &object.Builtin{
@@ -98,10 +102,10 @@ var builtins = map[string]*object.Builtin{
 	"puts": &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			for _, arg := range args {
-				fnt.Println(arg.Inspect())
+				fmt.Println(arg.Inspect())
 			}
 
 			return Null
-		}
+		},
 	},
 }
