@@ -5,7 +5,7 @@ import (
 	"bytes"
 	"strings"
 
-	"github.com/gmlewis/go-openscad/token"
+	"github.com/gmlewis/go-csg/token"
 )
 
 // Node represents a node in our abstract syntax tree.

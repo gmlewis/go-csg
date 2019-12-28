@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/gmlewis/go-openscad/ast"
-	"github.com/gmlewis/go-openscad/lexer"
-	"github.com/gmlewis/go-openscad/token"
+	"github.com/gmlewis/go-csg/ast"
+	"github.com/gmlewis/go-csg/lexer"
+	"github.com/gmlewis/go-csg/token"
 )
 
 // Parser represents our language parser.

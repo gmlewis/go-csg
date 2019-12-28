@@ -2,7 +2,7 @@
 package lexer
 
 import (
-	"github.com/gmlewis/go-openscad/token"
+	"github.com/gmlewis/go-csg/token"
 )
 
 // Lexer represents the lexer.

@@ -8,7 +8,7 @@ import (
 	"os"
 	"os/user"
 
-	"github.com/gmlewis/go-openscad/repl"
+	"github.com/gmlewis/go-csg/repl"
 )
 
 var (

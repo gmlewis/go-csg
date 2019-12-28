@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/gmlewis/go-openscad/lexer"
-	"github.com/gmlewis/go-openscad/object"
-	"github.com/gmlewis/go-openscad/parser"
+	"github.com/gmlewis/go-csg/lexer"
+	"github.com/gmlewis/go-csg/object"
+	"github.com/gmlewis/go-csg/parser"
 )
 
 func TestEvalIntegerExpression(t *testing.T) {

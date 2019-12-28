@@ -1,3 +1,3 @@
-module github.com/gmlewis/go-openscad
+module github.com/gmlewis/go-csg
 
 go 1.13

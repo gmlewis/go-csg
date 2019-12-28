@@ -3,7 +3,7 @@ package ast
 import (
 	"testing"
 
-	"github.com/gmlewis/go-openscad/token"
+	"github.com/gmlewis/go-csg/token"
 )
 
 func TestString(t *testing.T) {

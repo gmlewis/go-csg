@@ -7,7 +7,7 @@ import (
 	"hash/fnv"
 	"strings"
 
-	"github.com/gmlewis/go-openscad/ast"
+	"github.com/gmlewis/go-csg/ast"
 )
 
 // T represents the type of the object.

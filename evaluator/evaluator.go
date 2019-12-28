@@ -4,8 +4,8 @@ package evaluator
 import (
 	"fmt"
 
-	"github.com/gmlewis/go-openscad/ast"
-	"github.com/gmlewis/go-openscad/object"
+	"github.com/gmlewis/go-csg/ast"
+	"github.com/gmlewis/go-csg/object"
 )
 
 // Singleton object types.

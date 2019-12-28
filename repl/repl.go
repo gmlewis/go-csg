@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/gmlewis/go-openscad/evaluator"
-	"github.com/gmlewis/go-openscad/lexer"
-	"github.com/gmlewis/go-openscad/object"
-	"github.com/gmlewis/go-openscad/parser"
+	"github.com/gmlewis/go-csg/evaluator"
+	"github.com/gmlewis/go-csg/lexer"
+	"github.com/gmlewis/go-csg/object"
+	"github.com/gmlewis/go-csg/parser"
 )
 
 // PROMPT is the repl prompt.

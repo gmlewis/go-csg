@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/gmlewis/go-openscad/token"
+	"github.com/gmlewis/go-csg/token"
 )
 
 func TestNextToken(t *testing.T) {
