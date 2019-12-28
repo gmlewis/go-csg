@@ -348,6 +348,38 @@ func TestArrayIndexExpressions(t *testing.T) {
 	}
 }
 
+func TestHashLiterals(t *testing.T) {
+	input := `let two = "two"; { "one": 10 - 9, two: 1 + 1, "thr" + "ee": 6 / 2, 4: 4, true: 5, false: 6 }`
+
+	got := testEval(input)
+	result, ok := got.(*object.Hash)
+	if !ok {
+		t.Fatalf("got = %T (%+v), want *object.Hash", got, got)
+	}
+
+	want := map[object.HashKey]int64{
+		(&object.String{Value: "one"}).HashKey():   1,
+		(&object.String{Value: "two"}).HashKey():   2,
+		(&object.String{Value: "three"}).HashKey(): 3,
+		(&object.Integer{Value: 4}).HashKey():      4,
+		True.HashKey():                             5,
+		False.HashKey():                            6,
+	}
+
+	if len(result.Pairs) != len(want) {
+		t.Fatalf("len(result.Pairs) = %v, want %v", len(result.Pairs), len(want))
+	}
+
+	for wantKey, wantValue := range want {
+		pair, ok := result.Pairs[wantKey]
+		if !ok {
+			t.Fatalf("no pair for key %v", wantKey)
+		}
+
+		testIntegerObject(t, pair.Value, wantValue)
+	}
+}
+
 func testEval(input string) object.Object {
 	le := lexer.New(input)
 	p := parser.New(le)
