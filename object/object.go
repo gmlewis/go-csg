@@ -4,6 +4,7 @@ package object
 import (
 	"bytes"
 	"fmt"
+	"hash/fnv"
 	"strings"
 
 	"github.com/gmlewis/go-monkey/ast"
@@ -23,6 +24,7 @@ const (
 	StringT      = "STRING"
 	BuiltinT     = "BUILTIN"
 	ArrayT       = "ARRAY"
+	HashT        = "HASH"
 )
 
 // Object represents an object or value type within the language.
@@ -133,10 +135,10 @@ type Builtin struct {
 }
 
 // Inspect returns a representation of the object value.
-func (s *Builtin) Inspect() string { return "builtin function" }
+func (b *Builtin) Inspect() string { return "builtin function" }
 
 // Type returns the type of the object.
-func (s *Builtin) Type() T { return BuiltinT }
+func (b *Builtin) Type() T { return BuiltinT }
 
 // Array represents an object of that type.
 type Array struct {
@@ -161,3 +163,65 @@ func (a *Array) Inspect() string {
 
 // Type returns the type of the object.
 func (a *Array) Type() T { return ArrayT }
+
+// HashKey represents an object of that type.
+type HashKey struct {
+	Type  T
+	Value uint64
+}
+
+// HashKey returns a HashKey for that type.
+func (b *Boolean) HashKey() HashKey {
+	var value uint64
+	if b.Value {
+		value = 1
+	}
+	return HashKey{Type: b.Type(), Value: value}
+}
+
+// HashKey returns a HashKey for that type.
+func (i *Integer) HashKey() HashKey {
+	return HashKey{Type: i.Type(), Value: uint64(i.Value)}
+}
+
+// HashKey returns a HashKey for that type.
+func (s *String) HashKey() HashKey {
+	h := fnv.New64a()
+	h.Write([]byte(s.Value))
+	return HashKey{Type: s.Type(), Value: h.Sum64()}
+}
+
+// HashPair represents a key/value pair.
+type HashPair struct {
+	Key   Object
+	Value Object
+}
+
+// Hash represents a hash map.
+type Hash struct {
+	Pairs map[HashKey]HashPair
+}
+
+// Inspect returns a representation of the object value.
+func (h *Hash) Inspect() string {
+	var out bytes.Buffer
+
+	var pairs []string
+	for _, pair := range h.Pairs {
+		pairs = append(pairs, fmt.Sprintf("%v: %v", pair.Key.Inspect(), pair.Value.Inspect()))
+	}
+
+	out.WriteString("{")
+	out.WriteString(strings.Join(pairs, ", "))
+	out.WriteString("}")
+
+	return out.String()
+}
+
+// Type returns the type of the object.
+func (h *Hash) Type() T { return HashT }
+
+// Hashable represents objects that can be used as keys in hash maps.
+type Hashable interface {
+	HashKey() HashKey
+}
