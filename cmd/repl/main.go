@@ -21,7 +21,7 @@ func main() {
 	user, err := user.Current()
 	check("user.Current: %v", err)
 
-	fmt.Printf("Hello %v! This is an OpenSCAD interpreter.\n", user.Username)
+	fmt.Printf("Hello %v! This is a CSG interpreter.\n", user.Username)
 	fmt.Printf("Feel free to type in commands\n")
 	repl.Start(os.Stdin, os.Stdout)
 }

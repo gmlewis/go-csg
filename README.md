@@ -4,14 +4,16 @@ An experimental CSG interpreter and converter written in Go.
 
 CSG is an intermediate file format that is output by CAD tools
 such as OpenSCAD.
+See: https://github.com/openscad/openscad/wiki/CSG-File-Format
+for more information.
 
 This project is based on the "Monkey language" from the book
 `Writing An Interpreter in Go` by Thorsten Ball:
 https://interpreterbook.com/
 
-The goal of this project is to parse all valid OpenSCAD
-programs and convert them to [IRMF](http://irmf.io) files
-in the hope of making IRMF more accessible to more people.
+The goal of this project is to parse all valid CSG files
+and convert them to [IRMF](http://irmf.io) files
+in order to make IRMF accessible to more people.
 
 ## Dependencies
 
