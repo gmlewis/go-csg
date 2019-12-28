@@ -68,39 +68,39 @@ const (
 
 	// https://www.openscad.org/cheatsheet/index.html
 
-	// Syntax
-	CONDITIONAL = "CONDITIONAL"
-	MODULE      = "MODULE"
-	INCLUDE     = "INCLUDE"
-	USE         = "USE"
+	// // Syntax
+	// CONDITIONAL = "CONDITIONAL"
+	// MODULE      = "MODULE"
+	// INCLUDE     = "INCLUDE"
+	// USE         = "USE"
 
 	// Constants
 	UNDEF = "UNDEF"
-	PI    = "PI"
+	// PI    = "PI"
 
 	// 2D
-	CIRCLE     = "CIRCLE"
-	SQUARE     = "SQUARE"
-	POLYGON    = "POLYGON"
-	TEXT       = "TEXT"
-	IMPORT     = "IMPORT"
+	CIRCLE  = "CIRCLE"
+	SQUARE  = "SQUARE"
+	POLYGON = "POLYGON"
+	TEXT    = "TEXT"
+	// IMPORT     = "IMPORT"
 	PROJECTION = "PROJECTION"
 
 	// 3D
-	SPHERE         = "SPHERE"
-	CUBE           = "CUBE"
-	CYLINDER       = "CYLINDER"
-	POLYHEDRON     = "POLYHEDRON"
+	SPHERE   = "SPHERE"
+	CUBE     = "CUBE"
+	CYLINDER = "CYLINDER"
+	// POLYHEDRON     = "POLYHEDRON"
 	LINEAR_EXTRUDE = "LINEAR_EXTRUDE"
 	ROTATE_EXTRUDE = "ROTATE_EXTRUDE"
-	SURFACE        = "SURFACE"
+	// SURFACE        = "SURFACE"
 
 	// Transformations
-	TRANSLATE  = "TRANSLATE"
-	ROTATE     = "ROTATE"
-	SCALE      = "SCALE"
-	RESIZE     = "RESIZE"
-	MIRROR     = "MIRROR"
+	// TRANSLATE  = "TRANSLATE"
+	// ROTATE     = "ROTATE"
+	// SCALE      = "SCALE"
+	// RESIZE     = "RESIZE"
+	// MIRROR     = "MIRROR"
 	MULTMATRIX = "MULTMATRIX"
 	COLOR      = "COLOR"
 	OFFSET     = "OFFSET"
@@ -111,60 +111,61 @@ const (
 	UNION        = "UNION"
 	DIFFERENCE   = "DIFFERENCE"
 	INTERSECTION = "INTERSECTION"
+	GROUP        = "GROUP" // Undocumented
 
 	// Flow Control
-	FOR              = "FOR"
-	INTERSECTION_FOR = "INTERSECTION_FOR"
+	// FOR              = "FOR"
+	// INTERSECTION_FOR = "INTERSECTION_FOR"
 
 	// Type test functions
-	IS_UNDEF  = "IS_UNDEF"
-	IS_BOOL   = "IS_BOOL"
-	IS_NUM    = "IS_NUM"
-	IS_STRING = "IS_STRING"
-	IS_LIST   = "IS_LIST"
+	// IS_UNDEF  = "IS_UNDEF"
+	// IS_BOOL   = "IS_BOOL"
+	// IS_NUM    = "IS_NUM"
+	// IS_STRING = "IS_STRING"
+	// IS_LIST   = "IS_LIST"
 
 	// Other
-	ECHO     = "ECHO"
-	RENDER   = "RENDER"
-	CHILDREN = "CHILDREN"
-	ASSERT   = "ASSERT"
+	// ECHO     = "ECHO"
+	// RENDER   = "RENDER"
+	// CHILDREN = "CHILDREN"
+	// ASSERT   = "ASSERT"
 
 	// Functions
-	CONCAT        = "CONCAT"
-	LOOKUP        = "LOOKUP"
-	STR           = "STR"
-	CHR           = "CHR"
-	ORD           = "ORD"
-	SEARCH        = "SEARCH"
-	VERSION       = "VERSION"
-	VERSION_NUM   = "VERSION_NUM"
-	PARENT_MODULE = "PARENT_MODULE"
+	// CONCAT        = "CONCAT"
+	// LOOKUP        = "LOOKUP"
+	// STR           = "STR"
+	// CHR           = "CHR"
+	// ORD           = "ORD"
+	// SEARCH        = "SEARCH"
+	// VERSION       = "VERSION"
+	// VERSION_NUM   = "VERSION_NUM"
+	// PARENT_MODULE = "PARENT_MODULE"
 
 	// Mathematical
-	ABS   = "ABS"
-	SIGN  = "SIGN"
-	SIN   = "SIN"
-	COS   = "COS"
-	TAN   = "TAN"
-	ACOS  = "ACOS"
-	ASIN  = "ASIN"
-	ATAN  = "ATAN"
-	ATAN2 = "ATAN2"
-	FLOOR = "FLOOR"
-	ROUND = "ROUND"
-	CEIL  = "CEIL"
-	LN    = "LN"
+	// ABS   = "ABS"
+	// SIGN  = "SIGN"
+	// SIN   = "SIN"
+	// COS   = "COS"
+	// TAN   = "TAN"
+	// ACOS  = "ACOS"
+	// ASIN  = "ASIN"
+	// ATAN  = "ATAN"
+	// ATAN2 = "ATAN2"
+	// FLOOR = "FLOOR"
+	// ROUND = "ROUND"
+	// CEIL  = "CEIL"
+	// LN    = "LN"
 	// LEN = "LEN"
 	// LET = "LET"
-	LOG   = "LOG"
-	POW   = "POW"
-	SQRT  = "SQRT"
-	EXP   = "EXP"
-	RANDS = "RANDS"
-	MIN   = "MIN"
-	MAX   = "MAX"
-	NORM  = "NORM"
-	CROSS = "CROSS"
+	// LOG   = "LOG"
+	// POW   = "POW"
+	// SQRT  = "SQRT"
+	// EXP   = "EXP"
+	// RANDS = "RANDS"
+	// MIN   = "MIN"
+	// MAX   = "MAX"
+	// NORM  = "NORM"
+	// CROSS = "CROSS"
 )
 
 var keywords = map[string]T{
@@ -179,38 +180,38 @@ var keywords = map[string]T{
 	// https://www.openscad.org/cheatsheet/index.html
 
 	// Syntax
-	"cond":    CONDITIONAL,
-	"module":  MODULE,
-	"include": INCLUDE,
-	"use":     USE,
+	// "cond":    CONDITIONAL,
+	// "module":  MODULE,
+	// "include": INCLUDE,
+	// "use":     USE,
 
 	// Constants
 	"undef": UNDEF,
-	"PI":    PI,
+	// "PI":    PI,
 
 	// 2D
-	"circle":     CIRCLE,
-	"square":     SQUARE,
-	"polygon":    POLYGON,
-	"text":       TEXT,
-	"import":     IMPORT,
+	"circle":  CIRCLE,
+	"square":  SQUARE,
+	"polygon": POLYGON,
+	"text":    TEXT,
+	// "import":     IMPORT,
 	"projection": PROJECTION,
 
 	// 3D
-	"sphere":         SPHERE,
-	"cube":           CUBE,
-	"cylinder":       CYLINDER,
-	"polyhedron":     POLYHEDRON,
+	"sphere":   SPHERE,
+	"cube":     CUBE,
+	"cylinder": CYLINDER,
+	// "polyhedron":     POLYHEDRON,
 	"linear_extrude": LINEAR_EXTRUDE,
 	"rotate_extrude": ROTATE_EXTRUDE,
-	"surface":        SURFACE,
+	// "surface":        SURFACE,
 
 	// Transformations
-	"translate":  TRANSLATE,
-	"rotate":     ROTATE,
-	"scale":      SCALE,
-	"resize":     RESIZE,
-	"mirror":     MIRROR,
+	// "translate":  TRANSLATE,
+	// "rotate":     ROTATE,
+	// "scale":      SCALE,
+	// "resize":     RESIZE,
+	// "mirror":     MIRROR,
 	"multmatrix": MULTMATRIX,
 	"color":      COLOR,
 	"offset":     OFFSET,
@@ -221,60 +222,61 @@ var keywords = map[string]T{
 	"union":        UNION,
 	"difference":   DIFFERENCE,
 	"intersection": INTERSECTION,
+	"group":        GROUP,
 
 	// Flow Control
-	"for":              FOR,
-	"intersection_for": INTERSECTION_FOR,
+	// "for":              FOR,
+	// "intersection_for": INTERSECTION_FOR,
 
 	// Type test functions
-	"is_undef":  IS_UNDEF,
-	"is_bool":   IS_BOOL,
-	"is_num":    IS_NUM,
-	"is_string": IS_STRING,
-	"is_list":   IS_LIST,
+	// "is_undef":  IS_UNDEF,
+	// "is_bool":   IS_BOOL,
+	// "is_num":    IS_NUM,
+	// "is_string": IS_STRING,
+	// "is_list":   IS_LIST,
 
 	// Other
-	"echo":     ECHO,
-	"render":   RENDER,
-	"children": CHILDREN,
-	"assert":   ASSERT,
+	// "echo":     ECHO,
+	// "render":   RENDER,
+	// "children": CHILDREN,
+	// "assert":   ASSERT,
 
 	// Functions
-	"concat":        CONCAT,
-	"lookup":        LOOKUP,
-	"str":           STR,
-	"chr":           CHR,
-	"ord":           ORD,
-	"search":        SEARCH,
-	"version":       VERSION,
-	"version_num":   VERSION_NUM,
-	"parent_module": PARENT_MODULE,
+	// "concat":        CONCAT,
+	// "lookup":        LOOKUP,
+	// "str":           STR,
+	// "chr":           CHR,
+	// "ord":           ORD,
+	// "search":        SEARCH,
+	// "version":       VERSION,
+	// "version_num":   VERSION_NUM,
+	// "parent_module": PARENT_MODULE,
 
 	// Mathematical
-	"abs":   ABS,
-	"sign":  SIGN,
-	"sin":   SIN,
-	"cos":   COS,
-	"tan":   TAN,
-	"acos":  ACOS,
-	"asin":  ASIN,
-	"atan":  ATAN,
-	"atan2": ATAN2,
-	"floor": FLOOR,
-	"round": ROUND,
-	"ceil":  CEIL,
-	"ln":    LN,
+	// "abs":   ABS,
+	// "sign":  SIGN,
+	// "sin":   SIN,
+	// "cos":   COS,
+	// "tan":   TAN,
+	// "acos":  ACOS,
+	// "asin":  ASIN,
+	// "atan":  ATAN,
+	// "atan2": ATAN2,
+	// "floor": FLOOR,
+	// "round": ROUND,
+	// "ceil":  CEIL,
+	// "ln":    LN,
 	// "len":   LEN,
 	// "let":   LET,
-	"log":   LOG,
-	"pow":   POW,
-	"sqrt":  SQRT,
-	"exp":   EXP,
-	"rands": RANDS,
-	"min":   MIN,
-	"max":   MAX,
-	"norm":  NORM,
-	"cross": CROSS,
+	// "log":   LOG,
+	// "pow":   POW,
+	// "sqrt":  SQRT,
+	// "exp":   EXP,
+	// "rands": RANDS,
+	// "min":   MIN,
+	// "max":   MAX,
+	// "norm":  NORM,
+	// "cross": CROSS,
 }
 
 // LookupIdent looks up an identifier and returns the type of token.
