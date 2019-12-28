@@ -112,12 +112,6 @@ const (
 	DIFFERENCE   = "DIFFERENCE"
 	INTERSECTION = "INTERSECTION"
 
-	// List Comprehensions
-	GENERATE    = "GENERATE"
-	FLATTEN     = "FLATTEN"
-	CONDITIONS  = "CONDITIONS"
-	ASSIGNMENTS = "ASSIGNMENTS"
-
 	// Flow Control
 	FOR              = "FOR"
 	INTERSECTION_FOR = "INTERSECTION_FOR"
@@ -227,12 +221,6 @@ var keywords = map[string]T{
 	"union":        UNION,
 	"difference":   DIFFERENCE,
 	"intersection": INTERSECTION,
-
-	// List Comprehensions
-	"Generate":    GENERATE,
-	"Flatten":     FLATTEN,
-	"Conditions":  CONDITIONS,
-	"Assignments": ASSIGNMENTS,
 
 	// Flow Control
 	"for":              FOR,
