@@ -29,7 +29,7 @@ const (
 	BANG     = "!" // also show only modifier
 	ASTERISK = "*" // also disable modifier
 	SLASH    = "/"
-	DOLLAR   = "$"
+	// DOLLAR   = "$"
 	QUESTION = "?"
 
 	LT = "<"

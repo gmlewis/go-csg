@@ -153,6 +153,20 @@ func (il *IntegerLiteral) String() string { return il.Token.Literal }
 // TokenLiteral returns the token literal.
 func (il *IntegerLiteral) TokenLiteral() string { return il.Token.Literal }
 
+// FloatLiteral represents a float literal.
+type FloatLiteral struct {
+	Token token.Token
+	Value float64
+}
+
+func (fl *FloatLiteral) expressionNode() {}
+
+// String returns the string representation of the Node.
+func (fl *FloatLiteral) String() string { return fl.Token.Literal }
+
+// TokenLiteral returns the token literal.
+func (fl *FloatLiteral) TokenLiteral() string { return fl.Token.Literal }
+
 // StringLiteral represents a string literal.
 type StringLiteral struct {
 	Token token.Token

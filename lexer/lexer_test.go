@@ -54,8 +54,8 @@ if (5 < 10) {
 		{token.RPAREN, ")"},
 		{token.SEMICOLON, ";"},
 
-		{token.DOLLAR, "$"},
-		{token.IDENT, "fa"},
+		// {token.DOLLAR, "$"},
+		{token.IDENT, "$fa"},
 		{token.ASSIGN, "="},
 		{token.FLOAT, "0.5"},
 		{token.SEMICOLON, ";"},

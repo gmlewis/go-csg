@@ -33,6 +33,7 @@ func New(le *lexer.Lexer) *Parser {
 
 	p.registerPrefix(token.IDENT, p.parseIdentifier)
 	p.registerPrefix(token.INT, p.parseIntegerLiteral)
+	p.registerPrefix(token.FLOAT, p.parseFloatLiteral)
 	p.registerPrefix(token.BANG, p.parsePrefixExpression)
 	p.registerPrefix(token.MINUS, p.parsePrefixExpression)
 	p.registerPrefix(token.TRUE, p.parseBooleanLiteral)
@@ -43,6 +44,17 @@ func New(le *lexer.Lexer) *Parser {
 	p.registerPrefix(token.STRING, p.parseStringLiteral)
 	p.registerPrefix(token.LBRACKET, p.parseArrayLiteral)
 	p.registerPrefix(token.LBRACE, p.parseHashLiteral)
+	// p.registerPrefix(token.DOLLAR, p.parseDollarIdentifier)
+
+	// CSG primitives:
+	p.registerPrefix(token.CIRCLE, p.parseCirclePrimitive)
+	p.registerPrefix(token.CUBE, p.parseCubePrimitive)
+	p.registerPrefix(token.CYLINDER, p.parseCylinderPrimitive)
+	p.registerPrefix(token.GROUP, p.parseGroupPrimitive)
+	p.registerPrefix(token.POLYGON, p.parsePolygonPrimitive)
+	p.registerPrefix(token.SPHERE, p.parseSpherePrimitive)
+	p.registerPrefix(token.SQUARE, p.parseSquarePrimitive)
+	p.registerPrefix(token.TEXT, p.parseTextPrimitive)
 
 	p.registerInfix(token.PLUS, p.parseInfixExpression)
 	p.registerInfix(token.MINUS, p.parseInfixExpression)
@@ -54,6 +66,7 @@ func New(le *lexer.Lexer) *Parser {
 	p.registerInfix(token.GT, p.parseInfixExpression)
 	p.registerInfix(token.LPAREN, p.parseCallExpression)
 	p.registerInfix(token.LBRACKET, p.parseIndexExpression)
+	p.registerInfix(token.ASSIGN, p.parseNamedArgument)
 
 	p.nextToken()
 	p.nextToken()
@@ -170,7 +183,7 @@ func (p *Parser) noPrefixParseFnError(t token.T) {
 	p.errors = append(p.errors, msg)
 }
 
-func (p *Parser) parseExpression(precendence int) ast.Expression {
+func (p *Parser) parseExpression(precedence int) ast.Expression {
 	prefix := p.prefixParseFns[p.curToken.Type]
 	if prefix == nil {
 		p.noPrefixParseFnError(p.curToken.Type)
@@ -179,7 +192,7 @@ func (p *Parser) parseExpression(precendence int) ast.Expression {
 
 	leftExp := prefix()
 
-	for !p.peekTokenIs(token.SEMICOLON) && precendence < p.peekPrecedence() {
+	for !p.peekTokenIs(token.SEMICOLON) && precedence < p.peekPrecedence() {
 		infix := p.infixParseFns[p.peekToken.Type]
 		if infix == nil {
 			return leftExp
@@ -202,6 +215,17 @@ func (p *Parser) parseIntegerLiteral() ast.Expression {
 	}
 
 	return &ast.IntegerLiteral{Token: p.curToken, Value: value}
+}
+
+func (p *Parser) parseFloatLiteral() ast.Expression {
+	value, err := strconv.ParseFloat(p.curToken.Literal, 64)
+	if err != nil {
+		msg := fmt.Sprintf("could not parse %q as float", p.curToken.Literal)
+		p.errors = append(p.errors, msg)
+		return nil
+	}
+
+	return &ast.FloatLiteral{Token: p.curToken, Value: value}
 }
 
 func (p *Parser) parseStringLiteral() ast.Expression {
@@ -470,6 +494,7 @@ func (p *Parser) parseHashLiteral() ast.Expression {
 var precedences = map[token.T]int{
 	token.EQ:       EQUALS,
 	token.NOTEQ:    EQUALS,
+	token.ASSIGN:   EQUALS,
 	token.LT:       LESSGREATER,
 	token.GT:       LESSGREATER,
 	token.PLUS:     SUM,

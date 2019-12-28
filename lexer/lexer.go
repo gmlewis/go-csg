@@ -93,10 +93,10 @@ func (le *Lexer) NextToken() token.Token {
 		tok = newToken(token.RBRACKET, le.ch)
 	case ':':
 		tok = newToken(token.COLON, le.ch)
-	case '$':
-		tok = newToken(token.DOLLAR, le.ch)
+	// case '$':
+	// 	tok = newToken(token.DOLLAR, le.ch)
 	default:
-		if isLetter(le.ch) {
+		if isLetter(le.ch) || le.ch == '$' {
 			tok.Literal = le.readIdentifier()
 			tok.Type = token.LookupIdent(tok.Literal)
 			return tok
@@ -117,7 +117,7 @@ func newToken(tokenType token.T, ch byte) token.Token {
 
 func (le *Lexer) readIdentifier() string {
 	position := le.position
-	for isLetter(le.ch) {
+	for isLetter(le.ch) || le.ch == '$' {
 		le.readChar()
 	}
 	return le.input[position:le.position]
