@@ -1,6 +1,6 @@
 # go-openscad
 
-An experimental OpenSCAD interpreter and converter.
+An experimental OpenSCAD interpreter and converter written in Go.
 
 This project is based on the "Monkey language" from the book
 `Writing An Interpreter in Go` by Thorsten Ball:
