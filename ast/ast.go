@@ -368,3 +368,28 @@ func (al *ArrayLiteral) String() string {
 
 // TokenLiteral returns the token literal.
 func (al *ArrayLiteral) TokenLiteral() string { return al.Token.Literal }
+
+// IndexExpression represents a prefix expression.
+type IndexExpression struct {
+	Token token.Token // The '[' token
+	Left  Expression
+	Index Expression
+}
+
+func (ie *IndexExpression) expressionNode() {}
+
+// String returns the string representation of the Node.
+func (ie *IndexExpression) String() string {
+	var out bytes.Buffer
+
+	out.WriteString("(")
+	out.WriteString(ie.Left.String())
+	out.WriteString("[")
+	out.WriteString(ie.Index.String())
+	out.WriteString("])")
+
+	return out.String()
+}
+
+// TokenLiteral returns the token literal.
+func (ie *IndexExpression) TokenLiteral() string { return ie.Token.Literal }
