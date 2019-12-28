@@ -125,6 +125,8 @@ func evalInfixExpression(operator string, left, right object.Object) object.Obje
 	switch {
 	case left.Type() == object.IntegerT && right.Type() == object.IntegerT:
 		return evalIntegerInfixExpression(operator, left, right)
+	case left.Type() == object.StringT && right.Type() == object.StringT:
+		return evalStringInfixExpression(operator, left, right)
 	case operator == "==":
 		if left == right {
 			return True
@@ -155,6 +157,38 @@ func evalIntegerInfixExpression(operator string, left, right object.Object) obje
 	case "/":
 		return &object.Integer{Value: leftVal / rightVal}
 
+	case "<":
+		if leftVal < rightVal {
+			return True
+		}
+		return False
+	case ">":
+		if leftVal > rightVal {
+			return True
+		}
+		return False
+	case "==":
+		if leftVal == rightVal {
+			return True
+		}
+		return False
+	case "!=":
+		if leftVal != rightVal {
+			return True
+		}
+		return False
+	}
+
+	return newError("unknown operator: %v %v %v", left.Type(), operator, right.Type())
+}
+
+func evalStringInfixExpression(operator string, left, right object.Object) object.Object {
+	leftVal := left.(*object.String).Value
+	rightVal := right.(*object.String).Value
+
+	switch operator {
+	case "+":
+		return &object.String{Value: leftVal + rightVal}
 	case "<":
 		if leftVal < rightVal {
 			return True

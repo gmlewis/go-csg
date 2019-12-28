@@ -153,6 +153,7 @@ func TestErrorHandling(t *testing.T) {
 		{"if (10 > 1) { true + false; }", "unknown operator: BOOLEAN + BOOLEAN"},
 		{` if (10 > 1) { if (10 > 1) { return true + false; } return 1; } `, "unknown operator: BOOLEAN + BOOLEAN"},
 		{"foobar", "identifier not found: foobar"},
+		{`"Hello" - "World"`, "unknown operator: STRING - STRING"},
 	}
 
 	for i, tt := range tests {
@@ -214,6 +215,20 @@ func TestFunctionObject(t *testing.T) {
 
 func TestStringLiteral(t *testing.T) {
 	input := `"Hello World!"`
+
+	got := testEval(input)
+	str, ok := got.(*object.String)
+	if !ok {
+		t.Fatalf("got = %T (%+v), want *object.String", got, got)
+	}
+
+	if want := "Hello World!"; str.Value != want {
+		t.Fatalf("value = %v, want %v", str.Value, want)
+	}
+}
+
+func TestStringConcatenation(t *testing.T) {
+	input := `"Hello" + " " + "World!"`
 
 	got := testEval(input)
 	str, ok := got.(*object.String)
