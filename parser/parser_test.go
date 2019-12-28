@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/gmlewis/go-monkey/ast"
-	"github.com/gmlewis/go-monkey/lexer"
+	"github.com/gmlewis/go-openscad/ast"
+	"github.com/gmlewis/go-openscad/lexer"
 )
 
 func TestLetStatements(t *testing.T) {

@@ -3,7 +3,7 @@ package evaluator
 import (
 	"fmt"
 
-	"github.com/gmlewis/go-monkey/object"
+	"github.com/gmlewis/go-openscad/object"
 )
 
 var builtins = map[string]*object.Builtin{
