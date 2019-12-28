@@ -20,7 +20,8 @@ const (
 	ReturnValueT = "RETURN_VALUE"
 	ErrorT       = "ERROR"
 	FunctionT    = "FUNCTION"
-	StringT = "STRING"
+	StringT      = "STRING"
+	BuiltinT     = "BUILTIN"
 )
 
 // Object represents an object or value type within the language.
@@ -50,7 +51,6 @@ func (s *String) Inspect() string { return s.Value }
 
 // Type returns the type of the object.
 func (s *String) Type() T { return StringT }
-
 
 // Boolean represents an object of that type.
 type Boolean struct {
@@ -122,3 +122,17 @@ func (f *Function) Inspect() string {
 
 // Type returns the type of the object.
 func (f *Function) Type() T { return FunctionT }
+
+// BuiltinFunction represents a builtin function.
+type BuiltinFunction func(args ...Object) Object
+
+// Builtin represents an object of that type.
+type Builtin struct {
+	Fn BuiltinFunction
+}
+
+// Inspect returns a representation of the object value.
+func (s *Builtin) Inspect() string { return "builtin function" }
+
+// Type returns the type of the object.
+func (s *Builtin) Type() T { return BuiltinT }

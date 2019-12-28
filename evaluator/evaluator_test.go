@@ -269,6 +269,37 @@ func TestClosures(t *testing.T) {
 	testIntegerObject(t, got, 4)
 }
 
+func TestBuiltinFunctions(t *testing.T) {
+	tests := []struct {
+		input string
+		want  interface{}
+	}{
+		{`len("")`, 0},
+		{`len("four")`, 4},
+		{`len("hello world")`, 11},
+		{`len(1)`, "argument to `len` not supported, got INTEGER"},
+		{`len("one", "two")`, "wrong number of arguments. got=2, want=1"},
+	}
+
+	for i, tt := range tests {
+		t.Run(fmt.Sprintf("test #%v", i), func(t *testing.T) {
+			got := testEval(tt.input)
+			switch want := tt.want.(type) {
+			case int:
+				testIntegerObject(t, got, int64(want))
+			case string:
+				errObj, ok := got.(*object.Error)
+				if !ok {
+					t.Fatalf("got = %T (%+v), want *object.Error", got, got)
+				}
+				if errObj.Message != want {
+					t.Errorf("got = %v, want %v", errObj.Message, want)
+				}
+			}
+		})
+	}
+}
+
 func testEval(input string) object.Object {
 	le := lexer.New(input)
 	p := parser.New(le)
