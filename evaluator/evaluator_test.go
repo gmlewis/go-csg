@@ -212,6 +212,20 @@ func TestFunctionObject(t *testing.T) {
 	}
 }
 
+func TestStringLiteral(t *testing.T) {
+	input := `"Hello World!"`
+
+	got := testEval(input)
+	str, ok := got.(*object.String)
+	if !ok {
+		t.Fatalf("got = %T (%+v), want *object.String", got, got)
+	}
+
+	if want := "Hello World!"; str.Value != want {
+		t.Fatalf("value = %v, want %v", str.Value, want)
+	}
+}
+
 func TestFunctionApplication(t *testing.T) {
 	tests := []struct {
 		input string

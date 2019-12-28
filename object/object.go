@@ -20,6 +20,7 @@ const (
 	ReturnValueT = "RETURN_VALUE"
 	ErrorT       = "ERROR"
 	FunctionT    = "FUNCTION"
+	StringT = "STRING"
 )
 
 // Object represents an object or value type within the language.
@@ -38,6 +39,18 @@ func (i *Integer) Inspect() string { return fmt.Sprintf("%v", i.Value) }
 
 // Type returns the type of the object.
 func (i *Integer) Type() T { return IntegerT }
+
+// String represents an object of that type.
+type String struct {
+	Value string
+}
+
+// Inspect returns a representation of the object value.
+func (s *String) Inspect() string { return s.Value }
+
+// Type returns the type of the object.
+func (s *String) Type() T { return StringT }
+
 
 // Boolean represents an object of that type.
 type Boolean struct {
