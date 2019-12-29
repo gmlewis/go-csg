@@ -288,9 +288,11 @@ func (bs *BlockStatement) expressionNode() {}
 func (bs *BlockStatement) String() string {
 	var out bytes.Buffer
 
+	var stmts []string
 	for _, s := range bs.Statements {
-		out.WriteString(s.String())
+		stmts = append(stmts, s.String())
 	}
+	out.WriteString(strings.Join(stmts, "; "))
 
 	return out.String()
 }

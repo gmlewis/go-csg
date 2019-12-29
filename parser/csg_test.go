@@ -21,6 +21,19 @@ func TestCSGPrimitives(t *testing.T) {
 		{"sphere($fn = 0, $fa = 12, $fs = 2, r = 5);", "sphere($fn = 0, $fa = 12, $fs = 2, r = 5)"},
 		{"square(size = [12, 9], center = false);", "square(size = [12, 9], center = false)"},
 		{`text(text = "HeartyGFX", size = 3, spacing = 1, font = "Arial Black", direction = "ltr", language = "en", script = "Latn", halign = "left", valign = "center", $fn = 0, $fa = 12, $fs = 2);`, `text(text = "HeartyGFX", size = 3, spacing = 1, font = "Arial Black", direction = "ltr", language = "en", script = "Latn", halign = "left", valign = "center", $fn = 0, $fa = 12, $fs = 2)`},
+
+		// Group primitives:
+		{"color([0, 0, 0.545098, 1]) { sphere(); }", "color([0, 0, 0.545098, 1]) { sphere() }"},
+		{"difference() { sphere(); }", "difference() { sphere() }"},
+		{"group() { sphere(); }", "group() { sphere() }"},
+		{"hull() { sphere(); }", "hull() { sphere() }"},
+		{"intersection() { sphere(); }", "intersection() { sphere() }"},
+		{"linear_extrude(height = 0.666667, center = false, convexity = 1, twist = 3, slices = 2, scale = [0.670925, 0.670925], $fn = 0, $fa = 12, $fs = 2) { sphere(); }", "linear_extrude(height = 0.666667, center = false, convexity = 1, twist = 3, slices = 2, scale = [0.670925, 0.670925], $fn = 0, $fa = 12, $fs = 2) { sphere() }"},
+		{"minkowski(convexity = 0) { sphere(); }", "minkowski(convexity = 0) { sphere() }"},
+		{"multmatrix([[0.0193379, 0.999813, 0, 0], [-0.999813, 0.0193379, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]) { sphere(); }", "multmatrix([[0.0193379, 0.999813, 0, 0], [(-0.999813), 0.0193379, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]) { sphere() }"},
+		{"projection(cut = false, convexity = 0) { sphere(); }", "projection(cut = false, convexity = 0) { sphere() }"},
+		{"rotate_extrude(convexity = 2, $fn = 100, $fa = 12, $fs = 2) { sphere(); }", "rotate_extrude(convexity = 2, $fn = 100, $fa = 12, $fs = 2) { sphere() }"},
+		{"union() { sphere(); cube(); }", "union() { sphere(); cube() }"},
 	}
 
 	for i, tt := range tests {

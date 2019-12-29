@@ -51,12 +51,25 @@ func New(le *lexer.Lexer) *Parser {
 	p.registerPrefix(token.CIRCLE, p.parseCirclePrimitive)
 	p.registerPrefix(token.CUBE, p.parseCubePrimitive)
 	p.registerPrefix(token.CYLINDER, p.parseCylinderPrimitive)
-	p.registerPrefix(token.GROUP, p.parseGroupPrimitive)
 	p.registerPrefix(token.POLYGON, p.parsePolygonPrimitive)
 	p.registerPrefix(token.SPHERE, p.parseSpherePrimitive)
 	p.registerPrefix(token.SQUARE, p.parseSquarePrimitive)
 	// p.registerPrefix(token.TEXT, p.parseTextPrimitive)
 
+	// CSG block primitives:
+	p.registerPrefix(token.COLOR, p.parseColorBlockPrimitive)
+	p.registerPrefix(token.DIFFERENCE, p.parseDifferenceBlockPrimitive)
+	p.registerPrefix(token.GROUP, p.parseGroupBlockPrimitive)
+	p.registerPrefix(token.HULL, p.parseHullBlockPrimitive)
+	p.registerPrefix(token.INTERSECTION, p.parseIntersectionBlockPrimitive)
+	p.registerPrefix(token.LINEAR_EXTRUDE, p.parseLinearExtrudeBlockPrimitive)
+	p.registerPrefix(token.MINKOWSKI, p.parseMinkowskiBlockPrimitive)
+	p.registerPrefix(token.MULTMATRIX, p.parseMultmatrixBlockPrimitive)
+	p.registerPrefix(token.PROJECTION, p.parseProjectionBlockPrimitive)
+	p.registerPrefix(token.ROTATE_EXTRUDE, p.parseRotateExtrudeBlockPrimitive)
+	p.registerPrefix(token.UNION, p.parseUnionBlockPrimitive)
+
+	// Infix expressions:
 	p.registerInfix(token.PLUS, p.parseInfixExpression)
 	p.registerInfix(token.MINUS, p.parseInfixExpression)
 	p.registerInfix(token.SLASH, p.parseInfixExpression)
