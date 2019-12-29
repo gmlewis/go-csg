@@ -6,12 +6,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	"os"
 	"strings"
 
-	"github.com/gmlewis/go-csg/evaluator"
 	"github.com/gmlewis/go-csg/lexer"
-	"github.com/gmlewis/go-csg/object"
 	"github.com/gmlewis/go-csg/parser"
 )
 
@@ -32,19 +29,14 @@ func process(filename string) {
 	buf, err := ioutil.ReadFile(filename)
 	check("ReadFile: %v", err)
 
-	env := object.NewEnvironment()
 	le := lexer.New(string(buf))
 	p := parser.New(le)
 	program := p.ParseProgram()
 	if errs := p.Errors(); len(errs) != 0 {
-		fmt.Fprintf(os.Stderr, "%v\n", strings.Join(errs, "\n"))
-		return
+		log.Fatalf("%v\n", strings.Join(errs, "\n"))
 	}
 
-	evaluated := evaluator.Eval(program, env)
-	if evaluated != nil {
-		fmt.Printf("%v\n", evaluated.Inspect())
-	}
+	fmt.Printf("%v\n", program.String())
 }
 
 func check(fmtStr string, args ...interface{}) {

@@ -94,6 +94,20 @@ func (i *Identifier) String() string { return i.Value }
 // TokenLiteral returns the token literal.
 func (i *Identifier) TokenLiteral() string { return i.Token.Literal }
 
+// LineComment represents a line comment.
+type LineComment struct {
+	Token token.Token // the token.IDENT token
+	Value string
+}
+
+func (i *LineComment) expressionNode() {}
+
+// String returns the string representation of the Node.
+func (i *LineComment) String() string { return "" }
+
+// TokenLiteral returns the token literal.
+func (i *LineComment) TokenLiteral() string { return i.Token.Literal }
+
 // ReturnStatement respresents a 'return' statement.
 type ReturnStatement struct {
 	Token       token.Token // the token.RETURN token

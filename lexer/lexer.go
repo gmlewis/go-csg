@@ -136,8 +136,8 @@ func (le *Lexer) skipWhitespace() {
 func (le *Lexer) readNumber() (string, token.T) {
 	position := le.position
 	var tokType token.T = token.INT
-	for isDigit(le.ch) || le.ch == '.' {
-		if le.ch == '.' {
+	for isDigit(le.ch) || le.ch == '.' || le.ch == 'e' || le.ch == '-' {
+		if le.ch == '.' || le.ch == 'e' {
 			tokType = token.FLOAT
 		}
 		le.readChar()

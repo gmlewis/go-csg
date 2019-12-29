@@ -12,6 +12,14 @@ func TestNextToken(t *testing.T) {
 $fa=0.5; // default minimum facet angle is now 0.5
 cylinder(r=3,h=10);
 cube([20,10,5]);
+1e10
+-1e10
+1e-10
+-1e-10
+1.5e10
+-1.5e10
+1.5e-10
+-1.5e-10
 
 union()
 {
@@ -84,6 +92,19 @@ if (5 < 10) {
 		{token.RBRACKET, "]"},
 		{token.RPAREN, ")"},
 		{token.SEMICOLON, ";"},
+
+		{token.FLOAT, "1e10"},
+		{token.MINUS, "-"},
+		{token.FLOAT, "1e10"},
+		{token.FLOAT, "1e-10"},
+		{token.MINUS, "-"},
+		{token.FLOAT, "1e-10"},
+		{token.FLOAT, "1.5e10"},
+		{token.MINUS, "-"},
+		{token.FLOAT, "1.5e10"},
+		{token.FLOAT, "1.5e-10"},
+		{token.MINUS, "-"},
+		{token.FLOAT, "1.5e-10"},
 
 		{token.UNION, "union"},
 		{token.LPAREN, "("},
