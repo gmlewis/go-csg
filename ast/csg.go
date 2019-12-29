@@ -33,21 +33,25 @@ type CirclePrimitive struct {
 
 func (cp *CirclePrimitive) expressionNode() {}
 
-// String returns the string representation of the Node.
-func (cp *CirclePrimitive) String() string {
+func primitiveString(tokenLiteral string, args []Expression) string {
 	var out bytes.Buffer
 
 	var params []string
-	for _, p := range cp.Arguments {
+	for _, p := range args {
 		params = append(params, p.String())
 	}
 
-	out.WriteString(cp.TokenLiteral())
+	out.WriteString(tokenLiteral)
 	out.WriteString("(")
 	out.WriteString(strings.Join(params, ", "))
 	out.WriteString(")")
 
 	return out.String()
+}
+
+// String returns the string representation of the Node.
+func (cp *CirclePrimitive) String() string {
+	return primitiveString(cp.TokenLiteral(), cp.Arguments)
 }
 
 // TokenLiteral returns the token literal.
@@ -63,19 +67,7 @@ func (cp *CubePrimitive) expressionNode() {}
 
 // String returns the string representation of the Node.
 func (cp *CubePrimitive) String() string {
-	var out bytes.Buffer
-
-	var params []string
-	for _, p := range cp.Arguments {
-		params = append(params, p.String())
-	}
-
-	out.WriteString(cp.TokenLiteral())
-	out.WriteString("(")
-	out.WriteString(strings.Join(params, ", "))
-	out.WriteString(")")
-
-	return out.String()
+	return primitiveString(cp.TokenLiteral(), cp.Arguments)
 }
 
 // TokenLiteral returns the token literal.
@@ -91,19 +83,7 @@ func (cp *CylinderPrimitive) expressionNode() {}
 
 // String returns the string representation of the Node.
 func (cp *CylinderPrimitive) String() string {
-	var out bytes.Buffer
-
-	var params []string
-	for _, p := range cp.Arguments {
-		params = append(params, p.String())
-	}
-
-	out.WriteString(cp.TokenLiteral())
-	out.WriteString("(")
-	out.WriteString(strings.Join(params, ", "))
-	out.WriteString(")")
-
-	return out.String()
+	return primitiveString(cp.TokenLiteral(), cp.Arguments)
 }
 
 // TokenLiteral returns the token literal.
@@ -119,19 +99,7 @@ func (gp *GroupPrimitive) expressionNode() {}
 
 // String returns the string representation of the Node.
 func (gp *GroupPrimitive) String() string {
-	var out bytes.Buffer
-
-	var params []string
-	for _, p := range gp.Arguments {
-		params = append(params, p.String())
-	}
-
-	out.WriteString(gp.TokenLiteral())
-	out.WriteString("(")
-	out.WriteString(strings.Join(params, ", "))
-	out.WriteString(")")
-
-	return out.String()
+	return primitiveString(gp.TokenLiteral(), gp.Arguments)
 }
 
 // TokenLiteral returns the token literal.
@@ -147,19 +115,7 @@ func (pp *PolygonPrimitive) expressionNode() {}
 
 // String returns the string representation of the Node.
 func (pp *PolygonPrimitive) String() string {
-	var out bytes.Buffer
-
-	var params []string
-	for _, p := range pp.Arguments {
-		params = append(params, p.String())
-	}
-
-	out.WriteString(pp.TokenLiteral())
-	out.WriteString("(")
-	out.WriteString(strings.Join(params, ", "))
-	out.WriteString(")")
-
-	return out.String()
+	return primitiveString(pp.TokenLiteral(), pp.Arguments)
 }
 
 // TokenLiteral returns the token literal.
@@ -175,19 +131,7 @@ func (sp *SpherePrimitive) expressionNode() {}
 
 // String returns the string representation of the Node.
 func (sp *SpherePrimitive) String() string {
-	var out bytes.Buffer
-
-	var params []string
-	for _, p := range sp.Arguments {
-		params = append(params, p.String())
-	}
-
-	out.WriteString(sp.TokenLiteral())
-	out.WriteString("(")
-	out.WriteString(strings.Join(params, ", "))
-	out.WriteString(")")
-
-	return out.String()
+	return primitiveString(sp.TokenLiteral(), sp.Arguments)
 }
 
 // TokenLiteral returns the token literal.
@@ -203,19 +147,7 @@ func (sp *SquarePrimitive) expressionNode() {}
 
 // String returns the string representation of the Node.
 func (sp *SquarePrimitive) String() string {
-	var out bytes.Buffer
-
-	var params []string
-	for _, p := range sp.Arguments {
-		params = append(params, p.String())
-	}
-
-	out.WriteString(sp.TokenLiteral())
-	out.WriteString("(")
-	out.WriteString(strings.Join(params, ", "))
-	out.WriteString(")")
-
-	return out.String()
+	return primitiveString(sp.TokenLiteral(), sp.Arguments)
 }
 
 // TokenLiteral returns the token literal.
@@ -231,19 +163,7 @@ func (tp *TextPrimitive) expressionNode() {}
 
 // String returns the string representation of the Node.
 func (tp *TextPrimitive) String() string {
-	var out bytes.Buffer
-
-	var params []string
-	for _, p := range tp.Arguments {
-		params = append(params, p.String())
-	}
-
-	out.WriteString(tp.TokenLiteral())
-	out.WriteString("(")
-	out.WriteString(strings.Join(params, ", "))
-	out.WriteString(")")
-
-	return out.String()
+	return primitiveString(tp.TokenLiteral(), tp.Arguments)
 }
 
 // TokenLiteral returns the token literal.
