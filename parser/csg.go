@@ -122,15 +122,15 @@ func (p *Parser) parseSquarePrimitive() ast.Expression {
 	return prim
 }
 
-func (p *Parser) parseTextPrimitive() ast.Expression {
-	prim := &ast.TextPrimitive{Token: p.curToken}
+// func (p *Parser) parseTextPrimitive() ast.Expression {
+// 	prim := &ast.TextPrimitive{Token: p.curToken}
 
-	args, ok := p.parsePrimitiveArguments()
-	if !ok {
-		return nil
-	}
+// 	args, ok := p.parsePrimitiveArguments()
+// 	if !ok {
+// 		return nil
+// 	}
 
-	prim.Arguments = args
+// 	prim.Arguments = args
 
-	return prim
-}
+// 	return prim
+// }

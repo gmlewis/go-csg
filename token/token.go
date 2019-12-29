@@ -193,7 +193,7 @@ var keywords = map[string]T{
 	"circle":  CIRCLE,
 	"square":  SQUARE,
 	"polygon": POLYGON,
-	"text":    TEXT,
+	// "text":    TEXT,
 	// "import":     IMPORT,
 	"projection": PROJECTION,
 

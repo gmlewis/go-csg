@@ -3,6 +3,7 @@ package ast
 
 import (
 	"bytes"
+	"fmt"
 	"strings"
 
 	"github.com/gmlewis/go-csg/token"
@@ -176,7 +177,7 @@ type StringLiteral struct {
 func (sl *StringLiteral) expressionNode() {}
 
 // String returns the string representation of the Node.
-func (sl *StringLiteral) String() string { return sl.Token.Literal }
+func (sl *StringLiteral) String() string { return fmt.Sprintf("%q", sl.Token.Literal) }
 
 // TokenLiteral returns the token literal.
 func (sl *StringLiteral) TokenLiteral() string { return sl.Token.Literal }

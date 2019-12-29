@@ -469,7 +469,7 @@ func TestParsingHashLiterals(t *testing.T) {
 		t.Fatalf("len(hash.Pairs) = %v, want 3", len(hash.Pairs))
 	}
 
-	want := map[string]int64{"one": 1, "two": 2, "three": 3}
+	want := map[string]int64{`"one"`: 1, `"two"`: 2, `"three"`: 3}
 	for key, value := range hash.Pairs {
 		literal, ok := key.(*ast.StringLiteral)
 		if !ok {
@@ -529,9 +529,9 @@ func TestParsingHashLiteralsWithExpressions(t *testing.T) {
 	}
 
 	tests := map[string]func(ast.Expression){
-		"one":   func(e ast.Expression) { testInfixExpression(t, e, 0, "+", 1) },
-		"two":   func(e ast.Expression) { testInfixExpression(t, e, 10, "-", 8) },
-		"three": func(e ast.Expression) { testInfixExpression(t, e, 15, "/", 5) },
+		`"one"`:   func(e ast.Expression) { testInfixExpression(t, e, 0, "+", 1) },
+		`"two"`:   func(e ast.Expression) { testInfixExpression(t, e, 10, "-", 8) },
+		`"three"`: func(e ast.Expression) { testInfixExpression(t, e, 15, "/", 5) },
 	}
 
 	for key, value := range hash.Pairs {

@@ -45,6 +45,7 @@ func New(le *lexer.Lexer) *Parser {
 	p.registerPrefix(token.LBRACKET, p.parseArrayLiteral)
 	p.registerPrefix(token.LBRACE, p.parseHashLiteral)
 	// p.registerPrefix(token.DOLLAR, p.parseDollarIdentifier)
+	p.registerPrefix(token.UNDEF, p.parseUndefLiteral)
 
 	// CSG primitives:
 	p.registerPrefix(token.CIRCLE, p.parseCirclePrimitive)
@@ -54,7 +55,7 @@ func New(le *lexer.Lexer) *Parser {
 	p.registerPrefix(token.POLYGON, p.parsePolygonPrimitive)
 	p.registerPrefix(token.SPHERE, p.parseSpherePrimitive)
 	p.registerPrefix(token.SQUARE, p.parseSquarePrimitive)
-	p.registerPrefix(token.TEXT, p.parseTextPrimitive)
+	// p.registerPrefix(token.TEXT, p.parseTextPrimitive)
 
 	p.registerInfix(token.PLUS, p.parseInfixExpression)
 	p.registerInfix(token.MINUS, p.parseInfixExpression)
@@ -268,6 +269,10 @@ type (
 
 func (p *Parser) parseIdentifier() ast.Expression {
 	return &ast.Identifier{Token: p.curToken, Value: p.curToken.Literal}
+}
+
+func (p *Parser) parseUndefLiteral() ast.Expression {
+	return &ast.UndefLiteral{Token: p.curToken}
 }
 
 func (p *Parser) parsePrefixExpression() ast.Expression {

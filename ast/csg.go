@@ -168,3 +168,18 @@ func (tp *TextPrimitive) String() string {
 
 // TokenLiteral returns the token literal.
 func (tp *TextPrimitive) TokenLiteral() string { return tp.Token.Literal }
+
+// UndefLiteral represents a undef literal.
+type UndefLiteral struct {
+	Token token.Token
+}
+
+func (tp *UndefLiteral) expressionNode() {}
+
+// String returns the string representation of the Node.
+func (tp *UndefLiteral) String() string {
+	return tp.TokenLiteral()
+}
+
+// TokenLiteral returns the token literal.
+func (tp *UndefLiteral) TokenLiteral() string { return tp.Token.Literal }
