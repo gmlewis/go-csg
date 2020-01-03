@@ -8,6 +8,7 @@ import (
 	"log"
 	"strings"
 
+	"github.com/gmlewis/go-csg/irmf"
 	"github.com/gmlewis/go-csg/lexer"
 	"github.com/gmlewis/go-csg/parser"
 )
@@ -36,7 +37,9 @@ func process(filename string) {
 		log.Fatalf("%v\n", strings.Join(errs, "\n"))
 	}
 
-	fmt.Printf("%v\n", program.String())
+	shader := irmf.New(program)
+
+	fmt.Printf("%v\n", shader.String())
 }
 
 func check(fmtStr string, args ...interface{}) {

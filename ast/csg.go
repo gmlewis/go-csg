@@ -121,6 +121,22 @@ func (pp *PolygonPrimitive) String() string {
 // TokenLiteral returns the token literal.
 func (pp *PolygonPrimitive) TokenLiteral() string { return pp.Token.Literal }
 
+// PolyhedronPrimitive represents a CSG primitive.
+type PolyhedronPrimitive struct {
+	Token     token.Token
+	Arguments []Expression
+}
+
+func (pp *PolyhedronPrimitive) expressionNode() {}
+
+// String returns the string representation of the Node.
+func (pp *PolyhedronPrimitive) String() string {
+	return primitiveString(pp.TokenLiteral(), pp.Arguments)
+}
+
+// TokenLiteral returns the token literal.
+func (pp *PolyhedronPrimitive) TokenLiteral() string { return pp.Token.Literal }
+
 // SpherePrimitive represents a CSG primitive.
 type SpherePrimitive struct {
 	Token     token.Token

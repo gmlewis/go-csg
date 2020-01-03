@@ -87,10 +87,10 @@ const (
 	PROJECTION = "PROJECTION"
 
 	// 3D
-	SPHERE   = "SPHERE"
-	CUBE     = "CUBE"
-	CYLINDER = "CYLINDER"
-	// POLYHEDRON     = "POLYHEDRON"
+	SPHERE         = "SPHERE"
+	CUBE           = "CUBE"
+	CYLINDER       = "CYLINDER"
+	POLYHEDRON     = "POLYHEDRON"
 	LINEAR_EXTRUDE = "LINEAR_EXTRUDE"
 	ROTATE_EXTRUDE = "ROTATE_EXTRUDE"
 	// SURFACE        = "SURFACE"
@@ -198,10 +198,10 @@ var keywords = map[string]T{
 	"projection": PROJECTION,
 
 	// 3D
-	"sphere":   SPHERE,
-	"cube":     CUBE,
-	"cylinder": CYLINDER,
-	// "polyhedron":     POLYHEDRON,
+	"sphere":         SPHERE,
+	"cube":           CUBE,
+	"cylinder":       CYLINDER,
+	"polyhedron":     POLYHEDRON,
 	"linear_extrude": LINEAR_EXTRUDE,
 	"rotate_extrude": ROTATE_EXTRUDE,
 	// "surface":        SURFACE,

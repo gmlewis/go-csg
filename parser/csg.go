@@ -96,6 +96,19 @@ func (p *Parser) parsePolygonPrimitive() ast.Expression {
 	return prim
 }
 
+func (p *Parser) parsePolyhedronPrimitive() ast.Expression {
+	prim := &ast.PolyhedronPrimitive{Token: p.curToken}
+
+	args, ok := p.parsePrimitiveArguments()
+	if !ok {
+		return nil
+	}
+
+	prim.Arguments = args
+
+	return prim
+}
+
 func (p *Parser) parseSpherePrimitive() ast.Expression {
 	prim := &ast.SpherePrimitive{Token: p.curToken}
 

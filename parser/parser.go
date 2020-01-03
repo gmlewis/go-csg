@@ -53,6 +53,7 @@ func New(le *lexer.Lexer) *Parser {
 	p.registerPrefix(token.CUBE, p.parseCubePrimitive)
 	p.registerPrefix(token.CYLINDER, p.parseCylinderPrimitive)
 	p.registerPrefix(token.POLYGON, p.parsePolygonPrimitive)
+	p.registerPrefix(token.POLYHEDRON, p.parsePolyhedronPrimitive)
 	p.registerPrefix(token.SPHERE, p.parseSpherePrimitive)
 	p.registerPrefix(token.SQUARE, p.parseSquarePrimitive)
 	// p.registerPrefix(token.TEXT, p.parseTextPrimitive)

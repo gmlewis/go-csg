@@ -2,7 +2,6 @@ package irmf
 
 import (
 	"fmt"
-	"reflect"
 	"strings"
 	"testing"
 
@@ -10,14 +9,25 @@ import (
 	"github.com/gmlewis/go-csg/parser"
 )
 
-func TestNew(t *testing.T) {
+func TestShader_String(t *testing.T) {
 	tests := []struct {
 		program string
-		want    *Shader
+		want    string
 	}{
 		{
-			program: "cube()",
-			want:    &Shader{},
+			program: `group() {
+				cube(size = [1, 1, 1], center = false);
+			}
+			`,
+			want: primitives["cube"] + `
+float groupBlock0(in vec3 xyz) {
+	return cube(vec3(1, 1, 1), false, xyz);
+}
+
+void mainModel4(out vec4 materials, in vec3 xyz) {
+	materials[0] = groupBlock0(xyz);
+}
+`,
 		},
 	}
 
@@ -30,13 +40,10 @@ func TestNew(t *testing.T) {
 				t.Fatalf("ParseProgram: %v", strings.Join(errs, "\n"))
 			}
 
-			got, err := New(program)
-			if err != nil {
-				t.Fatalf("New: %v", err)
-			}
+			shader := New(program)
 
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("New =\n%+v\nwant\n%+v", got, tt.want)
+			if got := shader.String(); got != tt.want {
+				t.Errorf("shader.String =\n%v\nwant:\n%v", got, tt.want)
 			}
 		})
 	}
