@@ -2,9 +2,12 @@ package parser
 
 import (
 	"fmt"
+	"reflect"
 	"testing"
 
+	"github.com/gmlewis/go-csg/ast"
 	"github.com/gmlewis/go-csg/lexer"
+	"github.com/gmlewis/go-csg/token"
 )
 
 func TestCSGPrimitives(t *testing.T) {
@@ -46,6 +49,40 @@ func TestCSGPrimitives(t *testing.T) {
 			got := program.String()
 			if got != tt.want {
 				t.Errorf("string = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestCSG_ParseProgram(t *testing.T) {
+	tests := []struct {
+		input string
+		want  *ast.Program
+	}{
+		{
+			input: "cube()",
+			want: &ast.Program{
+				Statements: []ast.Statement{
+					&ast.ExpressionStatement{
+						Token: token.Token{Type: token.CUBE, Literal: "cube"},
+						Expression: &ast.CubePrimitive{
+							Token: token.Token{Type: token.CUBE, Literal: "cube"},
+						},
+					},
+				},
+			},
+		},
+	}
+
+	for i, tt := range tests {
+		t.Run(fmt.Sprintf("test #%v", i), func(t *testing.T) {
+			le := lexer.New(tt.input)
+			p := New(le)
+			program := p.ParseProgram()
+			checkParserErrors(t, p)
+
+			if !reflect.DeepEqual(program, tt.want) {
+				t.Errorf("Program =\n%+v\nwant %+v", program, tt.want)
 			}
 		})
 	}
