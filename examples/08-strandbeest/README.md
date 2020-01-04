@@ -3,6 +3,8 @@
 08-strandbeest is an example taken from the OpenSCAD User Manual:
 https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Example/Strandbeest
 
+* Try loading [08-strandbeest.irmf](https://gmlewis.github.io/irmf-editor/?s=github.com/gmlewis/go-csg/blob/master/examples/08-strandbeest/08-strandbeest.irmf) now in the experimental IRMF editor!
+
 ---
 
 # License

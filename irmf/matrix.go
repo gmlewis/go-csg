@@ -9,6 +9,15 @@ func matrixMult(mbb *MBB, vec0, vec1, vec2, vec3 []float64) *MBB {
 	}
 	xmin, ymin, zmin := mult(mbb.XMin, mbb.YMin, mbb.ZMin)
 	xmax, ymax, zmax := mult(mbb.XMax, mbb.YMax, mbb.ZMax)
+	if xmin > xmax {
+		xmin, xmax = xmax, xmin
+	}
+	if ymin > ymax {
+		ymin, ymax = ymax, ymin
+	}
+	if zmin > zmax {
+		zmin, zmax = zmax, zmin
+	}
 	return &MBB{
 		XMin: xmin,
 		YMin: ymin,

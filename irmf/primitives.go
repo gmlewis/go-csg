@@ -391,7 +391,7 @@ func (s *Shader) processCirclePrimitive(exps []ast.Expression) (string, *MBB) {
 
 func (s *Shader) processMultmatrixBlockPrimitive(args []ast.Expression, exps []ast.Statement) (string, *MBB) {
 	calls, mbb := s.getCalls(exps)
-	if len(calls) == 0 {
+	if len(calls) == 0 || mbb == nil {
 		return "", nil
 	}
 
@@ -430,7 +430,7 @@ func (s *Shader) processMultmatrixBlockPrimitive(args []ast.Expression, exps []a
 
 func (s *Shader) processUnionBlockPrimitive(exps []ast.Statement) (string, *MBB) {
 	calls, mbb := s.getCalls(exps)
-	if len(calls) == 0 {
+	if len(calls) == 0 || mbb == nil {
 		return "", nil
 	}
 
@@ -447,7 +447,7 @@ func (s *Shader) processUnionBlockPrimitive(exps []ast.Statement) (string, *MBB)
 
 func (s *Shader) processDifferenceBlockPrimitive(exps []ast.Statement) (string, *MBB) {
 	calls, mbb := s.getCalls(exps)
-	if len(calls) == 0 {
+	if len(calls) == 0 || mbb == nil {
 		return "", nil
 	}
 
@@ -464,7 +464,7 @@ func (s *Shader) processDifferenceBlockPrimitive(exps []ast.Statement) (string, 
 
 func (s *Shader) processIntersectionBlockPrimitive(exps []ast.Statement) (string, *MBB) {
 	calls, mbb := s.getCalls(exps)
-	if len(calls) == 0 {
+	if len(calls) == 0 || mbb == nil {
 		return "", nil
 	}
 

@@ -128,17 +128,16 @@ func (s *Shader) processExpression(exp ast.Expression) (string, *MBB) {
 		return s.processCirclePrimitive(node.Arguments)
 	case *ast.ColorBlockPrimitive: // Currently, color itself is a NOOP.
 		if node.Body != nil {
-			// TODO: make a new function to call these statements.
 			calls, mbb := s.getCalls(node.Body.Statements)
 			if len(calls) > 0 {
 				fNum := len(s.Functions)
 				fName := fmt.Sprintf("colorBlock%v", fNum)
-				newFunc := fmt.Sprintf(`float %v(TODO) {
+				newFunc := fmt.Sprintf(`float %v(in vec3 xyz) {
 	return %v;
 }
 `, fName, strings.Join(calls, " + "))
 				s.Functions = append(s.Functions, newFunc)
-				return fmt.Sprintf("%v(TODO)", fName), mbb
+				return fmt.Sprintf("%v(xyz)", fName), mbb
 			}
 		}
 	case *ast.CubePrimitive:
