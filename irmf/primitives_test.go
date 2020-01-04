@@ -402,8 +402,8 @@ func TestProcessMultmatrixBlockPrimitive(t *testing.T) {
 			src: "multmatrix([[1, 0, 0, -19], [0, 1, 0, -0.5], [0, 0, 1, 0], [0, 0, 0, 1]]) {sphere();}",
 			want: []string{
 				`float multimatrixBlock0(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -19), vec4(0, 1, 0, -0.5), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, -19), vec4(0, 1, 0, -0.5), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
 	return sphere(float(1), xyz);
 }
 `,
@@ -449,8 +449,8 @@ func TestProcessUnionBlockPrimitive(t *testing.T) {
 `,
 			want: []string{
 				`float multimatrixBlock0(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 2), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 2), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
 	return sphere(float(2), xyz);
 }
 `,
@@ -497,8 +497,8 @@ func TestProcessDifferenceBlockPrimitive(t *testing.T) {
 `,
 			want: []string{
 				`float multimatrixBlock0(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 2), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 2), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
 	return sphere(float(2), xyz);
 }
 `,
@@ -545,8 +545,8 @@ func TestProcessIntersectionBlockPrimitive(t *testing.T) {
 `,
 			want: []string{
 				`float multimatrixBlock0(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 2), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 2), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
 	return sphere(float(2), xyz);
 }
 `,
