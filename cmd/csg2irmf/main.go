@@ -41,6 +41,11 @@ func process(filename string) {
 
 	shader := irmf.New(program)
 
+	if shader.MBB == nil {
+		log.Println("WARNING: CSG contains features that are not yet supported.")
+		shader.MBB = &irmf.MBB{}
+	}
+
 	out := fmt.Sprintf(`/*{
   irmf: "1.0",
   materials: ["PLA"],

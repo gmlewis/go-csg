@@ -71,6 +71,9 @@ type MBB struct {
 }
 
 func (mbb *MBB) update(other *MBB) {
+	if other == nil {
+		return
+	}
 	if other.XMin < mbb.XMin {
 		mbb.XMin = other.XMin
 	}
