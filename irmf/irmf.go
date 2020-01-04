@@ -19,7 +19,7 @@ const (
 }
 `
 	mainBodyCenterFmt = `void mainModel4(out vec4 materials, in vec3 xyz) {
-	xyz -= vec3(%v, %v, %v);
+	xyz += vec3(%v, %v, %v);
 	materials[0] = %v;
 }
 `

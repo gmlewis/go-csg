@@ -906,7 +906,7 @@ float groupBlock182(in vec3 xyz) {
 }
 
 void mainModel4(out vec4 materials, in vec3 xyz) {
-	xyz -= vec3(-3.552713678800501e-15, 1.4999999999432134e-05, 5.200000000000001);
+	xyz += vec3(-3.552713678800501e-15, 1.4999999999432134e-05, 5.200000000000001);
 	materials[0] = groupBlock182(xyz);
 }
 
