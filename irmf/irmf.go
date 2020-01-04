@@ -237,7 +237,7 @@ func (s *Shader) processExpression(exp ast.Expression) (string, *MBB) {
 		}
 	case *ast.MultmatrixBlockPrimitive:
 		if node.Body != nil {
-			return s.processMultmatrixPrimitive(node.Arguments, node.Body.Statements)
+			return s.processMultmatrixBlockPrimitive(node.Arguments, node.Body.Statements)
 		}
 	case *ast.PolygonPrimitive:
 		s.Primitives["polygon"] = true
@@ -283,18 +283,7 @@ func (s *Shader) processExpression(exp ast.Expression) (string, *MBB) {
 		return s.processSquarePrimitive(node.Arguments)
 	case *ast.UnionBlockPrimitive:
 		if node.Body != nil {
-			// TODO: make a new function to call these statements after wrapping in a union.
-			calls, mbb := s.getCalls(node.Body.Statements)
-			if len(calls) > 0 {
-				fNum := len(s.Functions)
-				fName := fmt.Sprintf("unionBlock%v", fNum)
-				newFunc := fmt.Sprintf(`float %v(TODO) {
-	return %v;
-}
-`, fName, strings.Join(calls, " + "))
-				s.Functions = append(s.Functions, newFunc)
-				return fmt.Sprintf("%v(TODO)", fName), mbb
-			}
+			return s.processUnionBlockPrimitive(node.Body.Statements)
 		}
 	default:
 		log.Fatalf("unhandled expression type %T (%+v)", node, node)

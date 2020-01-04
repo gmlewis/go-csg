@@ -9,6 +9,59 @@ import (
 	"github.com/gmlewis/go-csg/ast"
 )
 
+var primitives = map[string]string{
+	"circle": `float circle(in float radius, in vec3 xyz) {
+	float r = length(xyz.xy);
+	return r <= radius ? 1.0 : 0.0;
+}
+`,
+
+	"cube": `float cube(in vec3 size, in bool center, in vec3 xyz) {
+	xyz /= size;
+	if (!center) { xyz -= vec3(0.5); }
+	if (any(greaterThan(abs(xyz), vec3(0.5)))) { return 0.0; }
+	return 1.0;
+}
+`,
+
+	"cylinder": `float cylinder(in float h, in float r1, in float r2, in bool center, in vec3 xyz) {
+	xyz.z /= h;
+	float z = xyz.z;
+	if (center) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float r = length(xyz.xy);
+	float radius = mix(r1, r2, z);
+	return r <= radius ? 1.0 : 0.0;
+}
+`,
+
+	"polygon": `float polygon(in vec3 xyz) {
+	// TODO
+	return 1.0;
+}
+`,
+
+	"polyhedron": `float polyhedron(in vec3 xyz) {
+	// TODO
+	return 1.0;
+}
+`,
+
+	"sphere": `float sphere(in float radius, in vec3 xyz) {
+	float r = length(xyz);
+	return r <= radius ? 1.0 : 0.0;
+}
+`,
+
+	"square": `float square(in vec2 size, in bool center, in vec3 xyz) {
+	xyz.xy /= size;
+	if (!center) { xyz.xy -= vec2(0.5); }
+	if (any(greaterThan(abs(xyz.xy), vec2(0.5)))) { return 0.0; }
+	return 1.0;
+}
+`,
+}
+
 func (s *Shader) getArgs(exps []ast.Expression, names ...string) []string {
 	result := make([]string, len(names))
 	values := map[string]string{}
@@ -336,7 +389,7 @@ func (s *Shader) processCirclePrimitive(exps []ast.Expression) (string, *MBB) {
 	return fmt.Sprintf("circle(float(%v), xyz)", radius), mbb
 }
 
-func (s *Shader) processMultmatrixPrimitive(args []ast.Expression, exps []ast.Statement) (string, *MBB) {
+func (s *Shader) processMultmatrixBlockPrimitive(args []ast.Expression, exps []ast.Statement) (string, *MBB) {
 	calls, mbb := s.getCalls(exps)
 	if len(calls) == 0 {
 		return "", nil
@@ -375,55 +428,20 @@ func (s *Shader) processMultmatrixPrimitive(args []ast.Expression, exps []ast.St
 	return fmt.Sprintf("%v(xyz)", fName), newMBB
 }
 
-var primitives = map[string]string{
-	"circle": `float circle(in float radius, in vec3 xyz) {
-	float r = length(xyz.xy);
-	return r <= radius ? 1.0 : 0.0;
-}
-`,
 
-	"cube": `float cube(in vec3 size, in bool center, in vec3 xyz) {
-	xyz /= size;
-	if (!center) { xyz -= vec3(0.5); }
-	if (any(greaterThan(abs(xyz), vec3(0.5)))) { return 0.0; }
-	return 1.0;
-}
-`,
+func (s *Shader) processUnionBlockPrimitive(exps []ast.Statement) (string, *MBB) {
+	calls, mbb := s.getCalls(exps)
+	if len(calls) == 0 {
+		return "", nil
+	}
 
-	"cylinder": `float cylinder(in float h, in float r1, in float r2, in bool center, in vec3 xyz) {
-	xyz.z /= h;
-	float z = xyz.z;
-	if (center) { z += 0.5; } else { xyz.z -= 0.5; }
-	if (abs(xyz.z) > 0.5) { return 0.0; }
-	float r = length(xyz.xy);
-	float radius = mix(r1, r2, z);
-	return r <= radius ? 1.0 : 0.0;
+	fNum := len(s.Functions)
+	fName := fmt.Sprintf("union%v", fNum)
+	newFunc := fmt.Sprintf(`float %v(in vec3 xyz) {
+	return clamp(%v, 0.0, 1.0);
 }
-`,
+`, fName, strings.Join(calls, " + "))
+	s.Functions = append(s.Functions, newFunc)
 
-	"polygon": `float polygon(in vec3 xyz) {
-	// TODO
-	return 1.0;
-}
-`,
-
-	"polyhedron": `float polyhedron(in vec3 xyz) {
-	// TODO
-	return 1.0;
-}
-`,
-
-	"sphere": `float sphere(in float radius, in vec3 xyz) {
-	float r = length(xyz);
-	return r <= radius ? 1.0 : 0.0;
-}
-`,
-
-	"square": `float square(in vec2 size, in bool center, in vec3 xyz) {
-	xyz.xy /= size;
-	if (!center) { xyz.xy -= vec2(0.5); }
-	if (any(greaterThan(abs(xyz.xy), vec2(0.5)))) { return 0.0; }
-	return 1.0;
-}
-`,
+	return fmt.Sprintf("%v(xyz)", fName), mbb
 }
