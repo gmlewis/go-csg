@@ -146,9 +146,7 @@ func (s *Shader) processExpression(exp ast.Expression) (string, *MBB) {
 	case *ast.CubePrimitive:
 		return s.processCubePrimitive(node.Arguments)
 	case *ast.CylinderPrimitive:
-		s.Primitives["cylinder"] = true
-		// TODO: make a new function to call this primitive.
-		return "cylinder(TODO)", nil
+		return s.processCylinderPrimitive(node.Arguments)
 	case *ast.DifferenceBlockPrimitive:
 		if node.Body != nil {
 			// TODO: make a new function to call these statements.

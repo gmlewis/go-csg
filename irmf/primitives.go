@@ -17,10 +17,7 @@ func (s *Shader) getArgs(exps []ast.Expression, names ...string) []string {
 		switch exp := exp.(type) {
 		case *ast.NamedArgument:
 			values[exp.Name.String()] = exp.Value.String()
-		case *ast.StringLiteral:
-			result[count] = exp.String()
-			count++
-		case *ast.IntegerLiteral:
+		case *ast.StringLiteral, *ast.IntegerLiteral, *ast.FloatLiteral, *ast.BooleanLiteral:
 			result[count] = exp.String()
 			count++
 		default:
@@ -124,6 +121,75 @@ func (s *Shader) processSpherePrimitive(exps []ast.Expression) (string, *MBB) {
 	return fmt.Sprintf("sphere(float(%v), xyz)", radius), mbb
 }
 
+func (s *Shader) processCylinderPrimitive(exps []ast.Expression) (string, *MBB) {
+	s.Primitives["cylinder"] = true
+	args := s.getArgs(exps, "h", "r1", "r2", "center", "r", "d", "d1", "d2")
+
+	h := args[0]
+	r1 := args[1]
+	r2 := args[2]
+	center := args[3]
+	r := args[4]
+	d := args[5]
+	d1 := args[6]
+	d2 := args[7]
+
+	if d2 != "" && r2 == "" {
+		if vec3, err := parseVec3(d2); err == nil {
+			r2 = fmt.Sprintf("%v", 0.5*vec3[0])
+		}
+	}
+	if d1 != "" && r1 == "" {
+		if vec3, err := parseVec3(d1); err == nil {
+			r1 = fmt.Sprintf("%v", 0.5*vec3[0])
+		}
+	}
+	if d != "" && r1 == "" && r2 == "" {
+		if vec3, err := parseVec3(d); err == nil {
+			r1 = fmt.Sprintf("%v", 0.5*vec3[0])
+			r2 = r1
+		}
+	}
+	if r != "" && r1 == "" && r2 == "" {
+		if vec3, err := parseVec3(r); err == nil {
+			r1 = fmt.Sprintf("%v", vec3[0])
+			r2 = r1
+		}
+	}
+
+	if h == "" {
+		h = "1"
+	}
+	if r1 == "" {
+		r1 = "1"
+	}
+	if r2 == "" {
+		r2 = "1"
+	}
+
+	params := fmt.Sprintf("%v,%v,%v", h, r1, r2)
+	vec3, err := parseVec3(params)
+	if err != nil {
+		log.Printf("error parsing cylinder params %q, setting to 1", params)
+		vec3 = []float64{1, 1, 1}
+	}
+
+	radius := vec3[1]
+	if vec3[2] > radius {
+		radius = vec3[2]
+	}
+
+	var mbb *MBB
+	if center == "true" {
+		mbb = &MBB{XMin: -radius, YMin: -radius, ZMin: -0.5 * vec3[0], XMax: radius, YMax: radius, ZMax: 0.5 * vec3[0]}
+	} else {
+		center = "false"
+		mbb = &MBB{XMax: 2.0 * radius, YMax: 2.0 * radius, ZMax: vec3[0]}
+	}
+
+	return fmt.Sprintf("cylinder(float(%v), float(%v), float(%v), %v, xyz)", h, r1, r2, center), mbb
+}
+
 var primitives = map[string]string{
 	"circle": `float circle(in vec3 xyz) {
 	// TODO
@@ -139,7 +205,7 @@ var primitives = map[string]string{
 }
 `,
 
-	"cylinder": `float cylinder(in vec3 xyz) {
+	"cylinder": `float cylinder(in float h, in float r1, in float r2, in bool center, in vec3 xyz) {
 	// TODO
 	return 1.0;
 }

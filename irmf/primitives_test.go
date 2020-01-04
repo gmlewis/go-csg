@@ -158,3 +158,112 @@ func TestProcessSpherePrimitive(t *testing.T) {
 		})
 	}
 }
+
+func TestProcessCylinderPrimitive(t *testing.T) {
+	tests := []struct {
+		src  string
+		want []string
+		mbb  *MBB
+	}{
+		{
+			src:  "cylinder();",
+			want: []string{fmt.Sprintf(mainBodyFmt, "cylinder(float(1), float(1), float(1), false, xyz)")},
+			mbb:  &MBB{XMax: 2, YMax: 2, ZMax: 1},
+		},
+
+		// Equivalent:
+		{
+			src:  "cylinder(h=15, r1=9.5, r2=19.5, center=false);",
+			want: []string{fmt.Sprintf(mainBodyFmt, "cylinder(float(15), float(9.5), float(19.5), false, xyz)")},
+			mbb:  &MBB{XMin: 0, XMax: 39, YMin: 0, YMax: 39, ZMin: 0, ZMax: 15},
+		},
+		{
+			src:  "cylinder(  15,    9.5,    19.5, false);",
+			want: []string{fmt.Sprintf(mainBodyFmt, "cylinder(float(15), float(9.5), float(19.5), false, xyz)")},
+			mbb:  &MBB{XMin: 0, XMax: 39, YMin: 0, YMax: 39, ZMin: 0, ZMax: 15},
+		},
+		{
+			src:  "cylinder(  15,    9.5,    19.5);",
+			want: []string{fmt.Sprintf(mainBodyFmt, "cylinder(float(15), float(9.5), float(19.5), false, xyz)")},
+			mbb:  &MBB{XMin: 0, XMax: 39, YMin: 0, YMax: 39, ZMin: 0, ZMax: 15},
+		},
+		{
+			src:  "cylinder(  15,    9.5, d2=39  );",
+			want: []string{fmt.Sprintf(mainBodyFmt, "cylinder(float(15), float(9.5), float(19.5), false, xyz)")},
+			mbb:  &MBB{XMin: 0, XMax: 39, YMin: 0, YMax: 39, ZMin: 0, ZMax: 15},
+		},
+		{
+			src:  "cylinder(  15, d1=19,  d2=39  );",
+			want: []string{fmt.Sprintf(mainBodyFmt, "cylinder(float(15), float(9.5), float(19.5), false, xyz)")},
+			mbb:  &MBB{XMin: 0, XMax: 39, YMin: 0, YMax: 39, ZMin: 0, ZMax: 15},
+		},
+		{
+			src:  "cylinder(  15, d1=19,  r2=19.5);",
+			want: []string{fmt.Sprintf(mainBodyFmt, "cylinder(float(15), float(9.5), float(19.5), false, xyz)")},
+			mbb:  &MBB{XMin: 0, XMax: 39, YMin: 0, YMax: 39, ZMin: 0, ZMax: 15},
+		},
+
+		// Equivalent:
+		{
+			src:  "cylinder(h=15, r1=10, r2=0, center=true);",
+			want: []string{fmt.Sprintf(mainBodyFmt, "cylinder(float(15), float(10), float(0), true, xyz)")},
+			mbb:  &MBB{XMin: -10, XMax: 10, YMin: -10, YMax: 10, ZMin: -7.5, ZMax: 7.5},
+		},
+		{
+			src:  "cylinder(  15,    10,    0,        true);",
+			want: []string{fmt.Sprintf(mainBodyFmt, "cylinder(float(15), float(10), float(0), true, xyz)")},
+			mbb:  &MBB{XMin: -10, XMax: 10, YMin: -10, YMax: 10, ZMin: -7.5, ZMax: 7.5},
+		},
+		{
+			src:  "cylinder(h=15, d1=20, d2=0, center=true);",
+			want: []string{fmt.Sprintf(mainBodyFmt, "cylinder(float(15), float(10), float(0), true, xyz)")},
+			mbb:  &MBB{XMin: -10, XMax: 10, YMin: -10, YMax: 10, ZMin: -7.5, ZMax: 7.5},
+		},
+
+		// Equivalent:
+		{
+			src:  "cylinder(h=20, r=10, center=true);",
+			want: []string{fmt.Sprintf(mainBodyFmt, "cylinder(float(20), float(10), float(10), true, xyz)")},
+			mbb:  &MBB{XMin: -10, XMax: 10, YMin: -10, YMax: 10, ZMin: -10, ZMax: 10},
+		},
+		{
+			src:  "cylinder(  20,   10, 10,true);",
+			want: []string{fmt.Sprintf(mainBodyFmt, "cylinder(float(20), float(10), float(10), true, xyz)")},
+			mbb:  &MBB{XMin: -10, XMax: 10, YMin: -10, YMax: 10, ZMin: -10, ZMax: 10},
+		},
+		{
+			src:  "cylinder(  20, d=20, center=true);",
+			want: []string{fmt.Sprintf(mainBodyFmt, "cylinder(float(20), float(10), float(10), true, xyz)")},
+			mbb:  &MBB{XMin: -10, XMax: 10, YMin: -10, YMax: 10, ZMin: -10, ZMax: 10},
+		},
+		{
+			src:  "cylinder(  20,r1=10, d2=20, center=true);",
+			want: []string{fmt.Sprintf(mainBodyFmt, "cylinder(float(20), float(10), float(10), true, xyz)")},
+			mbb:  &MBB{XMin: -10, XMax: 10, YMin: -10, YMax: 10, ZMin: -10, ZMax: 10},
+		},
+		{
+			src:  "cylinder(  20,r1=10, d2=20, center=true);",
+			want: []string{fmt.Sprintf(mainBodyFmt, "cylinder(float(20), float(10), float(10), true, xyz)")},
+			mbb:  &MBB{XMin: -10, XMax: 10, YMin: -10, YMax: 10, ZMin: -10, ZMax: 10},
+		},
+	}
+
+	for i, tt := range tests {
+		t.Run(fmt.Sprintf("test #%v", i), func(t *testing.T) {
+			le := lexer.New(tt.src)
+			p := parser.New(le)
+			program := p.ParseProgram()
+			if errs := p.Errors(); len(errs) != 0 {
+				t.Fatalf("ParseProgram: %v", strings.Join(errs, "\n"))
+			}
+
+			shader := New(program)
+			if !reflect.DeepEqual(shader.Functions, tt.want) {
+				t.Errorf("functions = %+v, want %+v", shader.Functions, tt.want)
+			}
+			if !reflect.DeepEqual(shader.MBB, tt.mbb) {
+				t.Errorf("mbb = %+v, want %+v", shader.MBB, tt.mbb)
+			}
+		})
+	}
+}
