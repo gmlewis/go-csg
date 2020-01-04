@@ -16,9 +16,12 @@ func (s *Shader) getArgs(exps []ast.Expression, names ...string) []string {
 	for _, exp := range exps {
 		switch exp := exp.(type) {
 		case *ast.NamedArgument:
-			values[exp.Name.TokenLiteral()] = exp.Value.TokenLiteral()
+			values[exp.Name.String()] = exp.Value.String()
 		case *ast.StringLiteral:
-			result[count] = exp.TokenLiteral()
+			result[count] = exp.String()
+			count++
+		case *ast.IntegerLiteral:
+			result[count] = exp.String()
 			count++
 		default:
 			log.Fatalf("getArgs: unhandled type %T (%+v)", exp, exp)
@@ -71,12 +74,13 @@ func (s *Shader) processCubePrimitive(exps []ast.Expression) (string, *MBB) {
 
 	size := strings.Trim(args[0], "[]")
 	if size == "" {
-		size = "1, 1, 1"
+		size = "1"
 	}
+
 	vec3, err := parseVec3(size)
 	if err != nil {
-		log.Printf("error parsing cube size=%q, setting to 1,1,1", size)
-		size = "1, 1, 1"
+		log.Printf("error parsing cube size=%q, setting to 1", size)
+		size = "1"
 		vec3 = []float64{1, 1, 1}
 	}
 
@@ -89,6 +93,7 @@ func (s *Shader) processCubePrimitive(exps []ast.Expression) (string, *MBB) {
 		center = "false"
 		mbb = &MBB{xmax: vec3[0], ymax: vec3[1], zmax: vec3[2]}
 	}
+
 	return fmt.Sprintf("cube(vec3(%v), %v, xyz)", size, center), mbb
 }
 

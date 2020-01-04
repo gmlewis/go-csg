@@ -3,88 +3,12 @@ package irmf
 import (
 	"fmt"
 	"reflect"
+	"strings"
 	"testing"
 
-	"github.com/gmlewis/go-csg/ast"
-	"github.com/gmlewis/go-csg/token"
+	"github.com/gmlewis/go-csg/lexer"
+	"github.com/gmlewis/go-csg/parser"
 )
-
-func TestGetArgs(t *testing.T) {
-	size := &ast.NamedArgument{
-		Name: &ast.StringLiteral{
-			Token: token.Token{Literal: "size"},
-		},
-		Value: &ast.StringLiteral{
-			Token: token.Token{Literal: "[1, 1, 1]"},
-		},
-	}
-	center := &ast.NamedArgument{
-		Name: &ast.StringLiteral{
-			Token: token.Token{Literal: "center"},
-		},
-		Value: &ast.StringLiteral{
-			Token: token.Token{Literal: "true"},
-		},
-	}
-
-	tests := []struct {
-		exps  []ast.Expression
-		names []string
-		want  []string
-	}{
-		{
-			exps:  nil,
-			names: []string{"size", "center"},
-			want:  []string{"", ""},
-		},
-		{
-			exps:  []ast.Expression{size},
-			names: []string{"size", "center"},
-			want:  []string{"[1, 1, 1]", ""},
-		},
-		{
-			exps:  []ast.Expression{center},
-			names: []string{"size", "center"},
-			want:  []string{"", "true"},
-		},
-		{
-			exps:  []ast.Expression{size, center},
-			names: []string{"size", "center"},
-			want:  []string{"[1, 1, 1]", "true"},
-		},
-		{
-			exps:  []ast.Expression{center, size},
-			names: []string{"size", "center"},
-			want:  []string{"[1, 1, 1]", "true"},
-		},
-		{
-			exps: []ast.Expression{
-				&ast.StringLiteral{Token: token.Token{Literal: "[4, 5, 6]"}},
-				&ast.StringLiteral{Token: token.Token{Literal: "true"}},
-			},
-			names: []string{"size", "center"},
-			want:  []string{"[4, 5, 6]", "true"},
-		},
-		{
-			exps: []ast.Expression{
-				&ast.StringLiteral{Token: token.Token{Literal: "[4, 5, 6]"}},
-				center,
-			},
-			names: []string{"size", "center"},
-			want:  []string{"[4, 5, 6]", "true"},
-		},
-	}
-
-	for i, tt := range tests {
-		t.Run(fmt.Sprintf("test #%v", i), func(t *testing.T) {
-			s := &Shader{}
-			got := s.getArgs(tt.exps, tt.names...)
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("getArgs = %+v, want %+v", got, tt.want)
-			}
-		})
-	}
-}
 
 func TestParseVec3(t *testing.T) {
 	tests := []struct {
@@ -104,6 +28,64 @@ func TestParseVec3(t *testing.T) {
 
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("parseVec3 = %+v, want %+v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestProcessCubePrimitive(t *testing.T) {
+	tests := []struct {
+		src  string
+		want []string
+		mbb  *MBB
+	}{
+		{
+			src:  "cube();",
+			want: []string{fmt.Sprintf(mainBodyFmt, "cube(vec3(1), false, xyz)")},
+			mbb:  &MBB{xmax: 1, ymax: 1, zmax: 1},
+		},
+		{
+			src:  "cube(2);",
+			want: []string{fmt.Sprintf(mainBodyFmt, "cube(vec3(2), false, xyz)")},
+			mbb:  &MBB{xmax: 2, ymax: 2, zmax: 2},
+		},
+		{
+			src:  "cube(center=true);",
+			want: []string{fmt.Sprintf(mainBodyFmt, "cube(vec3(1), true, xyz)")},
+			mbb:  &MBB{xmin: -0.5, ymin: -0.5, zmin: -0.5, xmax: 0.5, ymax: 0.5, zmax: 0.5},
+		},
+		{
+			src:  "cube(size=5);",
+			want: []string{fmt.Sprintf(mainBodyFmt, "cube(vec3(5), false, xyz)")},
+			mbb:  &MBB{xmax: 5, ymax: 5, zmax: 5},
+		},
+		{
+			src:  "cube(size= [ 5 , 4 , 3 ]);",
+			want: []string{fmt.Sprintf(mainBodyFmt, "cube(vec3(5, 4, 3), false, xyz)")},
+			mbb:  &MBB{xmax: 5, ymax: 4, zmax: 3},
+		},
+		{
+			src:  "cube(center = false, size = [ 5 , 4 , 3 ]);",
+			want: []string{fmt.Sprintf(mainBodyFmt, "cube(vec3(5, 4, 3), false, xyz)")},
+			mbb:  &MBB{xmax: 5, ymax: 4, zmax: 3},
+		},
+	}
+
+	for i, tt := range tests {
+		t.Run(fmt.Sprintf("test #%v", i), func(t *testing.T) {
+			le := lexer.New(tt.src)
+			p := parser.New(le)
+			program := p.ParseProgram()
+			if errs := p.Errors(); len(errs) != 0 {
+				t.Fatalf("ParseProgram: %v", strings.Join(errs, "\n"))
+			}
+
+			shader := New(program)
+			if !reflect.DeepEqual(shader.Functions, tt.want) {
+				t.Errorf("functions = %+v, want %+v", shader.Functions, tt.want)
+			}
+			if !reflect.DeepEqual(shader.MBB, tt.mbb) {
+				t.Errorf("mbb = %+v, want %+v", shader.MBB, tt.mbb)
 			}
 		})
 	}

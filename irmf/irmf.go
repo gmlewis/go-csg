@@ -12,6 +12,13 @@ import (
 	"github.com/gmlewis/go-csg/ast"
 )
 
+const (
+	mainBodyFmt = `void mainModel4(out vec4 materials, in vec3 xyz) {
+	materials[0] = %v;
+}
+`
+)
+
 // Shader represents an IRMF shader.
 type Shader struct {
 	Program    *ast.Program
@@ -48,10 +55,7 @@ func New(program *ast.Program) *Shader {
 
 	calls, mbb := s.getCalls(program.Statements)
 	if len(calls) > 0 {
-		mainFunc := fmt.Sprintf(`void mainModel4(out vec4 materials, in vec3 xyz) {
-	materials[0] = %v;
-}
-`, strings.Join(calls, " + "))
+		mainFunc := fmt.Sprintf(mainBodyFmt, strings.Join(calls, " + "))
 		s.Functions = append(s.Functions, mainFunc)
 		s.MBB = mbb
 	}
