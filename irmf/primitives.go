@@ -33,6 +33,70 @@ func (s *Shader) getArgs(exps []ast.Expression, names ...string) []string {
 	return result
 }
 
+func (s *Shader) getMat4Args(exps []ast.Expression) []string {
+	var result []string
+	for _, exp := range exps {
+		switch exp := exp.(type) {
+		case *ast.ArrayLiteral:
+			// Split up array into 4 expressions (each arrays).
+			if len(exp.Elements) != 4 {
+				log.Fatalf("getMat4Args: unhandled elements!=4 %T (%+v)", exp, exp)
+			}
+			for _, e := range exp.Elements {
+				switch e := e.(type) {
+				case *ast.ArrayLiteral:
+					val := strings.Trim(e.String(), "[]")
+					val = strings.ReplaceAll(val, "(", "")
+					val = strings.ReplaceAll(val, ")", "")
+					result = append(result, val)
+				default:
+					log.Fatalf("getMat4Args: unhandled element type %T (%+v)", e, e)
+				}
+			}
+		default:
+			log.Fatalf("getMat4Args: unhandled type %T (%+v)", exp, exp)
+		}
+	}
+	return result
+}
+
+func parseVec4(s string) ([]float64, error) {
+	if !strings.Contains(s, ",") {
+		v, err := strconv.ParseFloat(s, 64)
+		if err != nil {
+			return nil, fmt.Errorf("error parsing %q", s)
+		}
+		return []float64{v, v, v, v}, nil
+	}
+
+	parts := strings.Split(s, ",")
+	if len(parts) != 4 {
+		return nil, fmt.Errorf("error parsing %q", s)
+	}
+
+	x, err := strconv.ParseFloat(strings.TrimSpace(parts[0]), 64)
+	if err != nil {
+		return nil, fmt.Errorf("error parsing x: %q: %v", s, err)
+	}
+
+	y, err := strconv.ParseFloat(strings.TrimSpace(parts[1]), 64)
+	if err != nil {
+		return nil, fmt.Errorf("error parsing y: %q: %v", s, err)
+	}
+
+	z, err := strconv.ParseFloat(strings.TrimSpace(parts[2]), 64)
+	if err != nil {
+		return nil, fmt.Errorf("error parsing z: %q: %v", s, err)
+	}
+
+	w, err := strconv.ParseFloat(strings.TrimSpace(parts[3]), 64)
+	if err != nil {
+		return nil, fmt.Errorf("error parsing w: %q: %v", s, err)
+	}
+
+	return []float64{x, y, z, w}, nil
+}
+
 func parseVec3(s string) ([]float64, error) {
 	if !strings.Contains(s, ",") {
 		v, err := strconv.ParseFloat(s, 64)
@@ -71,7 +135,7 @@ func parseVec2(s string) ([]float64, error) {
 		if err != nil {
 			return nil, fmt.Errorf("error parsing %q", s)
 		}
-		return []float64{v, v, v}, nil
+		return []float64{v, v}, nil
 	}
 
 	parts := strings.Split(s, ",")
@@ -270,6 +334,45 @@ func (s *Shader) processCirclePrimitive(exps []ast.Expression) (string, *MBB) {
 	mbb := &MBB{XMin: -vec3[0], YMin: -vec3[1], XMax: vec3[0], YMax: vec3[1]}
 
 	return fmt.Sprintf("circle(float(%v), xyz)", radius), mbb
+}
+
+func (s *Shader) processMultmatrixPrimitive(args []ast.Expression, exps []ast.Statement) (string, *MBB) {
+	calls, mbb := s.getCalls(exps)
+	if len(calls) == 0 {
+		return "", nil
+	}
+
+	fNum := len(s.Functions)
+	fName := fmt.Sprintf("multimatrixBlock%v", fNum)
+	vec4s := s.getMat4Args(args)
+	newFunc := fmt.Sprintf(`float %v(in vec3 xyz) {
+	mat4 xfm = mat4(vec4(%v), vec4(%v), vec4(%v), vec4(%v));
+	xyz = (vec4(xyz, -1.0) * xfm).xyz;
+	return %v;
+}
+`, fName, vec4s[0], vec4s[1], vec4s[2], vec4s[3], strings.Join(calls, " + "))
+	s.Functions = append(s.Functions, newFunc)
+
+	vec0, err := parseVec4(vec4s[0])
+	if err != nil {
+		log.Fatalf("vec0: %v", err)
+	}
+	vec1, err := parseVec4(vec4s[1])
+	if err != nil {
+		log.Fatalf("vec1: %v", err)
+	}
+	vec2, err := parseVec4(vec4s[2])
+	if err != nil {
+		log.Fatalf("vec2: %v", err)
+	}
+	vec3, err := parseVec4(vec4s[3])
+	if err != nil {
+		log.Fatalf("vec3: %v", err)
+	}
+
+	newMBB := matrixMult(mbb, vec0, vec1, vec2, vec3)
+
+	return fmt.Sprintf("%v(xyz)", fName), newMBB
 }
 
 var primitives = map[string]string{

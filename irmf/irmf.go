@@ -237,18 +237,7 @@ func (s *Shader) processExpression(exp ast.Expression) (string, *MBB) {
 		}
 	case *ast.MultmatrixBlockPrimitive:
 		if node.Body != nil {
-			// TODO: make a new function to call these statements after a matrix multiply.
-			calls, mbb := s.getCalls(node.Body.Statements)
-			if len(calls) > 0 {
-				fNum := len(s.Functions)
-				fName := fmt.Sprintf("multimatrixBlock%v", fNum)
-				newFunc := fmt.Sprintf(`float %v(TODO) {
-	return %v;
-}
-`, fName, strings.Join(calls, " + "))
-				s.Functions = append(s.Functions, newFunc)
-				return fmt.Sprintf("%v(TODO)", fName), mbb
-			}
+			return s.processMultmatrixPrimitive(node.Arguments, node.Body.Statements)
 		}
 	case *ast.PolygonPrimitive:
 		s.Primitives["polygon"] = true

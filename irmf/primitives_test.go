@@ -10,6 +10,29 @@ import (
 	"github.com/gmlewis/go-csg/parser"
 )
 
+func TestParseVec2(t *testing.T) {
+	tests := []struct {
+		s    string
+		want []float64
+	}{
+		{"1", []float64{1, 1}},
+		{" 1, 2 ", []float64{1, 2}},
+	}
+
+	for i, tt := range tests {
+		t.Run(fmt.Sprintf("test #%v", i), func(t *testing.T) {
+			got, err := parseVec2(tt.s)
+			if err != nil {
+				t.Fatalf("parseVec2 = %v", err)
+			}
+
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("parseVec2 = %+v, want %+v", got, tt.want)
+			}
+		})
+	}
+}
+
 func TestParseVec3(t *testing.T) {
 	tests := []struct {
 		s    string
@@ -28,6 +51,29 @@ func TestParseVec3(t *testing.T) {
 
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("parseVec3 = %+v, want %+v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestParseVec4(t *testing.T) {
+	tests := []struct {
+		s    string
+		want []float64
+	}{
+		{"1", []float64{1, 1, 1, 1}},
+		{" 1, 2, 3, 4 ", []float64{1, 2, 3, 4}},
+	}
+
+	for i, tt := range tests {
+		t.Run(fmt.Sprintf("test #%v", i), func(t *testing.T) {
+			got, err := parseVec4(tt.s)
+			if err != nil {
+				t.Fatalf("parseVec4 = %v", err)
+			}
+
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("parseVec4 = %+v, want %+v", got, tt.want)
 			}
 		})
 	}
@@ -338,6 +384,47 @@ func TestProcessSquarePrimitive(t *testing.T) {
 			shader := New(program)
 			if !reflect.DeepEqual(shader.Functions, tt.want) {
 				t.Errorf("functions = %+v, want %+v", shader.Functions, tt.want)
+			}
+			if !reflect.DeepEqual(shader.MBB, tt.mbb) {
+				t.Errorf("mbb = %+v, want %+v", shader.MBB, tt.mbb)
+			}
+		})
+	}
+}
+
+func TestProcessMultmatrixPrimitive(t *testing.T) {
+	tests := []struct {
+		src  string
+		want []string
+		mbb  *MBB
+	}{
+		{
+			src: "multmatrix([[1, 0, 0, -19], [0, 1, 0, -0.5], [0, 0, 1, 0], [0, 0, 0, 1]]) {sphere();}",
+			want: []string{
+				`float multimatrixBlock0(in vec3 xyz) {
+	mat4 xfm = mat4(vec4(1, 0, 0, -19), vec4(0, 1, 0, -0.5), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
+	xyz = (vec4(xyz, -1.0) * xfm).xyz;
+	return sphere(float(1), xyz);
+}
+`,
+				fmt.Sprintf(mainBodyFmt, "multimatrixBlock0(xyz)"),
+			},
+			mbb: &MBB{XMin: -20, XMax: -18, YMin: -1.5, YMax: 0.5, ZMin: -1, ZMax: 1},
+		},
+	}
+
+	for i, tt := range tests {
+		t.Run(fmt.Sprintf("test #%v", i), func(t *testing.T) {
+			le := lexer.New(tt.src)
+			p := parser.New(le)
+			program := p.ParseProgram()
+			if errs := p.Errors(); len(errs) != 0 {
+				t.Fatalf("ParseProgram: %v", strings.Join(errs, "\n"))
+			}
+
+			shader := New(program)
+			if !reflect.DeepEqual(shader.Functions, tt.want) {
+				t.Errorf("functions = %#v, want %#v", shader.Functions, tt.want)
 			}
 			if !reflect.DeepEqual(shader.MBB, tt.mbb) {
 				t.Errorf("mbb = %+v, want %+v", shader.MBB, tt.mbb)
