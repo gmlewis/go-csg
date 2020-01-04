@@ -399,7 +399,15 @@ func (s *Shader) processMultmatrixBlockPrimitive(args []ast.Expression, exps []a
 	fName := fmt.Sprintf("multimatrixBlock%v", fNum)
 	vec4s := s.getMat4Args(args)
 	newFunc := fmt.Sprintf(`float %v(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(%v), vec4(%v), vec4(%v), vec4(%v));
+	vec4 row0 = vec4(%v);
+	vec4 row1 = vec4(%v);
+	vec4 row2 = vec4(%v);
+	vec4 row3 = vec4(%v);
+	vec4 col0 = vec4(row0.x,row1.x,row2.x,row3.x);
+	vec4 col1 = vec4(row0.y,row1.y,row2.y,row3.y);
+	vec4 col2 = vec4(row0.z,row1.z,row2.z,row3.z);
+	vec4 col3 = vec4(row0.w,row1.w,row2.w,row3.w);
+	mat4 xfm = mat4(col0,col1,col2,col3);
 	xyz = (vec4(xyz, -1.0) * xfm).xyz;
 	return %v;
 }
