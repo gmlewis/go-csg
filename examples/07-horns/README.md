@@ -3,6 +3,10 @@
 07-horns is an example taken from the OpenSCAD User Manual:
 https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Commented_Example_Projects
 
+![07-horns](07-horns.png)
+
+- Try loading [07-horns.irmf](https://gmlewis.github.io/irmf-editor/?s=github.com/gmlewis/go-csg/blob/master/examples/07-horns/07-horns.irmf) now in the experimental IRMF editor!
+
 ---
 
 # License

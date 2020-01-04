@@ -1,0 +1,111 @@
+/*{
+	"irmf": "1.0",
+	"materials": ["PLA"],
+	"max": [6,2,10],
+	"min": [-6,-2,-10],
+	"units": "mm",
+}*/
+
+float circle(in float radius,in vec3 xyz){
+	float r=length(xyz.xy);
+	return r<=radius?1.:0.;
+}
+
+mat3 rotAxis(vec3 axis,float a){
+	// This is from: http://www.neilmendoza.com/glsl-rotation-about-an-arbitrary-axis/
+	float s=sin(a);
+	float c=cos(a);
+	float oc=1.-c;
+	vec3 as=axis*s;
+	mat3 p=mat3(axis.x*axis,axis.y*axis,axis.z*axis);
+	mat3 q=mat3(c,-as.z,as.y,as.z,c,-as.x,-as.y,as.x,c);
+	return p*oc+q;
+}
+
+mat4 rotZ(float angle){
+	return mat4(rotAxis(vec3(0,0,1),angle));
+}
+
+float multimatrixBlock0(in vec3 xyz){
+	mat4 xfm=inverse(mat4(vec4(1,0,0,.75),vec4(0,1,0,0),vec4(0,0,1,0),vec4(0,0,0,1)));
+	xyz=(vec4(xyz,1.)*xfm).xyz;
+	return circle(float(.75),xyz);
+}
+
+float linearExtrudeBlock1(in vec3 xyz){
+	xyz.z/=float(10);
+	float z=xyz.z;
+	if(false){z+=.5;}else{xyz.z-=.5;}
+	if(abs(xyz.z)>.5){return 0.;}
+	float angle=mix(0.,float(720)*3.1415926535897932384626433832795/180.,z);
+	float s=mix(float(1),float(0),z);
+	xyz.xy/=s;
+	xyz=(vec4(xyz,1)*rotZ(angle)).xyz;
+	return multimatrixBlock0(xyz);
+}
+
+float multimatrixBlock2(in vec3 xyz){
+	mat4 xfm=inverse(mat4(vec4(1,0,0,-.75),vec4(0,1,0,0),vec4(0,0,1,0),vec4(0,0,0,1)));
+	xyz=(vec4(xyz,1.)*xfm).xyz;
+	return linearExtrudeBlock1(xyz);
+}
+
+float groupBlock3(in vec3 xyz){
+	return multimatrixBlock2(xyz);
+}
+
+float multimatrixBlock4(in vec3 xyz){
+	mat4 xfm=inverse(mat4(vec4(-1,0,0,0),vec4(0,1,0,0),vec4(0,0,1,0),vec4(0,0,0,1)));
+	xyz=(vec4(xyz,1.)*xfm).xyz;
+	return groupBlock3(xyz);
+}
+
+float multimatrixBlock5(in vec3 xyz){
+	mat4 xfm=inverse(mat4(vec4(1,0,0,3),vec4(0,1,0,0),vec4(0,0,1,0),vec4(0,0,0,1)));
+	xyz=(vec4(xyz,1.)*xfm).xyz;
+	return multimatrixBlock4(xyz);
+}
+
+float multimatrixBlock6(in vec3 xyz){
+	mat4 xfm=inverse(mat4(vec4(1,0,0,.75),vec4(0,1,0,0),vec4(0,0,1,0),vec4(0,0,0,1)));
+	xyz=(vec4(xyz,1.)*xfm).xyz;
+	return circle(float(.75),xyz);
+}
+
+float linearExtrudeBlock7(in vec3 xyz){
+	xyz.z/=float(10);
+	float z=xyz.z;
+	if(false){z+=.5;}else{xyz.z-=.5;}
+	if(abs(xyz.z)>.5){return 0.;}
+	float angle=mix(0.,float(720)*3.1415926535897932384626433832795/180.,z);
+	float s=mix(float(1),float(0),z);
+	xyz.xy/=s;
+	xyz=(vec4(xyz,1)*rotZ(angle)).xyz;
+	return multimatrixBlock6(xyz);
+}
+
+float multimatrixBlock8(in vec3 xyz){
+	mat4 xfm=inverse(mat4(vec4(1,0,0,-.75),vec4(0,1,0,0),vec4(0,0,1,0),vec4(0,0,0,1)));
+	xyz=(vec4(xyz,1.)*xfm).xyz;
+	return linearExtrudeBlock7(xyz);
+}
+
+float groupBlock9(in vec3 xyz){
+	return multimatrixBlock8(xyz);
+}
+
+float multimatrixBlock10(in vec3 xyz){
+	mat4 xfm=inverse(mat4(vec4(1,0,0,-3),vec4(0,1,0,0),vec4(0,0,1,0),vec4(0,0,0,1)));
+	xyz=(vec4(xyz,1.)*xfm).xyz;
+	return groupBlock9(xyz);
+}
+
+float groupBlock11(in vec3 xyz){
+	return multimatrixBlock5(xyz)+multimatrixBlock10(xyz);
+}
+
+void mainModel4(out vec4 materials,in vec3 xyz){
+	xyz+=vec3(0,0,0);
+	materials[0]=groupBlock11(xyz);
+}
+

@@ -47,6 +47,23 @@ var primitives = map[string]string{
 }
 `,
 
+	"rotAxis": `mat3 rotAxis(vec3 axis, float a) {
+  // This is from: http://www.neilmendoza.com/glsl-rotation-about-an-arbitrary-axis/
+  float s = sin(a);
+  float c = cos(a);
+  float oc = 1.0 - c;
+  vec3 as = axis * s;
+  mat3 p = mat3(axis.x * axis, axis.y * axis, axis.z * axis);
+  mat3 q = mat3(c, - as.z, as.y, as.z, c, - as.x, - as.y, as.x, c);
+  return p * oc + q;
+}
+`,
+
+	"rotZ": `mat4 rotZ(float angle) {
+  return mat4(rotAxis(vec3(0, 0, 1), angle));
+}
+`,
+
 	"sphere": `float sphere(in float radius, in vec3 xyz) {
 	float r = length(xyz);
 	return r <= radius ? 1.0 : 0.0;
@@ -475,6 +492,63 @@ func (s *Shader) processIntersectionBlockPrimitive(exps []ast.Statement) (string
 }
 `, fName, strings.Join(calls, " * "))
 	s.Functions = append(s.Functions, newFunc)
+
+	return fmt.Sprintf("%v(xyz)", fName), mbb
+}
+
+func (s *Shader) processLinearExtrudeBlockPrimitive(args []ast.Expression, exps []ast.Statement) (string, *MBB) {
+	calls, mbb := s.getCalls(exps)
+	if len(calls) == 0 || mbb == nil {
+		return "", nil
+	}
+
+	argVals := s.getArgs(args, "height", "center", "twist", "scale")
+
+	if argVals[1] != "true" {
+		argVals[1] = "false"
+	}
+
+	argVals[3] = strings.Trim(argVals[3], "[]")
+	scaleVec, err := parseVec2(argVals[3])
+	if err != nil {
+		log.Fatalf("unable to parse linear_extrude scale %q: %v", argVals[3], err)
+	}
+
+	fNum := len(s.Functions)
+	fName := fmt.Sprintf("linearExtrudeBlock%v", fNum)
+	var newFunc string
+	if argVals[2] == "" { // No twist.
+		newFunc = fmt.Sprintf(`float %v(in vec3 xyz) {
+	xyz.z /= float(%v);
+	float z = xyz.z;
+	if (%v) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float s = mix(float(%v),float(%v),z);
+	xyz.xy /= s;
+	return %v;
+}
+`, fName, argVals[0], argVals[1], scaleVec[0], scaleVec[1], strings.Join(calls, " + "))
+	} else {
+		// With twist.
+		s.Primitives["rotAxis"] = true
+		s.Primitives["rotZ"] = true
+
+		newFunc = fmt.Sprintf(`float %v(in vec3 xyz) {
+	xyz.z /= float(%v);
+	float z = xyz.z;
+	if (%v) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float(%v)*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(%v),float(%v),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return %v;
+}
+`, fName, argVals[0], argVals[1], argVals[2], scaleVec[0], scaleVec[1], strings.Join(calls, " + "))
+	}
+	s.Functions = append(s.Functions, newFunc)
+
+	// TODO: newMBB := matrixMult(mbb, vec0, vec1, vec2, vec3)
 
 	return fmt.Sprintf("%v(xyz)", fName), mbb
 }

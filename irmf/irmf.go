@@ -203,18 +203,7 @@ func (s *Shader) processExpression(exp ast.Expression) (string, *MBB) {
 		}
 	case *ast.LinearExtrudeBlockPrimitive:
 		if node.Body != nil {
-			// TODO: make a new function to call these statements after wrapping in a linear extrude.
-			calls, mbb := s.getCalls(node.Body.Statements)
-			if len(calls) > 0 {
-				fNum := len(s.Functions)
-				fName := fmt.Sprintf("linearExtrudeBlock%v", fNum)
-				newFunc := fmt.Sprintf(`float %v(TODO) {
-	return %v;
-}
-`, fName, strings.Join(calls, " + "))
-				s.Functions = append(s.Functions, newFunc)
-				return fmt.Sprintf("%v(TODO)", fName), mbb
-			}
+			return s.processLinearExtrudeBlockPrimitive(node.Arguments, node.Body.Statements)
 		}
 	case *ast.MinkowskiBlockPrimitive:
 		if node.Body != nil {

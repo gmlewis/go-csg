@@ -1,0 +1,1927 @@
+/*{
+  irmf: "1.0",
+  materials: ["PLA"],
+  max: [39.5,71,54],
+  min: [-39.5,-71,-54],
+  units: "mm",
+}*/
+
+mat3 rotAxis(vec3 axis, float a) {
+  // This is from: http://www.neilmendoza.com/glsl-rotation-about-an-arbitrary-axis/
+  float s = sin(a);
+  float c = cos(a);
+  float oc = 1.0 - c;
+  vec3 as = axis * s;
+  mat3 p = mat3(axis.x * axis, axis.y * axis, axis.z * axis);
+  mat3 q = mat3(c, - as.z, as.y, as.z, c, - as.x, - as.y, as.x, c);
+  return p * oc + q;
+}
+
+mat4 rotZ(float angle) {
+  return mat4(rotAxis(vec3(0, 0, 1), angle));
+}
+
+float square(in vec2 size, in bool center, in vec3 xyz) {
+	xyz.xy /= size;
+	if (!center) { xyz.xy -= vec2(0.5); }
+	if (any(greaterThan(abs(xyz.xy), vec2(0.5)))) { return 0.0; }
+	return 1.0;
+}
+
+float groupBlock0(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock1(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1.02606, 0, 0, 0), vec4(0, 1.02606, 0, 0), vec4(0, 0, 1.02606, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock0(xyz);
+}
+
+float multimatrixBlock2(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock1(xyz);
+}
+
+float linearExtrudeBlock3(in vec3 xyz) {
+	xyz.z /= float(16.6667);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float(25.9808)*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(2.68468),float(2.68468),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock2(xyz);
+}
+
+float multimatrixBlock4(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock3(xyz);
+}
+
+float groupBlock5(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock6(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.75465, 0, 0, 0), vec4(0, 2.75465, 0, 0), vec4(0, 0, 2.75465, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock5(xyz);
+}
+
+float multimatrixBlock7(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.898941, 0.438069, 0, 0), vec4(-0.438069, 0.898941, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock6(xyz);
+}
+
+float linearExtrudeBlock8(in vec3 xyz) {
+	xyz.z /= float(16.6667);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float((-51.9615))*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(1),float(1),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock7(xyz);
+}
+
+float multimatrixBlock9(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 16.6667), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock8(xyz);
+}
+
+float groupBlock10(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock11(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.75465, 0, 0, 0), vec4(0, 2.75465, 0, 0), vec4(0, 0, 2.75465, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock10(xyz);
+}
+
+float multimatrixBlock12(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.898941, -0.438069, 0, 0), vec4(0.438069, 0.898941, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock11(xyz);
+}
+
+float linearExtrudeBlock13(in vec3 xyz) {
+	xyz.z /= float(16.6667);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float(25.9808)*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(0.372483),float(0.372483),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock12(xyz);
+}
+
+float multimatrixBlock14(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 33.3333), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock13(xyz);
+}
+
+float groupBlock15(in vec3 xyz) {
+	return multimatrixBlock4(xyz) + multimatrixBlock9(xyz) + multimatrixBlock14(xyz);
+}
+
+float union16(in vec3 xyz) {
+	return clamp(groupBlock15(xyz), 0.0, 1.0);
+}
+
+float groupBlock17(in vec3 xyz) {
+	return union16(xyz);
+}
+
+float multimatrixBlock18(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.22045e-16, -1, 0, 0), vec4(1, 2.22045e-16, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock17(xyz);
+}
+
+float multimatrixBlock19(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, -50), vec4(0, 0, 1, -60), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock18(xyz);
+}
+
+float groupBlock20(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock21(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1.02606, 0, 0, 0), vec4(0, 1.02606, 0, 0), vec4(0, 0, 1.02606, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock20(xyz);
+}
+
+float multimatrixBlock22(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock21(xyz);
+}
+
+float linearExtrudeBlock23(in vec3 xyz) {
+	xyz.z /= float(16.6667);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float(25.9808)*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(2.68468),float(2.68468),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock22(xyz);
+}
+
+float multimatrixBlock24(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock23(xyz);
+}
+
+float groupBlock25(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock26(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.75465, 0, 0, 0), vec4(0, 2.75465, 0, 0), vec4(0, 0, 2.75465, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock25(xyz);
+}
+
+float multimatrixBlock27(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.898941, 0.438069, 0, 0), vec4(-0.438069, 0.898941, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock26(xyz);
+}
+
+float linearExtrudeBlock28(in vec3 xyz) {
+	xyz.z /= float(16.6667);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float((-51.9615))*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(1),float(1),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock27(xyz);
+}
+
+float multimatrixBlock29(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 16.6667), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock28(xyz);
+}
+
+float groupBlock30(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock31(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.75465, 0, 0, 0), vec4(0, 2.75465, 0, 0), vec4(0, 0, 2.75465, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock30(xyz);
+}
+
+float multimatrixBlock32(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.898941, -0.438069, 0, 0), vec4(0.438069, 0.898941, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock31(xyz);
+}
+
+float linearExtrudeBlock33(in vec3 xyz) {
+	xyz.z /= float(16.6667);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float(25.9808)*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(0.372483),float(0.372483),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock32(xyz);
+}
+
+float multimatrixBlock34(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 33.3333), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock33(xyz);
+}
+
+float groupBlock35(in vec3 xyz) {
+	return multimatrixBlock24(xyz) + multimatrixBlock29(xyz) + multimatrixBlock34(xyz);
+}
+
+float union36(in vec3 xyz) {
+	return clamp(groupBlock35(xyz), 0.0, 1.0);
+}
+
+float groupBlock37(in vec3 xyz) {
+	return union36(xyz);
+}
+
+float multimatrixBlock38(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, -50), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock37(xyz);
+}
+
+float groupBlock39(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock40(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1.02606, 0, 0, 0), vec4(0, 1.02606, 0, 0), vec4(0, 0, 1.02606, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock39(xyz);
+}
+
+float multimatrixBlock41(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock40(xyz);
+}
+
+float linearExtrudeBlock42(in vec3 xyz) {
+	xyz.z /= float(16.6667);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float(25.9808)*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(2.68468),float(2.68468),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock41(xyz);
+}
+
+float multimatrixBlock43(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock42(xyz);
+}
+
+float groupBlock44(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock45(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.75465, 0, 0, 0), vec4(0, 2.75465, 0, 0), vec4(0, 0, 2.75465, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock44(xyz);
+}
+
+float multimatrixBlock46(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.898941, 0.438069, 0, 0), vec4(-0.438069, 0.898941, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock45(xyz);
+}
+
+float linearExtrudeBlock47(in vec3 xyz) {
+	xyz.z /= float(16.6667);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float((-51.9615))*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(1),float(1),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock46(xyz);
+}
+
+float multimatrixBlock48(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 16.6667), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock47(xyz);
+}
+
+float groupBlock49(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock50(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.75465, 0, 0, 0), vec4(0, 2.75465, 0, 0), vec4(0, 0, 2.75465, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock49(xyz);
+}
+
+float multimatrixBlock51(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.898941, -0.438069, 0, 0), vec4(0.438069, 0.898941, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock50(xyz);
+}
+
+float linearExtrudeBlock52(in vec3 xyz) {
+	xyz.z /= float(16.6667);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float(25.9808)*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(0.372483),float(0.372483),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock51(xyz);
+}
+
+float multimatrixBlock53(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 33.3333), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock52(xyz);
+}
+
+float groupBlock54(in vec3 xyz) {
+	return multimatrixBlock43(xyz) + multimatrixBlock48(xyz) + multimatrixBlock53(xyz);
+}
+
+float union55(in vec3 xyz) {
+	return clamp(groupBlock54(xyz), 0.0, 1.0);
+}
+
+float groupBlock56(in vec3 xyz) {
+	return union55(xyz);
+}
+
+float multimatrixBlock57(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.22045e-16, -1, 0, 0), vec4(1, 2.22045e-16, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock56(xyz);
+}
+
+float multimatrixBlock58(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, -60), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock57(xyz);
+}
+
+float groupBlock59(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock60(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1.02606, 0, 0, 0), vec4(0, 1.02606, 0, 0), vec4(0, 0, 1.02606, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock59(xyz);
+}
+
+float multimatrixBlock61(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock60(xyz);
+}
+
+float linearExtrudeBlock62(in vec3 xyz) {
+	xyz.z /= float(16.6667);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float(25.9808)*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(2.68468),float(2.68468),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock61(xyz);
+}
+
+float multimatrixBlock63(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock62(xyz);
+}
+
+float groupBlock64(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock65(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.75465, 0, 0, 0), vec4(0, 2.75465, 0, 0), vec4(0, 0, 2.75465, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock64(xyz);
+}
+
+float multimatrixBlock66(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.898941, 0.438069, 0, 0), vec4(-0.438069, 0.898941, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock65(xyz);
+}
+
+float linearExtrudeBlock67(in vec3 xyz) {
+	xyz.z /= float(16.6667);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float((-51.9615))*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(1),float(1),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock66(xyz);
+}
+
+float multimatrixBlock68(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 16.6667), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock67(xyz);
+}
+
+float groupBlock69(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock70(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.75465, 0, 0, 0), vec4(0, 2.75465, 0, 0), vec4(0, 0, 2.75465, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock69(xyz);
+}
+
+float multimatrixBlock71(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.898941, -0.438069, 0, 0), vec4(0.438069, 0.898941, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock70(xyz);
+}
+
+float linearExtrudeBlock72(in vec3 xyz) {
+	xyz.z /= float(16.6667);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float(25.9808)*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(0.372483),float(0.372483),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock71(xyz);
+}
+
+float multimatrixBlock73(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 33.3333), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock72(xyz);
+}
+
+float groupBlock74(in vec3 xyz) {
+	return multimatrixBlock63(xyz) + multimatrixBlock68(xyz) + multimatrixBlock73(xyz);
+}
+
+float union75(in vec3 xyz) {
+	return clamp(groupBlock74(xyz), 0.0, 1.0);
+}
+
+float groupBlock76(in vec3 xyz) {
+	return union75(xyz);
+}
+
+float groupBlock77(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock78(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1.02606, 0, 0, 0), vec4(0, 1.02606, 0, 0), vec4(0, 0, 1.02606, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock77(xyz);
+}
+
+float multimatrixBlock79(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock78(xyz);
+}
+
+float linearExtrudeBlock80(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float(9.27051)*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(1.32738),float(1.32738),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock79(xyz);
+}
+
+float multimatrixBlock81(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock80(xyz);
+}
+
+float groupBlock82(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock83(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1.36197, 0, 0, 0), vec4(0, 1.36197, 0, 0), vec4(0, 0, 1.36197, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock82(xyz);
+}
+
+float multimatrixBlock84(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.986939, 0.161096, 0, 0), vec4(-0.161096, 0.986939, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock83(xyz);
+}
+
+float linearExtrudeBlock85(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float(8.36305)*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(1.23173),float(1.23173),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock84(xyz);
+}
+
+float multimatrixBlock86(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 2.5), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock85(xyz);
+}
+
+float groupBlock87(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock88(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1.67758, 0, 0, 0), vec4(0, 1.67758, 0, 0), vec4(0, 0, 1.67758, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock87(xyz);
+}
+
+float multimatrixBlock89(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.953013, 0.302928, 0, 0), vec4(-0.302928, 0.953013, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock88(xyz);
+}
+
+float linearExtrudeBlock90(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float(6.63695)*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(1.17322),float(1.17322),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock89(xyz);
+}
+
+float multimatrixBlock91(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 5), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock90(xyz);
+}
+
+float groupBlock92(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock93(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1.96818, 0, 0, 0), vec4(0, 1.96818, 0, 0), vec4(0, 0, 1.96818, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock92(xyz);
+}
+
+float multimatrixBlock94(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.911615, 0.411045, 0, 0), vec4(-0.411045, 0.911615, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock93(xyz);
+}
+
+float linearExtrudeBlock95(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float(4.26119)*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(1.13274),float(1.13274),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock94(xyz);
+}
+
+float multimatrixBlock96(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 7.5), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock95(xyz);
+}
+
+float groupBlock97(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock98(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.22943, 0, 0, 0), vec4(0, 2.22943, 0, 0), vec4(0, 0, 2.22943, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock97(xyz);
+}
+
+float multimatrixBlock99(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.878553, 0.477645, 0, 0), vec4(-0.477645, 0.878553, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock98(xyz);
+}
+
+float linearExtrudeBlock100(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float(1.4683)*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(1.10228),float(1.10228),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock99(xyz);
+}
+
+float multimatrixBlock101(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 10), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock100(xyz);
+}
+
+float groupBlock102(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock103(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.45746, 0, 0, 0), vec4(0, 2.45746, 0, 0), vec4(0, 0, 2.45746, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock102(xyz);
+}
+
+float multimatrixBlock104(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.866025, 0.5, 0, 0), vec4(-0.5, 0.866025, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock103(xyz);
+}
+
+float linearExtrudeBlock105(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float((-1.4683))*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(1.07788),float(1.07788),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock104(xyz);
+}
+
+float multimatrixBlock106(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 12.5), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock105(xyz);
+}
+
+float groupBlock107(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock108(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.64884, 0, 0, 0), vec4(0, 2.64884, 0, 0), vec4(0, 0, 2.64884, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock107(xyz);
+}
+
+float multimatrixBlock109(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.878553, 0.477645, 0, 0), vec4(-0.477645, 0.878553, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock108(xyz);
+}
+
+float linearExtrudeBlock110(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float((-4.26119))*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(1.05735),float(1.05735),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock109(xyz);
+}
+
+float multimatrixBlock111(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 15), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock110(xyz);
+}
+
+float groupBlock112(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock113(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.80074, 0, 0, 0), vec4(0, 2.80074, 0, 0), vec4(0, 0, 2.80074, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock112(xyz);
+}
+
+float multimatrixBlock114(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.911615, 0.411045, 0, 0), vec4(-0.411045, 0.911615, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock113(xyz);
+}
+
+float linearExtrudeBlock115(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float((-6.63695))*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(1.03933),float(1.03933),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock114(xyz);
+}
+
+float multimatrixBlock116(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 17.5), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock115(xyz);
+}
+
+float groupBlock117(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock118(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.91089, 0, 0, 0), vec4(0, 2.91089, 0, 0), vec4(0, 0, 2.91089, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock117(xyz);
+}
+
+float multimatrixBlock119(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.953013, 0.302928, 0, 0), vec4(-0.302928, 0.953013, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock118(xyz);
+}
+
+float linearExtrudeBlock120(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float((-8.36305))*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(1.02293),float(1.02293),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock119(xyz);
+}
+
+float multimatrixBlock121(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 20), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock120(xyz);
+}
+
+float groupBlock122(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock123(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.97764, 0, 0, 0), vec4(0, 2.97764, 0, 0), vec4(0, 0, 2.97764, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock122(xyz);
+}
+
+float multimatrixBlock124(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.986939, 0.161096, 0, 0), vec4(-0.161096, 0.986939, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock123(xyz);
+}
+
+float linearExtrudeBlock125(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float((-9.27051))*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(1.00751),float(1.00751),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock124(xyz);
+}
+
+float multimatrixBlock126(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 22.5), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock125(xyz);
+}
+
+float groupBlock127(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock128(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(3, 0, 0, 0), vec4(0, 3, 0, 0), vec4(0, 0, 3, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock127(xyz);
+}
+
+float multimatrixBlock129(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock128(xyz);
+}
+
+float linearExtrudeBlock130(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float((-9.27051))*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(0.992546),float(0.992546),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock129(xyz);
+}
+
+float multimatrixBlock131(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 25), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock130(xyz);
+}
+
+float groupBlock132(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock133(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.97764, 0, 0, 0), vec4(0, 2.97764, 0, 0), vec4(0, 0, 2.97764, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock132(xyz);
+}
+
+float multimatrixBlock134(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.986939, -0.161096, 0, 0), vec4(0.161096, 0.986939, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock133(xyz);
+}
+
+float linearExtrudeBlock135(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float((-8.36305))*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(0.977582),float(0.977582),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock134(xyz);
+}
+
+float multimatrixBlock136(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 27.5), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock135(xyz);
+}
+
+float groupBlock137(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock138(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.91089, 0, 0, 0), vec4(0, 2.91089, 0, 0), vec4(0, 0, 2.91089, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock137(xyz);
+}
+
+float multimatrixBlock139(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.953013, -0.302928, 0, 0), vec4(0.302928, 0.953013, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock138(xyz);
+}
+
+float linearExtrudeBlock140(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float((-6.63695))*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(0.962161),float(0.962161),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock139(xyz);
+}
+
+float multimatrixBlock141(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 30), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock140(xyz);
+}
+
+float groupBlock142(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock143(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.80074, 0, 0, 0), vec4(0, 2.80074, 0, 0), vec4(0, 0, 2.80074, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock142(xyz);
+}
+
+float multimatrixBlock144(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.911615, -0.411045, 0, 0), vec4(0.411045, 0.911615, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock143(xyz);
+}
+
+float linearExtrudeBlock145(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float((-4.26119))*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(0.945765),float(0.945765),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock144(xyz);
+}
+
+float multimatrixBlock146(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 32.5), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock145(xyz);
+}
+
+float groupBlock147(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock148(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.64884, 0, 0, 0), vec4(0, 2.64884, 0, 0), vec4(0, 0, 2.64884, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock147(xyz);
+}
+
+float multimatrixBlock149(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.878553, -0.477645, 0, 0), vec4(0.477645, 0.878553, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock148(xyz);
+}
+
+float linearExtrudeBlock150(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float((-1.4683))*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(0.927747),float(0.927747),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock149(xyz);
+}
+
+float multimatrixBlock151(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 35), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock150(xyz);
+}
+
+float groupBlock152(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock153(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.45746, 0, 0, 0), vec4(0, 2.45746, 0, 0), vec4(0, 0, 2.45746, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock152(xyz);
+}
+
+float multimatrixBlock154(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.866025, -0.5, 0, 0), vec4(0.5, 0.866025, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock153(xyz);
+}
+
+float linearExtrudeBlock155(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float(1.4683)*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(0.907212),float(0.907212),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock154(xyz);
+}
+
+float multimatrixBlock156(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 37.5), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock155(xyz);
+}
+
+float groupBlock157(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock158(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.22943, 0, 0, 0), vec4(0, 2.22943, 0, 0), vec4(0, 0, 2.22943, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock157(xyz);
+}
+
+float multimatrixBlock159(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.878553, -0.477645, 0, 0), vec4(0.477645, 0.878553, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock158(xyz);
+}
+
+float linearExtrudeBlock160(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float(4.26119)*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(0.882815),float(0.882815),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock159(xyz);
+}
+
+float multimatrixBlock161(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 40), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock160(xyz);
+}
+
+float groupBlock162(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock163(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1.96818, 0, 0, 0), vec4(0, 1.96818, 0, 0), vec4(0, 0, 1.96818, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock162(xyz);
+}
+
+float multimatrixBlock164(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.911615, -0.411045, 0, 0), vec4(0.411045, 0.911615, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock163(xyz);
+}
+
+float linearExtrudeBlock165(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float(6.63695)*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(0.852352),float(0.852352),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock164(xyz);
+}
+
+float multimatrixBlock166(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 42.5), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock165(xyz);
+}
+
+float groupBlock167(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock168(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1.67758, 0, 0, 0), vec4(0, 1.67758, 0, 0), vec4(0, 0, 1.67758, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock167(xyz);
+}
+
+float multimatrixBlock169(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.953013, -0.302928, 0, 0), vec4(0.302928, 0.953013, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock168(xyz);
+}
+
+float linearExtrudeBlock170(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float(8.36305)*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(0.811867),float(0.811867),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock169(xyz);
+}
+
+float multimatrixBlock171(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 45), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock170(xyz);
+}
+
+float groupBlock172(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock173(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1.36197, 0, 0, 0), vec4(0, 1.36197, 0, 0), vec4(0, 0, 1.36197, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock172(xyz);
+}
+
+float multimatrixBlock174(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.986939, -0.161096, 0, 0), vec4(0.161096, 0.986939, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock173(xyz);
+}
+
+float linearExtrudeBlock175(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float(9.27051)*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(0.753364),float(0.753364),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock174(xyz);
+}
+
+float multimatrixBlock176(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 47.5), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock175(xyz);
+}
+
+float groupBlock177(in vec3 xyz) {
+	return multimatrixBlock81(xyz) + multimatrixBlock86(xyz) + multimatrixBlock91(xyz) + multimatrixBlock96(xyz) + multimatrixBlock101(xyz) + multimatrixBlock106(xyz) + multimatrixBlock111(xyz) + multimatrixBlock116(xyz) + multimatrixBlock121(xyz) + multimatrixBlock126(xyz) + multimatrixBlock131(xyz) + multimatrixBlock136(xyz) + multimatrixBlock141(xyz) + multimatrixBlock146(xyz) + multimatrixBlock151(xyz) + multimatrixBlock156(xyz) + multimatrixBlock161(xyz) + multimatrixBlock166(xyz) + multimatrixBlock171(xyz) + multimatrixBlock176(xyz);
+}
+
+float union178(in vec3 xyz) {
+	return clamp(groupBlock177(xyz), 0.0, 1.0);
+}
+
+float groupBlock179(in vec3 xyz) {
+	return union178(xyz);
+}
+
+float multimatrixBlock180(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.22045e-16, -1, 0, 0), vec4(1, 2.22045e-16, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock179(xyz);
+}
+
+float multimatrixBlock181(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 50), vec4(0, 0, 1, -60), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock180(xyz);
+}
+
+float groupBlock182(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock183(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1.02606, 0, 0, 0), vec4(0, 1.02606, 0, 0), vec4(0, 0, 1.02606, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock182(xyz);
+}
+
+float multimatrixBlock184(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock183(xyz);
+}
+
+float linearExtrudeBlock185(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float(9.27051)*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(1.32738),float(1.32738),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock184(xyz);
+}
+
+float multimatrixBlock186(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock185(xyz);
+}
+
+float groupBlock187(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock188(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1.36197, 0, 0, 0), vec4(0, 1.36197, 0, 0), vec4(0, 0, 1.36197, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock187(xyz);
+}
+
+float multimatrixBlock189(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.986939, 0.161096, 0, 0), vec4(-0.161096, 0.986939, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock188(xyz);
+}
+
+float linearExtrudeBlock190(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float(8.36305)*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(1.23173),float(1.23173),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock189(xyz);
+}
+
+float multimatrixBlock191(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 2.5), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock190(xyz);
+}
+
+float groupBlock192(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock193(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1.67758, 0, 0, 0), vec4(0, 1.67758, 0, 0), vec4(0, 0, 1.67758, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock192(xyz);
+}
+
+float multimatrixBlock194(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.953013, 0.302928, 0, 0), vec4(-0.302928, 0.953013, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock193(xyz);
+}
+
+float linearExtrudeBlock195(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float(6.63695)*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(1.17322),float(1.17322),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock194(xyz);
+}
+
+float multimatrixBlock196(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 5), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock195(xyz);
+}
+
+float groupBlock197(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock198(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1.96818, 0, 0, 0), vec4(0, 1.96818, 0, 0), vec4(0, 0, 1.96818, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock197(xyz);
+}
+
+float multimatrixBlock199(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.911615, 0.411045, 0, 0), vec4(-0.411045, 0.911615, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock198(xyz);
+}
+
+float linearExtrudeBlock200(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float(4.26119)*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(1.13274),float(1.13274),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock199(xyz);
+}
+
+float multimatrixBlock201(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 7.5), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock200(xyz);
+}
+
+float groupBlock202(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock203(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.22943, 0, 0, 0), vec4(0, 2.22943, 0, 0), vec4(0, 0, 2.22943, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock202(xyz);
+}
+
+float multimatrixBlock204(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.878553, 0.477645, 0, 0), vec4(-0.477645, 0.878553, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock203(xyz);
+}
+
+float linearExtrudeBlock205(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float(1.4683)*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(1.10228),float(1.10228),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock204(xyz);
+}
+
+float multimatrixBlock206(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 10), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock205(xyz);
+}
+
+float groupBlock207(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock208(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.45746, 0, 0, 0), vec4(0, 2.45746, 0, 0), vec4(0, 0, 2.45746, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock207(xyz);
+}
+
+float multimatrixBlock209(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.866025, 0.5, 0, 0), vec4(-0.5, 0.866025, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock208(xyz);
+}
+
+float linearExtrudeBlock210(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float((-1.4683))*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(1.07788),float(1.07788),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock209(xyz);
+}
+
+float multimatrixBlock211(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 12.5), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock210(xyz);
+}
+
+float groupBlock212(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock213(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.64884, 0, 0, 0), vec4(0, 2.64884, 0, 0), vec4(0, 0, 2.64884, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock212(xyz);
+}
+
+float multimatrixBlock214(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.878553, 0.477645, 0, 0), vec4(-0.477645, 0.878553, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock213(xyz);
+}
+
+float linearExtrudeBlock215(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float((-4.26119))*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(1.05735),float(1.05735),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock214(xyz);
+}
+
+float multimatrixBlock216(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 15), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock215(xyz);
+}
+
+float groupBlock217(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock218(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.80074, 0, 0, 0), vec4(0, 2.80074, 0, 0), vec4(0, 0, 2.80074, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock217(xyz);
+}
+
+float multimatrixBlock219(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.911615, 0.411045, 0, 0), vec4(-0.411045, 0.911615, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock218(xyz);
+}
+
+float linearExtrudeBlock220(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float((-6.63695))*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(1.03933),float(1.03933),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock219(xyz);
+}
+
+float multimatrixBlock221(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 17.5), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock220(xyz);
+}
+
+float groupBlock222(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock223(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.91089, 0, 0, 0), vec4(0, 2.91089, 0, 0), vec4(0, 0, 2.91089, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock222(xyz);
+}
+
+float multimatrixBlock224(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.953013, 0.302928, 0, 0), vec4(-0.302928, 0.953013, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock223(xyz);
+}
+
+float linearExtrudeBlock225(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float((-8.36305))*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(1.02293),float(1.02293),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock224(xyz);
+}
+
+float multimatrixBlock226(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 20), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock225(xyz);
+}
+
+float groupBlock227(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock228(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.97764, 0, 0, 0), vec4(0, 2.97764, 0, 0), vec4(0, 0, 2.97764, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock227(xyz);
+}
+
+float multimatrixBlock229(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.986939, 0.161096, 0, 0), vec4(-0.161096, 0.986939, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock228(xyz);
+}
+
+float linearExtrudeBlock230(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float((-9.27051))*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(1.00751),float(1.00751),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock229(xyz);
+}
+
+float multimatrixBlock231(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 22.5), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock230(xyz);
+}
+
+float groupBlock232(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock233(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(3, 0, 0, 0), vec4(0, 3, 0, 0), vec4(0, 0, 3, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock232(xyz);
+}
+
+float multimatrixBlock234(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock233(xyz);
+}
+
+float linearExtrudeBlock235(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float((-9.27051))*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(0.992546),float(0.992546),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock234(xyz);
+}
+
+float multimatrixBlock236(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 25), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock235(xyz);
+}
+
+float groupBlock237(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock238(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.97764, 0, 0, 0), vec4(0, 2.97764, 0, 0), vec4(0, 0, 2.97764, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock237(xyz);
+}
+
+float multimatrixBlock239(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.986939, -0.161096, 0, 0), vec4(0.161096, 0.986939, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock238(xyz);
+}
+
+float linearExtrudeBlock240(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float((-8.36305))*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(0.977582),float(0.977582),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock239(xyz);
+}
+
+float multimatrixBlock241(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 27.5), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock240(xyz);
+}
+
+float groupBlock242(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock243(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.91089, 0, 0, 0), vec4(0, 2.91089, 0, 0), vec4(0, 0, 2.91089, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock242(xyz);
+}
+
+float multimatrixBlock244(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.953013, -0.302928, 0, 0), vec4(0.302928, 0.953013, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock243(xyz);
+}
+
+float linearExtrudeBlock245(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float((-6.63695))*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(0.962161),float(0.962161),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock244(xyz);
+}
+
+float multimatrixBlock246(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 30), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock245(xyz);
+}
+
+float groupBlock247(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock248(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.80074, 0, 0, 0), vec4(0, 2.80074, 0, 0), vec4(0, 0, 2.80074, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock247(xyz);
+}
+
+float multimatrixBlock249(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.911615, -0.411045, 0, 0), vec4(0.411045, 0.911615, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock248(xyz);
+}
+
+float linearExtrudeBlock250(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float((-4.26119))*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(0.945765),float(0.945765),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock249(xyz);
+}
+
+float multimatrixBlock251(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 32.5), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock250(xyz);
+}
+
+float groupBlock252(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock253(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.64884, 0, 0, 0), vec4(0, 2.64884, 0, 0), vec4(0, 0, 2.64884, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock252(xyz);
+}
+
+float multimatrixBlock254(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.878553, -0.477645, 0, 0), vec4(0.477645, 0.878553, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock253(xyz);
+}
+
+float linearExtrudeBlock255(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float((-1.4683))*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(0.927747),float(0.927747),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock254(xyz);
+}
+
+float multimatrixBlock256(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 35), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock255(xyz);
+}
+
+float groupBlock257(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock258(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.45746, 0, 0, 0), vec4(0, 2.45746, 0, 0), vec4(0, 0, 2.45746, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock257(xyz);
+}
+
+float multimatrixBlock259(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.866025, -0.5, 0, 0), vec4(0.5, 0.866025, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock258(xyz);
+}
+
+float linearExtrudeBlock260(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float(1.4683)*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(0.907212),float(0.907212),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock259(xyz);
+}
+
+float multimatrixBlock261(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 37.5), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock260(xyz);
+}
+
+float groupBlock262(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock263(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(2.22943, 0, 0, 0), vec4(0, 2.22943, 0, 0), vec4(0, 0, 2.22943, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock262(xyz);
+}
+
+float multimatrixBlock264(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.878553, -0.477645, 0, 0), vec4(0.477645, 0.878553, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock263(xyz);
+}
+
+float linearExtrudeBlock265(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float(4.26119)*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(0.882815),float(0.882815),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock264(xyz);
+}
+
+float multimatrixBlock266(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 40), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock265(xyz);
+}
+
+float groupBlock267(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock268(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1.96818, 0, 0, 0), vec4(0, 1.96818, 0, 0), vec4(0, 0, 1.96818, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock267(xyz);
+}
+
+float multimatrixBlock269(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.911615, -0.411045, 0, 0), vec4(0.411045, 0.911615, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock268(xyz);
+}
+
+float linearExtrudeBlock270(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float(6.63695)*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(0.852352),float(0.852352),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock269(xyz);
+}
+
+float multimatrixBlock271(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 42.5), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock270(xyz);
+}
+
+float groupBlock272(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock273(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1.67758, 0, 0, 0), vec4(0, 1.67758, 0, 0), vec4(0, 0, 1.67758, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock272(xyz);
+}
+
+float multimatrixBlock274(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.953013, -0.302928, 0, 0), vec4(0.302928, 0.953013, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock273(xyz);
+}
+
+float linearExtrudeBlock275(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float(8.36305)*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(0.811867),float(0.811867),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock274(xyz);
+}
+
+float multimatrixBlock276(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 45), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock275(xyz);
+}
+
+float groupBlock277(in vec3 xyz) {
+	return square(vec2(12, 9), false, xyz);
+}
+
+float multimatrixBlock278(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1.36197, 0, 0, 0), vec4(0, 1.36197, 0, 0), vec4(0, 0, 1.36197, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock277(xyz);
+}
+
+float multimatrixBlock279(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(0.986939, -0.161096, 0, 0), vec4(0.161096, 0.986939, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return multimatrixBlock278(xyz);
+}
+
+float linearExtrudeBlock280(in vec3 xyz) {
+	xyz.z /= float(2.5);
+	float z = xyz.z;
+	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float angle = mix(0.0, float(9.27051)*3.1415926535897932384626433832795/180.0, z);
+	float s = mix(float(0.753364),float(0.753364),z);
+	xyz.xy /= s;
+	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
+	return multimatrixBlock279(xyz);
+}
+
+float multimatrixBlock281(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 47.5), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return linearExtrudeBlock280(xyz);
+}
+
+float groupBlock282(in vec3 xyz) {
+	return multimatrixBlock186(xyz) + multimatrixBlock191(xyz) + multimatrixBlock196(xyz) + multimatrixBlock201(xyz) + multimatrixBlock206(xyz) + multimatrixBlock211(xyz) + multimatrixBlock216(xyz) + multimatrixBlock221(xyz) + multimatrixBlock226(xyz) + multimatrixBlock231(xyz) + multimatrixBlock236(xyz) + multimatrixBlock241(xyz) + multimatrixBlock246(xyz) + multimatrixBlock251(xyz) + multimatrixBlock256(xyz) + multimatrixBlock261(xyz) + multimatrixBlock266(xyz) + multimatrixBlock271(xyz) + multimatrixBlock276(xyz) + multimatrixBlock281(xyz);
+}
+
+float union283(in vec3 xyz) {
+	return clamp(groupBlock282(xyz), 0.0, 1.0);
+}
+
+float groupBlock284(in vec3 xyz) {
+	return union283(xyz);
+}
+
+float multimatrixBlock285(in vec3 xyz) {
+	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 50), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return groupBlock284(xyz);
+}
+
+float groupBlock286(in vec3 xyz) {
+	return multimatrixBlock19(xyz) + multimatrixBlock38(xyz) + multimatrixBlock58(xyz) + groupBlock76(xyz) + multimatrixBlock181(xyz) + multimatrixBlock285(xyz);
+}
+
+void mainModel4(out vec4 materials, in vec3 xyz) {
+	xyz += vec3(2.2159857383100032, 20.612751456060003, -6.25);
+	materials[0] = groupBlock286(xyz);
+}
+

@@ -3,6 +3,10 @@
 04-linear-extrude-with-twist is an example taken from the OpenSCAD User Manual:
 https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Commented_Example_Projects
 
+![04-linear-extrude-with-twist](04-linear-extrude-with-twist.png)
+
+- Try loading [04-linear-extrude-with-twist.irmf](https://gmlewis.github.io/irmf-editor/?s=github.com/gmlewis/go-csg/blob/master/examples/04-linear-extrude-with-twist/04-linear-extrude-with-twist.irmf) now in the experimental IRMF editor!
+
 ---
 
 # License

@@ -3,6 +3,10 @@
 05-linear-extrude-with-twist-and-scale is an example taken from the OpenSCAD User Manual:
 https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Commented_Example_Projects
 
+![05-linear-extrude-with-twist-and-scale](05-linear-extrude-with-twist-and-scale.png)
+
+- Try loading [05-linear-extrude-with-twist-and-scale.irmf](https://gmlewis.github.io/irmf-editor/?s=github.com/gmlewis/go-csg/blob/master/examples/05-linear-extrude-with-twist-and-scale/05-linear-extrude-with-twist-and-scale.irmf) now in the experimental IRMF editor!
+
 ---
 
 # License

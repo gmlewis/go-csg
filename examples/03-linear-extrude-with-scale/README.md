@@ -3,6 +3,10 @@
 03-linear-extrude-with-scale is an example taken from the OpenSCAD User Manual:
 https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Commented_Example_Projects
 
+![03-linear-extrude-with-scale](03-linear-extrude-with-scale.png)
+
+- Try loading [03-linear-extrude-with-scale.irmf](https://gmlewis.github.io/irmf-editor/?s=github.com/gmlewis/go-csg/blob/master/examples/03-linear-extrude-with-scale/03-linear-extrude-with-scale.irmf) now in the experimental IRMF editor!
+
 ---
 
 # License
