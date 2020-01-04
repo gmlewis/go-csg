@@ -17,7 +17,7 @@ func (s *Shader) getArgs(exps []ast.Expression, names ...string) []string {
 		switch exp := exp.(type) {
 		case *ast.NamedArgument:
 			values[exp.Name.String()] = exp.Value.String()
-		case *ast.StringLiteral, *ast.IntegerLiteral, *ast.FloatLiteral, *ast.BooleanLiteral:
+		case *ast.StringLiteral, *ast.IntegerLiteral, *ast.FloatLiteral, *ast.BooleanLiteral, *ast.ArrayLiteral:
 			result[count] = exp.String()
 			count++
 		default:
@@ -63,6 +63,33 @@ func parseVec3(s string) ([]float64, error) {
 	}
 
 	return []float64{x, y, z}, nil
+}
+
+func parseVec2(s string) ([]float64, error) {
+	if !strings.Contains(s, ",") {
+		v, err := strconv.ParseFloat(s, 64)
+		if err != nil {
+			return nil, fmt.Errorf("error parsing %q", s)
+		}
+		return []float64{v, v, v}, nil
+	}
+
+	parts := strings.Split(s, ",")
+	if len(parts) != 2 {
+		return nil, fmt.Errorf("error parsing %q", s)
+	}
+
+	x, err := strconv.ParseFloat(strings.TrimSpace(parts[0]), 64)
+	if err != nil {
+		return nil, fmt.Errorf("error parsing x: %q: %v", s, err)
+	}
+
+	y, err := strconv.ParseFloat(strings.TrimSpace(parts[1]), 64)
+	if err != nil {
+		return nil, fmt.Errorf("error parsing y: %q: %v", s, err)
+	}
+
+	return []float64{x, y}, nil
 }
 
 func (s *Shader) processCubePrimitive(exps []ast.Expression) (string, *MBB) {
@@ -189,6 +216,35 @@ func (s *Shader) processCylinderPrimitive(exps []ast.Expression) (string, *MBB) 
 	return fmt.Sprintf("cylinder(float(%v), float(%v), float(%v), %v, xyz)", h, r1, r2, center), mbb
 }
 
+func (s *Shader) processSquarePrimitive(exps []ast.Expression) (string, *MBB) {
+	s.Primitives["square"] = true
+	args := s.getArgs(exps, "size", "center")
+
+	size := strings.Trim(args[0], "[]")
+	if size == "" {
+		size = "1"
+	}
+
+	vec2, err := parseVec2(size)
+	if err != nil {
+		log.Printf("error parsing square size=%q, setting to 1", size)
+		size = "1"
+		vec2 = []float64{1, 1}
+	}
+
+	var mbb *MBB
+
+	center := args[1]
+	if center == "true" {
+		mbb = &MBB{XMin: -0.5 * vec2[0], YMin: -0.5 * vec2[1], XMax: 0.5 * vec2[0], YMax: 0.5 * vec2[1]}
+	} else {
+		center = "false"
+		mbb = &MBB{XMax: vec2[0], YMax: vec2[1]}
+	}
+
+	return fmt.Sprintf("square(vec2(%v), %v, xyz)", size, center), mbb
+}
+
 var primitives = map[string]string{
 	"circle": `float circle(in float radius, in vec3 xyz) {
 	float r = length(xy);
@@ -233,9 +289,9 @@ var primitives = map[string]string{
 }
 `,
 
-	"square": `float square(in vec3 size, in bool center, in vec3 xyz) {
-	xyz /= size;
-	if (!center) { xyz -= vec3(0.5); }
+	"square": `float square(in vec2 size, in bool center, in vec3 xyz) {
+	xyz.xy /= size;
+	if (!center) { xyz.xy -= vec2(0.5); }
 	if (any(greaterThan(abs(xyz.xy), vec2(0.5)))) { return 0.0; }
 	return 1.0;
 }

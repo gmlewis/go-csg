@@ -293,9 +293,7 @@ func (s *Shader) processExpression(exp ast.Expression) (string, *MBB) {
 	case *ast.SpherePrimitive:
 		return s.processSpherePrimitive(node.Arguments)
 	case *ast.SquarePrimitive:
-		s.Primitives["square"] = true
-		// TODO: make a new function to call this primitive.
-		return "square(TODO)", nil
+		return s.processSquarePrimitive(node.Arguments)
 	case *ast.UnionBlockPrimitive:
 		if node.Body != nil {
 			// TODO: make a new function to call these statements after wrapping in a union.

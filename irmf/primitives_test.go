@@ -267,3 +267,81 @@ func TestProcessCylinderPrimitive(t *testing.T) {
 		})
 	}
 }
+
+func TestProcessSquarePrimitive(t *testing.T) {
+	tests := []struct {
+		src  string
+		want []string
+		mbb  *MBB
+	}{
+		{
+			src:  "square();",
+			want: []string{fmt.Sprintf(mainBodyFmt, "square(vec2(1), false, xyz)")},
+			mbb:  &MBB{XMax: 1, YMax: 1},
+		},
+		{
+			src:  "square([20,10],true);",
+			want: []string{fmt.Sprintf(mainBodyFmt, "square(vec2(20, 10), true, xyz)")},
+			mbb:  &MBB{XMin: -10, YMin: -5, XMax: 10, YMax: 5},
+		},
+		{
+			src:  "square(size = 10);",
+			want: []string{fmt.Sprintf(mainBodyFmt, "square(vec2(10), false, xyz)")},
+			mbb:  &MBB{XMax: 10, YMax: 10},
+		},
+		{
+			src:  "square(10);",
+			want: []string{fmt.Sprintf(mainBodyFmt, "square(vec2(10), false, xyz)")},
+			mbb:  &MBB{XMax: 10, YMax: 10},
+		},
+		{
+			src:  "square([10,10]);",
+			want: []string{fmt.Sprintf(mainBodyFmt, "square(vec2(10, 10), false, xyz)")},
+			mbb:  &MBB{XMax: 10, YMax: 10},
+		},
+		{
+			src:  "square(10,false);",
+			want: []string{fmt.Sprintf(mainBodyFmt, "square(vec2(10), false, xyz)")},
+			mbb:  &MBB{XMax: 10, YMax: 10},
+		},
+		{
+			src:  "square([10,10],false);",
+			want: []string{fmt.Sprintf(mainBodyFmt, "square(vec2(10, 10), false, xyz)")},
+			mbb:  &MBB{XMax: 10, YMax: 10},
+		},
+		{
+			src:  "square([10,10],center=false);",
+			want: []string{fmt.Sprintf(mainBodyFmt, "square(vec2(10, 10), false, xyz)")},
+			mbb:  &MBB{XMax: 10, YMax: 10},
+		},
+		{
+			src:  "square(size = [10, 10], center = false);",
+			want: []string{fmt.Sprintf(mainBodyFmt, "square(vec2(10, 10), false, xyz)")},
+			mbb:  &MBB{XMax: 10, YMax: 10},
+		},
+		{
+			src:  "square(center = false,size = [10, 10] );",
+			want: []string{fmt.Sprintf(mainBodyFmt, "square(vec2(10, 10), false, xyz)")},
+			mbb:  &MBB{XMax: 10, YMax: 10},
+		},
+	}
+
+	for i, tt := range tests {
+		t.Run(fmt.Sprintf("test #%v", i), func(t *testing.T) {
+			le := lexer.New(tt.src)
+			p := parser.New(le)
+			program := p.ParseProgram()
+			if errs := p.Errors(); len(errs) != 0 {
+				t.Fatalf("ParseProgram: %v", strings.Join(errs, "\n"))
+			}
+
+			shader := New(program)
+			if !reflect.DeepEqual(shader.Functions, tt.want) {
+				t.Errorf("functions = %+v, want %+v", shader.Functions, tt.want)
+			}
+			if !reflect.DeepEqual(shader.MBB, tt.mbb) {
+				t.Errorf("mbb = %+v, want %+v", shader.MBB, tt.mbb)
+			}
+		})
+	}
+}
