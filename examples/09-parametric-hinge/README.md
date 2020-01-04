@@ -4,7 +4,9 @@
 https://www.thingiverse.com/thing:2187167/files
 that has been converted to CSG format with OpenSCAD.
 
-* Try loading [09-parametric-hinge.irmf](https://gmlewis.github.io/irmf-editor/?s=github.com/gmlewis/go-csg/blob/master/examples/09-parametric-hinge/09-parametric-hinge.irmf) now in the experimental IRMF editor!
+![09-parametric-hinge](09-parametric-hinge.png)
+
+- Try loading [09-parametric-hinge.irmf](https://gmlewis.github.io/irmf-editor/?s=github.com/gmlewis/go-csg/blob/master/examples/09-parametric-hinge/09-parametric-hinge.irmf) now in the experimental IRMF editor!
 
 ---
 

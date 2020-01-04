@@ -3,7 +3,9 @@
 01-dodecahedron is an example taken from the OpenSCAD User Manual:
 https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Commented_Example_Projects
 
-* Try loading [01-dodecahedron.irmf](https://gmlewis.github.io/irmf-editor/?s=github.com/gmlewis/go-csg/blob/master/examples/01-dodecahedron/01-dodecahedron.irmf) now in the experimental IRMF editor!
+![01-dodecahedron](01-dodecahedron.png)
+
+- Try loading [01-dodecahedron.irmf](https://gmlewis.github.io/irmf-editor/?s=github.com/gmlewis/go-csg/blob/master/examples/01-dodecahedron/01-dodecahedron.irmf) now in the experimental IRMF editor!
 
 ---
 
