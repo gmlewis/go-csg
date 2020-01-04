@@ -179,12 +179,11 @@ func (s *Shader) processCylinderPrimitive(exps []ast.Expression) (string, *MBB) 
 		radius = vec3[2]
 	}
 
-	var mbb *MBB
-	if center == "true" {
-		mbb = &MBB{XMin: -radius, YMin: -radius, ZMin: -0.5 * vec3[0], XMax: radius, YMax: radius, ZMax: 0.5 * vec3[0]}
-	} else {
+	mbb := &MBB{XMin: -radius, YMin: -radius, ZMin: -0.5 * vec3[0], XMax: radius, YMax: radius, ZMax: 0.5 * vec3[0]}
+	if center != "true" {
 		center = "false"
-		mbb = &MBB{XMax: 2.0 * radius, YMax: 2.0 * radius, ZMax: vec3[0]}
+		mbb.ZMin = 0
+		mbb.ZMax = vec3[0]
 	}
 
 	return fmt.Sprintf("cylinder(float(%v), float(%v), float(%v), %v, xyz)", h, r1, r2, center), mbb
@@ -206,8 +205,13 @@ var primitives = map[string]string{
 `,
 
 	"cylinder": `float cylinder(in float h, in float r1, in float r2, in bool center, in vec3 xyz) {
-	// TODO
-	return 1.0;
+	xyz.z /= h;
+	float z = xyz.z;
+	if (center) { z += 0.5; } else { xyz.z -= 0.5; }
+	if (abs(xyz.z) > 0.5) { return 0.0; }
+	float r = length(xyz.xy);
+	float radius = mix(r1, r2, z);
+	return r <= radius ? 1.0 : 0.0;
 }
 `,
 

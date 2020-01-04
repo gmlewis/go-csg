@@ -168,39 +168,39 @@ func TestProcessCylinderPrimitive(t *testing.T) {
 		{
 			src:  "cylinder();",
 			want: []string{fmt.Sprintf(mainBodyFmt, "cylinder(float(1), float(1), float(1), false, xyz)")},
-			mbb:  &MBB{XMax: 2, YMax: 2, ZMax: 1},
+			mbb:  &MBB{XMin: -1, XMax: 1, YMin: -1, YMax: 1, ZMin: 0, ZMax: 1},
 		},
 
 		// Equivalent:
 		{
 			src:  "cylinder(h=15, r1=9.5, r2=19.5, center=false);",
 			want: []string{fmt.Sprintf(mainBodyFmt, "cylinder(float(15), float(9.5), float(19.5), false, xyz)")},
-			mbb:  &MBB{XMin: 0, XMax: 39, YMin: 0, YMax: 39, ZMin: 0, ZMax: 15},
+			mbb:  &MBB{XMin: -19.5, XMax: 19.5, YMin: -19.5, YMax: 19.5, ZMin: 0, ZMax: 15},
 		},
 		{
 			src:  "cylinder(  15,    9.5,    19.5, false);",
 			want: []string{fmt.Sprintf(mainBodyFmt, "cylinder(float(15), float(9.5), float(19.5), false, xyz)")},
-			mbb:  &MBB{XMin: 0, XMax: 39, YMin: 0, YMax: 39, ZMin: 0, ZMax: 15},
+			mbb:  &MBB{XMin: -19.5, XMax: 19.5, YMin: -19.5, YMax: 19.5, ZMin: 0, ZMax: 15},
 		},
 		{
 			src:  "cylinder(  15,    9.5,    19.5);",
 			want: []string{fmt.Sprintf(mainBodyFmt, "cylinder(float(15), float(9.5), float(19.5), false, xyz)")},
-			mbb:  &MBB{XMin: 0, XMax: 39, YMin: 0, YMax: 39, ZMin: 0, ZMax: 15},
+			mbb:  &MBB{XMin: -19.5, XMax: 19.5, YMin: -19.5, YMax: 19.5, ZMin: 0, ZMax: 15},
 		},
 		{
 			src:  "cylinder(  15,    9.5, d2=39  );",
 			want: []string{fmt.Sprintf(mainBodyFmt, "cylinder(float(15), float(9.5), float(19.5), false, xyz)")},
-			mbb:  &MBB{XMin: 0, XMax: 39, YMin: 0, YMax: 39, ZMin: 0, ZMax: 15},
+			mbb:  &MBB{XMin: -19.5, XMax: 19.5, YMin: -19.5, YMax: 19.5, ZMin: 0, ZMax: 15},
 		},
 		{
 			src:  "cylinder(  15, d1=19,  d2=39  );",
 			want: []string{fmt.Sprintf(mainBodyFmt, "cylinder(float(15), float(9.5), float(19.5), false, xyz)")},
-			mbb:  &MBB{XMin: 0, XMax: 39, YMin: 0, YMax: 39, ZMin: 0, ZMax: 15},
+			mbb:  &MBB{XMin: -19.5, XMax: 19.5, YMin: -19.5, YMax: 19.5, ZMin: 0, ZMax: 15},
 		},
 		{
 			src:  "cylinder(  15, d1=19,  r2=19.5);",
 			want: []string{fmt.Sprintf(mainBodyFmt, "cylinder(float(15), float(9.5), float(19.5), false, xyz)")},
-			mbb:  &MBB{XMin: 0, XMax: 39, YMin: 0, YMax: 39, ZMin: 0, ZMax: 15},
+			mbb:  &MBB{XMin: -19.5, XMax: 19.5, YMin: -19.5, YMax: 19.5, ZMin: 0, ZMax: 15},
 		},
 
 		// Equivalent:
