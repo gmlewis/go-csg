@@ -23,6 +23,8 @@ func main() {
 	for _, arg := range flag.Args() {
 		process(arg)
 	}
+
+	log.Println("Done.")
 }
 
 func process(filename string) {
@@ -39,7 +41,22 @@ func process(filename string) {
 
 	shader := irmf.New(program)
 
-	fmt.Printf("%v\n", shader.String())
+	out := fmt.Sprintf(`/*{
+  irmf: "1.0",
+  materials: ["PLA"],
+  max: [%v,%v,%v],
+  min: [%v,%v,%v],
+  units: "mm",
+}*/
+
+%v
+`, shader.MBB.XMax, shader.MBB.YMax, shader.MBB.ZMax,
+		shader.MBB.XMin, shader.MBB.YMin, shader.MBB.ZMin,
+		shader.String())
+
+	outFilename := strings.Replace(filename, ".csg", ".irmf", -1)
+	log.Printf("Writing %v", outFilename)
+	check("WriteFile(%q): %v", outFilename, ioutil.WriteFile(outFilename, []byte(out), 0644))
 }
 
 func check(fmtStr string, args ...interface{}) {

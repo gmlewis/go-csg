@@ -88,21 +88,49 @@ func (s *Shader) processCubePrimitive(exps []ast.Expression) (string, *MBB) {
 
 	center := args[1]
 	if center == "true" {
-		mbb = &MBB{xmin: -0.5 * vec3[0], ymin: -0.5 * vec3[1], zmin: -0.5 * vec3[2], xmax: 0.5 * vec3[0], ymax: 0.5 * vec3[1], zmax: 0.5 * vec3[2]}
+		mbb = &MBB{XMin: -0.5 * vec3[0], YMin: -0.5 * vec3[1], ZMin: -0.5 * vec3[2], XMax: 0.5 * vec3[0], YMax: 0.5 * vec3[1], ZMax: 0.5 * vec3[2]}
 	} else {
 		center = "false"
-		mbb = &MBB{xmax: vec3[0], ymax: vec3[1], zmax: vec3[2]}
+		mbb = &MBB{XMax: vec3[0], YMax: vec3[1], ZMax: vec3[2]}
 	}
 
 	return fmt.Sprintf("cube(vec3(%v), %v, xyz)", size, center), mbb
 }
 
+func (s *Shader) processSpherePrimitive(exps []ast.Expression) (string, *MBB) {
+	s.Primitives["sphere"] = true
+	args := s.getArgs(exps, "r", "d")
+
+	radius := args[0]
+	diameter := args[1]
+	if diameter != "" && radius == "" {
+		if vec3, err := parseVec3(diameter); err == nil {
+			radius = fmt.Sprintf("%v", 0.5*vec3[0])
+		}
+	}
+	if radius == "" {
+		radius = "1"
+	}
+
+	vec3, err := parseVec3(radius)
+	if err != nil {
+		log.Printf("error parsing sphere radius=%q, setting to 1", radius)
+		radius = "1"
+		vec3 = []float64{1, 1, 1}
+	}
+
+	mbb := &MBB{XMin: -vec3[0], YMin: -vec3[1], ZMin: -vec3[2], XMax: vec3[0], YMax: vec3[1], ZMax: vec3[2]}
+
+	return fmt.Sprintf("sphere(float(%v), xyz)", radius), mbb
+}
+
 var primitives = map[string]string{
 	"circle": `float circle(in vec3 xyz) {
-		// TODO
-		return 1.0;
-	}
-	`,
+	// TODO
+	return 1.0;
+}
+`,
+
 	"cube": `float cube(in vec3 size, in bool center, in vec3 xyz) {
 	xyz /= size;
 	if (!center) { xyz -= vec3(0.5); }
@@ -110,26 +138,31 @@ var primitives = map[string]string{
 	return 1.0;
 }
 `,
+
 	"cylinder": `float cylinder(in vec3 xyz) {
 	// TODO
 	return 1.0;
 }
 `,
+
 	"polygon": `float polygon(in vec3 xyz) {
 	// TODO
 	return 1.0;
 }
 `,
+
 	"polyhedron": `float polyhedron(in vec3 xyz) {
 	// TODO
 	return 1.0;
 }
 `,
-	"sphere": `float sphere(in vec3 xyz) {
-	// TODO
-	return 1.0;
+
+	"sphere": `float sphere(in float radius, in vec3 xyz) {
+	float r = length(xyz);
+	return r <= radius ? 1.0 : 0.0;
 }
 `,
+
 	"square": `float square(in vec3 xyz) {
 	// TODO
 	return 1.0;

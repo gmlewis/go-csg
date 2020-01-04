@@ -65,29 +65,29 @@ func New(program *ast.Program) *Shader {
 
 // MBB represents a minimum bounding box.
 type MBB struct {
-	xmin, xmax float64
-	ymin, ymax float64
-	zmin, zmax float64
+	XMin, XMax float64
+	YMin, YMax float64
+	ZMin, ZMax float64
 }
 
 func (mbb *MBB) update(other *MBB) {
-	if other.xmin < mbb.xmin {
-		mbb.xmin = other.xmin
+	if other.XMin < mbb.XMin {
+		mbb.XMin = other.XMin
 	}
-	if other.ymin < mbb.ymin {
-		mbb.ymin = other.ymin
+	if other.YMin < mbb.YMin {
+		mbb.YMin = other.YMin
 	}
-	if other.zmin < mbb.zmin {
-		mbb.zmin = other.zmin
+	if other.ZMin < mbb.ZMin {
+		mbb.ZMin = other.ZMin
 	}
-	if other.xmax > mbb.xmax {
-		mbb.xmax = other.xmax
+	if other.XMax > mbb.XMax {
+		mbb.XMax = other.XMax
 	}
-	if other.ymax > mbb.ymax {
-		mbb.ymax = other.ymax
+	if other.YMax > mbb.YMax {
+		mbb.YMax = other.YMax
 	}
-	if other.zmax > mbb.zmax {
-		mbb.zmax = other.zmax
+	if other.ZMax > mbb.ZMax {
+		mbb.ZMax = other.ZMax
 	}
 }
 
@@ -290,9 +290,7 @@ func (s *Shader) processExpression(exp ast.Expression) (string, *MBB) {
 			}
 		}
 	case *ast.SpherePrimitive:
-		s.Primitives["sphere"] = true
-		// TODO: make a new function to call this primitive.
-		return "sphere(TODO)", nil
+		return s.processSpherePrimitive(node.Arguments)
 	case *ast.SquarePrimitive:
 		s.Primitives["square"] = true
 		// TODO: make a new function to call this primitive.
