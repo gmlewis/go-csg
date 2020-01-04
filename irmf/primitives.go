@@ -191,9 +191,9 @@ func (s *Shader) processCylinderPrimitive(exps []ast.Expression) (string, *MBB) 
 }
 
 var primitives = map[string]string{
-	"circle": `float circle(in vec3 xyz) {
-	// TODO
-	return 1.0;
+	"circle": `float circle(in float radius, in vec3 xyz) {
+	float r = length(xy);
+	return r <= radius ? 1.0 : 0.0;
 }
 `,
 
@@ -229,8 +229,10 @@ var primitives = map[string]string{
 }
 `,
 
-	"square": `float square(in vec3 xyz) {
-	// TODO
+	"square": `float square(in vec3 size, in bool center, in vec3 xyz) {
+	xyz /= size;
+	if (!center) { xyz -= vec3(0.5); }
+	if (any(greaterThan(abs(xyz.xy), vec2(0.5)))) { return 0.0; }
 	return 1.0;
 }
 `,
