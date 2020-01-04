@@ -125,9 +125,7 @@ func (s *Shader) processExpression(exp ast.Expression) (string, *MBB) {
 	case *ast.CallExpression:
 		log.Printf("WARNING: node currently not supported. Skipping: %v", node.String())
 	case *ast.CirclePrimitive:
-		s.Primitives["circle"] = true
-		// TODO: make a new function to call this primitive.
-		return "circle(TODO)", nil
+		return s.processCirclePrimitive(node.Arguments)
 	case *ast.ColorBlockPrimitive: // Currently, color itself is a NOOP.
 		if node.Body != nil {
 			// TODO: make a new function to call these statements.

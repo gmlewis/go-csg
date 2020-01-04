@@ -245,9 +245,36 @@ func (s *Shader) processSquarePrimitive(exps []ast.Expression) (string, *MBB) {
 	return fmt.Sprintf("square(vec2(%v), %v, xyz)", size, center), mbb
 }
 
+func (s *Shader) processCirclePrimitive(exps []ast.Expression) (string, *MBB) {
+	s.Primitives["circle"] = true
+	args := s.getArgs(exps, "r", "d")
+
+	radius := args[0]
+	diameter := args[1]
+	if diameter != "" && radius == "" {
+		if vec3, err := parseVec3(diameter); err == nil {
+			radius = fmt.Sprintf("%v", 0.5*vec3[0])
+		}
+	}
+	if radius == "" {
+		radius = "1"
+	}
+
+	vec3, err := parseVec3(radius)
+	if err != nil {
+		log.Printf("error parsing circle radius=%q, setting to 1", radius)
+		radius = "1"
+		vec3 = []float64{1, 1, 1}
+	}
+
+	mbb := &MBB{XMin: -vec3[0], YMin: -vec3[1], XMax: vec3[0], YMax: vec3[1]}
+
+	return fmt.Sprintf("circle(float(%v), xyz)", radius), mbb
+}
+
 var primitives = map[string]string{
 	"circle": `float circle(in float radius, in vec3 xyz) {
-	float r = length(xy);
+	float r = length(xyz.xy);
 	return r <= radius ? 1.0 : 0.0;
 }
 `,
