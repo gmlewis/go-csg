@@ -1,8 +1,8 @@
 /*{
   irmf: "1.0",
   materials: ["PLA"],
-  max: [104.9305558,-36.00000000000001,39.70136894800001],
-  min: [-81.36522267999999,-133.99999999999997,-99.57130000000004],
+  max: [82.198303,-126.00000000000001,39.70136894799998],
+  min: [-15.527867999999987,-133.99999999999997,-99.57130000000002],
   units: "mm",
 }*/
 
@@ -36,7 +36,7 @@ float multimatrixBlock1(in vec3 xyz) {
 }
 
 float multimatrixBlock2(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.866025, -0.5, 0, 0), vec4(0.5, 0.866025, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
+	mat4 xfm = mat4(vec4(-0.866025, -0.5, 0, 0), vec4(0.5, -0.866025, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, -1.0) * xfm).xyz;
 	return multimatrixBlock0(xyz) + multimatrixBlock1(xyz);
 }
@@ -64,13 +64,13 @@ float multimatrixBlock6(in vec3 xyz) {
 }
 
 float multimatrixBlock7(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(-0.844525, 0.535516, 0, 0), vec4(-0.535516, -0.844525, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
+	mat4 xfm = mat4(vec4(-0.414192, 0.910189, 0, 0), vec4(-0.910189, -0.414192, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, -1.0) * xfm).xyz;
 	return multimatrixBlock5(xyz) + multimatrixBlock6(xyz);
 }
 
 float multimatrixBlock8(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -7.5), vec4(0, 1, 0, 12.9904), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
+	mat4 xfm = mat4(vec4(1, 0, 0, -7.5), vec4(0, 1, 0, -12.9904), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, -1.0) * xfm).xyz;
 	return multimatrixBlock7(xyz);
 }
@@ -92,13 +92,13 @@ float multimatrixBlock11(in vec3 xyz) {
 }
 
 float multimatrixBlock12(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.89243, 0.451185, 0, 0), vec4(-0.451185, 0.89243, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
+	mat4 xfm = mat4(vec4(1, -0.000228158, 0, 0), vec4(0.000228158, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, -1.0) * xfm).xyz;
 	return multimatrixBlock10(xyz) + multimatrixBlock11(xyz);
 }
 
 float multimatrixBlock13(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 19.2758), vec4(0, 1, 0, -29.2359), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
+	mat4 xfm = mat4(vec4(1, 0, 0, 38.0095), vec4(0, 1, 0, -33.7), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, -1.0) * xfm).xyz;
 	return multimatrixBlock12(xyz);
 }
@@ -120,13 +120,13 @@ float multimatrixBlock16(in vec3 xyz) {
 }
 
 float multimatrixBlock17(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.298433, 0.954431, 0, 0), vec4(-0.954431, 0.298433, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
+	mat4 xfm = mat4(vec4(0.697119, 0.716955, 0, 0), vec4(-0.716955, 0.697119, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, -1.0) * xfm).xyz;
 	return multimatrixBlock15(xyz) + multimatrixBlock16(xyz);
 }
 
 float multimatrixBlock18(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 19.2758), vec4(0, 1, 0, -29.2359), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
+	mat4 xfm = mat4(vec4(1, 0, 0, 38.0095), vec4(0, 1, 0, -33.7), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, -1.0) * xfm).xyz;
 	return multimatrixBlock17(xyz);
 }
@@ -148,7 +148,7 @@ float multimatrixBlock21(in vec3 xyz) {
 }
 
 float multimatrixBlock22(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(-0.508312, 0.861173, 0, 0), vec4(-0.861173, -0.508312, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
+	mat4 xfm = mat4(vec4(-0.0648566, 0.997895, 0, 0), vec4(-0.997895, -0.0648566, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, -1.0) * xfm).xyz;
 	return multimatrixBlock20(xyz) + multimatrixBlock21(xyz);
 }
@@ -176,13 +176,13 @@ float multimatrixBlock26(in vec3 xyz) {
 }
 
 float multimatrixBlock27(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.542277, 0.8402, 0, 0), vec4(-0.8402, 0.542277, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
+	mat4 xfm = mat4(vec4(0.898018, 0.43996, 0, 0), vec4(-0.43996, 0.898018, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, -1.0) * xfm).xyz;
 	return multimatrixBlock25(xyz) + multimatrixBlock26(xyz);
 }
 
 float multimatrixBlock28(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -7.5), vec4(0, 1, 0, 12.9904), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
+	mat4 xfm = mat4(vec4(1, 0, 0, -7.5), vec4(0, 1, 0, -12.9904), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, -1.0) * xfm).xyz;
 	return multimatrixBlock27(xyz);
 }
@@ -204,7 +204,7 @@ float multimatrixBlock31(in vec3 xyz) {
 }
 
 float multimatrixBlock32(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.986192, 0.165607, 0, 0), vec4(-0.165607, 0.986192, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
+	mat4 xfm = mat4(vec4(0.885418, -0.464797, 0, 0), vec4(0.464797, 0.885418, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, -1.0) * xfm).xyz;
 	return multimatrixBlock30(xyz) + multimatrixBlock31(xyz);
 }
@@ -232,13 +232,13 @@ float multimatrixBlock36(in vec3 xyz) {
 }
 
 float multimatrixBlock37(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(-0.5407, 0.841215, 0, 0), vec4(-0.841215, -0.5407, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
+	mat4 xfm = mat4(vec4(-0.126107, 0.992017, 0, 0), vec4(-0.992017, -0.126107, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, -1.0) * xfm).xyz;
 	return multimatrixBlock35(xyz) + multimatrixBlock36(xyz);
 }
 
 float multimatrixBlock38(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 44.5084), vec4(0, 1, 0, 46.5573), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
+	mat4 xfm = mat4(vec4(1, 0, 0, 19.7335), vec4(0, 1, 0, 42.5969), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, -1.0) * xfm).xyz;
 	return multimatrixBlock37(xyz);
 }
@@ -260,13 +260,13 @@ float multimatrixBlock41(in vec3 xyz) {
 }
 
 float multimatrixBlock42(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.997384, 0.0722822, 0, 0), vec4(-0.0722822, 0.997384, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
+	mat4 xfm = mat4(vec4(0.831714, -0.555205, 0, 0), vec4(0.555205, 0.831714, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, -1.0) * xfm).xyz;
 	return multimatrixBlock40(xyz) + multimatrixBlock41(xyz);
 }
 
 float multimatrixBlock43(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 72.533), vec4(0, 1, 0, -12.5833), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
+	mat4 xfm = mat4(vec4(1, 0, 0, 78.0156), vec4(0, 1, 0, 5.19925), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, -1.0) * xfm).xyz;
 	return multimatrixBlock42(xyz);
 }
@@ -288,13 +288,13 @@ float multimatrixBlock46(in vec3 xyz) {
 }
 
 float multimatrixBlock47(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.916118, 0.40091, 0, 0), vec4(-0.40091, 0.916118, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
+	mat4 xfm = mat4(vec4(0.999478, -0.0323102, 0, 0), vec4(0.0323102, 0.999478, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, -1.0) * xfm).xyz;
 	return multimatrixBlock45(xyz) + multimatrixBlock46(xyz);
 }
 
 float multimatrixBlock48(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 44.5084), vec4(0, 1, 0, 46.5573), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
+	mat4 xfm = mat4(vec4(1, 0, 0, 19.7335), vec4(0, 1, 0, 42.5969), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, -1.0) * xfm).xyz;
 	return multimatrixBlock47(xyz);
 }
@@ -316,13 +316,13 @@ float multimatrixBlock51(in vec3 xyz) {
 }
 
 float multimatrixBlock52(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.985289, -0.170899, 0, 0), vec4(0.170899, 0.985289, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
+	mat4 xfm = mat4(vec4(0.815868, -0.578238, 0, 0), vec4(0.578238, 0.815868, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, -1.0) * xfm).xyz;
 	return multimatrixBlock50(xyz) + multimatrixBlock51(xyz);
 }
 
 float multimatrixBlock53(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 75.381), vec4(0, 1, 0, 26.7136), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
+	mat4 xfm = mat4(vec4(1, 0, 0, 56.1405), vec4(0, 1, 0, 37.9688), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, -1.0) * xfm).xyz;
 	return multimatrixBlock52(xyz);
 }
@@ -360,7 +360,7 @@ float groupBlock59(in vec3 xyz) {
 }
 
 float multimatrixBlock60(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 64.1529), vec4(0, 1, 0, 91.4471), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
+	mat4 xfm = mat4(vec4(1, 0, 0, 18.1503), vec4(0, 1, 0, 91.5713), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, -1.0) * xfm).xyz;
 	return cylinder(float(8), float(8), float(8), true, xyz);
 }
@@ -380,1112 +380,32 @@ float colorBlock63(in vec3 xyz) {
 }
 
 float multimatrixBlock64(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
+	mat4 xfm = mat4(vec4(-1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
+	return colorBlock63(xyz);
 }
 
 float multimatrixBlock65(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
+	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 90), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 15, 6), false, xyz);
+	return multimatrixBlock64(xyz);
 }
 
-float multimatrixBlock66(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.866025, 0.5, 0, 0), vec4(-0.5, 0.866025, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock64(xyz) + multimatrixBlock65(xyz);
+float groupBlock66(in vec3 xyz) {
+	return multimatrixBlock65(xyz);
 }
 
 float multimatrixBlock67(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
+	mat4 xfm = mat4(vec4(-1, 1.22465e-16, 2.46519e-32, 0), vec4(0, 2.22045e-16, -1, 0), vec4(-1.22465e-16, -1, -2.22045e-16, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock66(xyz);
+	return groupBlock66(xyz);
 }
 
 float groupBlock68(in vec3 xyz) {
 	return multimatrixBlock67(xyz);
 }
 
-float multimatrixBlock69(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock70(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 50, 6), false, xyz);
-}
-
-float multimatrixBlock71(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(-0.910314, 0.413919, 0, 0), vec4(-0.413919, -0.910314, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock69(xyz) + multimatrixBlock70(xyz);
-}
-
-float multimatrixBlock72(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 7.5), vec4(0, 1, 0, 12.9904), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock71(xyz);
-}
-
-float groupBlock73(in vec3 xyz) {
-	return multimatrixBlock72(xyz);
-}
-
-float multimatrixBlock74(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock75(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 41.5, 6), false, xyz);
-}
-
-float multimatrixBlock76(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.971694, 0.236242, 0, 0), vec4(-0.236242, 0.971694, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock74(xyz) + multimatrixBlock75(xyz);
-}
-
-float multimatrixBlock77(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 28.1959), vec4(0, 1, 0, -32.5253), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock76(xyz);
-}
-
-float groupBlock78(in vec3 xyz) {
-	return multimatrixBlock77(xyz);
-}
-
-float multimatrixBlock79(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock80(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 55.8, 6), false, xyz);
-}
-
-float multimatrixBlock81(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.507815, 0.861466, 0, 0), vec4(-0.861466, 0.507815, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock79(xyz) + multimatrixBlock80(xyz);
-}
-
-float multimatrixBlock82(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 28.1959), vec4(0, 1, 0, -32.5253), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock81(xyz);
-}
-
-float groupBlock83(in vec3 xyz) {
-	return multimatrixBlock82(xyz);
-}
-
-float multimatrixBlock84(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock85(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 40.1, 6), false, xyz);
-}
-
-float multimatrixBlock86(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(-0.298983, 0.954258, 0, 0), vec4(-0.954258, -0.298983, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock84(xyz) + multimatrixBlock85(xyz);
-}
-
-float multimatrixBlock87(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 38), vec4(0, 1, 0, 7.8), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock86(xyz);
-}
-
-float groupBlock88(in vec3 xyz) {
-	return multimatrixBlock87(xyz);
-}
-
-float multimatrixBlock89(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock90(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 61.9, 6), false, xyz);
-}
-
-float multimatrixBlock91(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.381897, 0.924205, 0, 0), vec4(-0.924205, 0.381897, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock89(xyz) + multimatrixBlock90(xyz);
-}
-
-float multimatrixBlock92(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 7.5), vec4(0, 1, 0, 12.9904), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock91(xyz);
-}
-
-float groupBlock93(in vec3 xyz) {
-	return multimatrixBlock92(xyz);
-}
-
-float multimatrixBlock94(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock95(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 39.3, 6), false, xyz);
-}
-
-float multimatrixBlock96(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.733583, 0.6796, 0, 0), vec4(-0.6796, 0.733583, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock94(xyz) + multimatrixBlock95(xyz);
-}
-
-float multimatrixBlock97(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 38), vec4(0, 1, 0, 7.8), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock96(xyz);
-}
-
-float groupBlock98(in vec3 xyz) {
-	return multimatrixBlock97(xyz);
-}
-
-float multimatrixBlock99(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock100(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 36.7, 6), false, xyz);
-}
-
-float multimatrixBlock101(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(-0.258615, 0.965981, 0, 0), vec4(-0.965981, -0.258615, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock99(xyz) + multimatrixBlock100(xyz);
-}
-
-float multimatrixBlock102(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 64.7083), vec4(0, 1, 0, 36.6298), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock101(xyz);
-}
-
-float groupBlock103(in vec3 xyz) {
-	return multimatrixBlock102(xyz);
-}
-
-float multimatrixBlock104(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock105(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 39.4, 6), false, xyz);
-}
-
-float multimatrixBlock106(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.795124, 0.606447, 0, 0), vec4(-0.606447, 0.795124, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock104(xyz) + multimatrixBlock105(xyz);
-}
-
-float multimatrixBlock107(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 76.2658), vec4(0, 1, 0, -4.18924), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock106(xyz);
-}
-
-float groupBlock108(in vec3 xyz) {
-	return multimatrixBlock107(xyz);
-}
-
-float multimatrixBlock109(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock110(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 49, 6), false, xyz);
-}
-
-float multimatrixBlock111(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.994718, 0.102647, 0, 0), vec4(-0.102647, 0.994718, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock109(xyz) + multimatrixBlock110(xyz);
-}
-
-float multimatrixBlock112(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 64.7083), vec4(0, 1, 0, 36.6298), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock111(xyz);
-}
-
-float groupBlock113(in vec3 xyz) {
-	return multimatrixBlock112(xyz);
-}
-
-float multimatrixBlock114(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock115(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 65.7, 6), false, xyz);
-}
-
-float multimatrixBlock116(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.886337, -0.463041, 0, 0), vec4(0.463041, 0.886337, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock114(xyz) + multimatrixBlock115(xyz);
-}
-
-float multimatrixBlock117(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 100.16), vec4(0, 1, 0, 27.1386), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock116(xyz);
-}
-
-float groupBlock118(in vec3 xyz) {
-	return multimatrixBlock117(xyz);
-}
-
-float multimatrixBlock119(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock120(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 38.7923, 6), false, xyz);
-}
-
-float multimatrixBlock121(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.201071, 0.979577, 0, 0), vec4(-0.979577, 0.201071, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock119(xyz) + multimatrixBlock120(xyz);
-}
-
-float multimatrixBlock122(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock121(xyz);
-}
-
-float groupBlock123(in vec3 xyz) {
-	return multimatrixBlock122(xyz);
-}
-
-float multimatrixBlock124(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 69.738), vec4(0, 1, 0, 85.371), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(8), float(8), true, xyz);
-}
-
-float groupBlock125(in vec3 xyz) {
-	return groupBlock68(xyz) + groupBlock73(xyz) + groupBlock78(xyz) + groupBlock83(xyz) + groupBlock88(xyz) + groupBlock93(xyz) + groupBlock98(xyz) + groupBlock103(xyz) + groupBlock108(xyz) + groupBlock113(xyz) + groupBlock118(xyz) + groupBlock123(xyz) + multimatrixBlock124(xyz);
-}
-
-float multimatrixBlock126(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 40), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return groupBlock125(xyz);
-}
-
-float colorBlock127(in vec3 xyz) {
-	return multimatrixBlock126(xyz);
-}
-
-float multimatrixBlock128(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(-1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return colorBlock127(xyz);
-}
-
-float multimatrixBlock129(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock130(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 15, 6), false, xyz);
-}
-
-float multimatrixBlock131(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(-0.866025, 0.5, 0, 0), vec4(-0.5, -0.866025, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock129(xyz) + multimatrixBlock130(xyz);
-}
-
-float multimatrixBlock132(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock131(xyz);
-}
-
-float groupBlock133(in vec3 xyz) {
-	return multimatrixBlock132(xyz);
-}
-
-float multimatrixBlock134(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock135(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 50, 6), false, xyz);
-}
-
-float multimatrixBlock136(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(-0.346633, 0.938001, 0, 0), vec4(-0.938001, -0.346633, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock134(xyz) + multimatrixBlock135(xyz);
-}
-
-float multimatrixBlock137(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 7.5), vec4(0, 1, 0, -12.9904), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock136(xyz);
-}
-
-float groupBlock138(in vec3 xyz) {
-	return multimatrixBlock137(xyz);
-}
-
-float multimatrixBlock139(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock140(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 41.5, 6), false, xyz);
-}
-
-float multimatrixBlock141(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.918603, -0.395182, 0, 0), vec4(0.395182, 0.918603, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock139(xyz) + multimatrixBlock140(xyz);
-}
-
-float multimatrixBlock142(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 54.4), vec4(0, 1, 0, -30.322), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock141(xyz);
-}
-
-float groupBlock143(in vec3 xyz) {
-	return multimatrixBlock142(xyz);
-}
-
-float multimatrixBlock144(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock145(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 55.8, 6), false, xyz);
-}
-
-float multimatrixBlock146(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.923616, 0.383319, 0, 0), vec4(-0.383319, 0.923616, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock144(xyz) + multimatrixBlock145(xyz);
-}
-
-float multimatrixBlock147(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 54.4), vec4(0, 1, 0, -30.322), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock146(xyz);
-}
-
-float groupBlock148(in vec3 xyz) {
-	return multimatrixBlock147(xyz);
-}
-
-float multimatrixBlock149(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock150(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 40.1, 6), false, xyz);
-}
-
-float multimatrixBlock151(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.334557, 0.942375, 0, 0), vec4(-0.942375, 0.334557, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock149(xyz) + multimatrixBlock150(xyz);
-}
-
-float multimatrixBlock152(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 38), vec4(0, 1, 0, 7.8), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock151(xyz);
-}
-
-float groupBlock153(in vec3 xyz) {
-	return multimatrixBlock152(xyz);
-}
-
-float multimatrixBlock154(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock155(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 61.9, 6), false, xyz);
-}
-
-float multimatrixBlock156(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.94709, 0.320968, 0, 0), vec4(-0.320968, 0.94709, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock154(xyz) + multimatrixBlock155(xyz);
-}
-
-float multimatrixBlock157(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 7.5), vec4(0, 1, 0, -12.9904), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock156(xyz);
-}
-
-float groupBlock158(in vec3 xyz) {
-	return multimatrixBlock157(xyz);
-}
-
-float multimatrixBlock159(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock160(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 39.3, 6), false, xyz);
-}
-
-float multimatrixBlock161(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.96271, -0.270536, 0, 0), vec4(0.270536, 0.96271, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock159(xyz) + multimatrixBlock160(xyz);
-}
-
-float multimatrixBlock162(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 38), vec4(0, 1, 0, 7.8), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock161(xyz);
-}
-
-float groupBlock163(in vec3 xyz) {
-	return multimatrixBlock162(xyz);
-}
-
-float multimatrixBlock164(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock165(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 36.7, 6), false, xyz);
-}
-
-float multimatrixBlock166(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.339208, 0.940711, 0, 0), vec4(-0.940711, 0.339208, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock164(xyz) + multimatrixBlock165(xyz);
-}
-
-float multimatrixBlock167(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 27.3679), vec4(0, 1, 0, 45.6345), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock166(xyz);
-}
-
-float groupBlock168(in vec3 xyz) {
-	return multimatrixBlock167(xyz);
-}
-
-float multimatrixBlock169(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock170(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 39.4, 6), false, xyz);
-}
-
-float multimatrixBlock171(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.935728, -0.352722, 0, 0), vec4(0.352722, 0.935728, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock169(xyz) + multimatrixBlock170(xyz);
-}
-
-float multimatrixBlock172(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 75.7893), vec4(0, 1, 0, 21.2157), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock171(xyz);
-}
-
-float groupBlock173(in vec3 xyz) {
-	return multimatrixBlock172(xyz);
-}
-
-float multimatrixBlock174(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock175(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 49, 6), false, xyz);
-}
-
-float multimatrixBlock176(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.875254, -0.483663, 0, 0), vec4(0.483663, 0.875254, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock174(xyz) + multimatrixBlock175(xyz);
-}
-
-float multimatrixBlock177(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 27.3679), vec4(0, 1, 0, 45.6345), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock176(xyz);
-}
-
-float groupBlock178(in vec3 xyz) {
-	return multimatrixBlock177(xyz);
-}
-
-float multimatrixBlock179(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock180(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 65.7, 6), false, xyz);
-}
-
-float multimatrixBlock181(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.463295, -0.886204, 0, 0), vec4(0.886204, 0.463295, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock179(xyz) + multimatrixBlock180(xyz);
-}
-
-float multimatrixBlock182(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 61.892), vec4(0, 1, 0, 58.0834), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock181(xyz);
-}
-
-float groupBlock183(in vec3 xyz) {
-	return multimatrixBlock182(xyz);
-}
-
-float multimatrixBlock184(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock185(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 38.7923, 6), false, xyz);
-}
-
-float multimatrixBlock186(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.201071, 0.979577, 0, 0), vec4(-0.979577, 0.201071, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock184(xyz) + multimatrixBlock185(xyz);
-}
-
-float multimatrixBlock187(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock186(xyz);
-}
-
-float groupBlock188(in vec3 xyz) {
-	return multimatrixBlock187(xyz);
-}
-
-float multimatrixBlock189(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 3.66842), vec4(0, 1, 0, 88.5219), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(8), float(8), true, xyz);
-}
-
-float groupBlock190(in vec3 xyz) {
-	return groupBlock133(xyz) + groupBlock138(xyz) + groupBlock143(xyz) + groupBlock148(xyz) + groupBlock153(xyz) + groupBlock158(xyz) + groupBlock163(xyz) + groupBlock168(xyz) + groupBlock173(xyz) + groupBlock178(xyz) + groupBlock183(xyz) + groupBlock188(xyz) + multimatrixBlock189(xyz);
-}
-
-float multimatrixBlock191(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 40), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return groupBlock190(xyz);
-}
-
-float colorBlock192(in vec3 xyz) {
-	return multimatrixBlock191(xyz);
-}
-
-float multimatrixBlock193(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 90), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return colorBlock192(xyz);
-}
-
-float multimatrixBlock194(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock195(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 15, 6), false, xyz);
-}
-
-float multimatrixBlock196(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(-0.866025, -0.5, 0, 0), vec4(0.5, -0.866025, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock194(xyz) + multimatrixBlock195(xyz);
-}
-
-float multimatrixBlock197(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock196(xyz);
-}
-
-float groupBlock198(in vec3 xyz) {
-	return multimatrixBlock197(xyz);
-}
-
-float multimatrixBlock199(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock200(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 50, 6), false, xyz);
-}
-
-float multimatrixBlock201(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(-0.414192, 0.910189, 0, 0), vec4(-0.910189, -0.414192, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock199(xyz) + multimatrixBlock200(xyz);
-}
-
-float multimatrixBlock202(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -7.5), vec4(0, 1, 0, -12.9904), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock201(xyz);
-}
-
-float groupBlock203(in vec3 xyz) {
-	return multimatrixBlock202(xyz);
-}
-
-float multimatrixBlock204(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock205(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 41.5, 6), false, xyz);
-}
-
-float multimatrixBlock206(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, -0.000228158, 0, 0), vec4(0.000228158, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock204(xyz) + multimatrixBlock205(xyz);
-}
-
-float multimatrixBlock207(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 38.0095), vec4(0, 1, 0, -33.7), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock206(xyz);
-}
-
-float groupBlock208(in vec3 xyz) {
-	return multimatrixBlock207(xyz);
-}
-
-float multimatrixBlock209(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock210(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 55.8, 6), false, xyz);
-}
-
-float multimatrixBlock211(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.697119, 0.716955, 0, 0), vec4(-0.716955, 0.697119, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock209(xyz) + multimatrixBlock210(xyz);
-}
-
-float multimatrixBlock212(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 38.0095), vec4(0, 1, 0, -33.7), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock211(xyz);
-}
-
-float groupBlock213(in vec3 xyz) {
-	return multimatrixBlock212(xyz);
-}
-
-float multimatrixBlock214(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock215(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 40.1, 6), false, xyz);
-}
-
-float multimatrixBlock216(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(-0.0648566, 0.997895, 0, 0), vec4(-0.997895, -0.0648566, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock214(xyz) + multimatrixBlock215(xyz);
-}
-
-float multimatrixBlock217(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 38), vec4(0, 1, 0, 7.8), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock216(xyz);
-}
-
-float groupBlock218(in vec3 xyz) {
-	return multimatrixBlock217(xyz);
-}
-
-float multimatrixBlock219(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock220(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 61.9, 6), false, xyz);
-}
-
-float multimatrixBlock221(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.898018, 0.43996, 0, 0), vec4(-0.43996, 0.898018, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock219(xyz) + multimatrixBlock220(xyz);
-}
-
-float multimatrixBlock222(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -7.5), vec4(0, 1, 0, -12.9904), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock221(xyz);
-}
-
-float groupBlock223(in vec3 xyz) {
-	return multimatrixBlock222(xyz);
-}
-
-float multimatrixBlock224(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock225(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 39.3, 6), false, xyz);
-}
-
-float multimatrixBlock226(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.885418, -0.464797, 0, 0), vec4(0.464797, 0.885418, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock224(xyz) + multimatrixBlock225(xyz);
-}
-
-float multimatrixBlock227(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 38), vec4(0, 1, 0, 7.8), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock226(xyz);
-}
-
-float groupBlock228(in vec3 xyz) {
-	return multimatrixBlock227(xyz);
-}
-
-float multimatrixBlock229(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock230(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 36.7, 6), false, xyz);
-}
-
-float multimatrixBlock231(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(-0.126107, 0.992017, 0, 0), vec4(-0.992017, -0.126107, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock229(xyz) + multimatrixBlock230(xyz);
-}
-
-float multimatrixBlock232(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 19.7335), vec4(0, 1, 0, 42.5969), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock231(xyz);
-}
-
-float groupBlock233(in vec3 xyz) {
-	return multimatrixBlock232(xyz);
-}
-
-float multimatrixBlock234(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock235(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 39.4, 6), false, xyz);
-}
-
-float multimatrixBlock236(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.831714, -0.555205, 0, 0), vec4(0.555205, 0.831714, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock234(xyz) + multimatrixBlock235(xyz);
-}
-
-float multimatrixBlock237(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 78.0156), vec4(0, 1, 0, 5.19925), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock236(xyz);
-}
-
-float groupBlock238(in vec3 xyz) {
-	return multimatrixBlock237(xyz);
-}
-
-float multimatrixBlock239(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock240(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 49, 6), false, xyz);
-}
-
-float multimatrixBlock241(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.999478, -0.0323102, 0, 0), vec4(0.0323102, 0.999478, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock239(xyz) + multimatrixBlock240(xyz);
-}
-
-float multimatrixBlock242(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 19.7335), vec4(0, 1, 0, 42.5969), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock241(xyz);
-}
-
-float groupBlock243(in vec3 xyz) {
-	return multimatrixBlock242(xyz);
-}
-
-float multimatrixBlock244(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock245(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 65.7, 6), false, xyz);
-}
-
-float multimatrixBlock246(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.815868, -0.578238, 0, 0), vec4(0.578238, 0.815868, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock244(xyz) + multimatrixBlock245(xyz);
-}
-
-float multimatrixBlock247(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 56.1405), vec4(0, 1, 0, 37.9688), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock246(xyz);
-}
-
-float groupBlock248(in vec3 xyz) {
-	return multimatrixBlock247(xyz);
-}
-
-float multimatrixBlock249(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(6), float(6), true, xyz);
-}
-
-float multimatrixBlock250(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, -3), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cube(vec3(6, 38.7923, 6), false, xyz);
-}
-
-float multimatrixBlock251(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(0.201071, 0.979577, 0, 0), vec4(-0.979577, 0.201071, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock249(xyz) + multimatrixBlock250(xyz);
-}
-
-float multimatrixBlock252(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock251(xyz);
-}
-
-float groupBlock253(in vec3 xyz) {
-	return multimatrixBlock252(xyz);
-}
-
-float multimatrixBlock254(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 18.1503), vec4(0, 1, 0, 91.5713), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return cylinder(float(8), float(8), float(8), true, xyz);
-}
-
-float groupBlock255(in vec3 xyz) {
-	return groupBlock198(xyz) + groupBlock203(xyz) + groupBlock208(xyz) + groupBlock213(xyz) + groupBlock218(xyz) + groupBlock223(xyz) + groupBlock228(xyz) + groupBlock233(xyz) + groupBlock238(xyz) + groupBlock243(xyz) + groupBlock248(xyz) + groupBlock253(xyz) + multimatrixBlock254(xyz);
-}
-
-float multimatrixBlock256(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 40), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return groupBlock255(xyz);
-}
-
-float colorBlock257(in vec3 xyz) {
-	return multimatrixBlock256(xyz);
-}
-
-float multimatrixBlock258(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(-1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return colorBlock257(xyz);
-}
-
-float multimatrixBlock259(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 90), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return multimatrixBlock258(xyz);
-}
-
-float groupBlock260(in vec3 xyz) {
-	return colorBlock63(xyz) + multimatrixBlock128(xyz) + multimatrixBlock193(xyz) + multimatrixBlock259(xyz);
-}
-
-float multimatrixBlock261(in vec3 xyz) {
-	mat4 xfm = mat4(vec4(-1, 1.22465e-16, 2.46519e-32, 0), vec4(0, 2.22045e-16, -1, 0), vec4(-1.22465e-16, -1, -2.22045e-16, 0), vec4(0, 0, 0, 1));
-	xyz = (vec4(xyz, -1.0) * xfm).xyz;
-	return groupBlock260(xyz);
-}
-
-float groupBlock262(in vec3 xyz) {
-	return multimatrixBlock261(xyz);
-}
-
 void mainModel4(out vec4 materials, in vec3 xyz) {
-	materials[0] = groupBlock262(xyz);
+	materials[0] = groupBlock68(xyz);
 }
 
