@@ -440,7 +440,7 @@ func TestProcessUnionBlockPrimitive(t *testing.T) {
 		mbb  *MBB
 	}{
 		{
-			src: `	union() {
+			src: `union() {
 	sphere($fn = 100, $fa = 12, $fs = 2, r = 1);
 	multmatrix([[1, 0, 0, 2], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]) {
 		sphere($fn = 100, $fa = 12, $fs = 2, r = 2);
@@ -456,6 +456,102 @@ func TestProcessUnionBlockPrimitive(t *testing.T) {
 `,
 				"float union1(in vec3 xyz) {\n\treturn clamp(sphere(float(1), xyz) + multimatrixBlock0(xyz), 0.0, 1.0);\n}\n",
 				fmt.Sprintf(mainBodyFmt, "union1(xyz)"),
+			},
+			mbb: &MBB{XMin: -1, XMax: 4, YMin: -2, YMax: 2, ZMin: -2, ZMax: 2},
+		},
+	}
+
+	for i, tt := range tests {
+		t.Run(fmt.Sprintf("test #%v", i), func(t *testing.T) {
+			le := lexer.New(tt.src)
+			p := parser.New(le)
+			program := p.ParseProgram()
+			if errs := p.Errors(); len(errs) != 0 {
+				t.Fatalf("ParseProgram: %v", strings.Join(errs, "\n"))
+			}
+
+			shader := New(program)
+			if !reflect.DeepEqual(shader.Functions, tt.want) {
+				t.Errorf("functions = %#v, want %#v", shader.Functions, tt.want)
+			}
+			if !reflect.DeepEqual(shader.MBB, tt.mbb) {
+				t.Errorf("mbb = %+v, want %+v", shader.MBB, tt.mbb)
+			}
+		})
+	}
+}
+
+func TestProcessDifferenceBlockPrimitive(t *testing.T) {
+	tests := []struct {
+		src  string
+		want []string
+		mbb  *MBB
+	}{
+		{
+			src: `difference() {
+	sphere($fn = 100, $fa = 12, $fs = 2, r = 1);
+	multmatrix([[1, 0, 0, 2], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]) {
+		sphere($fn = 100, $fa = 12, $fs = 2, r = 2);
+	}
+}
+`,
+			want: []string{
+				`float multimatrixBlock0(in vec3 xyz) {
+	mat4 xfm = mat4(vec4(1, 0, 0, 2), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
+	xyz = (vec4(xyz, -1.0) * xfm).xyz;
+	return sphere(float(2), xyz);
+}
+`,
+				"float difference1(in vec3 xyz) {\n\treturn clamp(sphere(float(1), xyz) - multimatrixBlock0(xyz), 0.0, 1.0);\n}\n",
+				fmt.Sprintf(mainBodyFmt, "difference1(xyz)"),
+			},
+			mbb: &MBB{XMin: -1, XMax: 4, YMin: -2, YMax: 2, ZMin: -2, ZMax: 2},
+		},
+	}
+
+	for i, tt := range tests {
+		t.Run(fmt.Sprintf("test #%v", i), func(t *testing.T) {
+			le := lexer.New(tt.src)
+			p := parser.New(le)
+			program := p.ParseProgram()
+			if errs := p.Errors(); len(errs) != 0 {
+				t.Fatalf("ParseProgram: %v", strings.Join(errs, "\n"))
+			}
+
+			shader := New(program)
+			if !reflect.DeepEqual(shader.Functions, tt.want) {
+				t.Errorf("functions = %#v, want %#v", shader.Functions, tt.want)
+			}
+			if !reflect.DeepEqual(shader.MBB, tt.mbb) {
+				t.Errorf("mbb = %+v, want %+v", shader.MBB, tt.mbb)
+			}
+		})
+	}
+}
+
+func TestProcessIntersectionBlockPrimitive(t *testing.T) {
+	tests := []struct {
+		src  string
+		want []string
+		mbb  *MBB
+	}{
+		{
+			src: `intersection() {
+	sphere($fn = 100, $fa = 12, $fs = 2, r = 1);
+	multmatrix([[1, 0, 0, 2], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]) {
+		sphere($fn = 100, $fa = 12, $fs = 2, r = 2);
+	}
+}
+`,
+			want: []string{
+				`float multimatrixBlock0(in vec3 xyz) {
+	mat4 xfm = mat4(vec4(1, 0, 0, 2), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
+	xyz = (vec4(xyz, -1.0) * xfm).xyz;
+	return sphere(float(2), xyz);
+}
+`,
+				"float intersection1(in vec3 xyz) {\n\treturn clamp(sphere(float(1), xyz) * multimatrixBlock0(xyz), 0.0, 1.0);\n}\n",
+				fmt.Sprintf(mainBodyFmt, "intersection1(xyz)"),
 			},
 			mbb: &MBB{XMin: -1, XMax: 4, YMin: -2, YMax: 2, ZMin: -2, ZMax: 2},
 		},

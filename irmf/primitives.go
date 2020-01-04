@@ -428,7 +428,6 @@ func (s *Shader) processMultmatrixBlockPrimitive(args []ast.Expression, exps []a
 	return fmt.Sprintf("%v(xyz)", fName), newMBB
 }
 
-
 func (s *Shader) processUnionBlockPrimitive(exps []ast.Statement) (string, *MBB) {
 	calls, mbb := s.getCalls(exps)
 	if len(calls) == 0 {
@@ -441,6 +440,40 @@ func (s *Shader) processUnionBlockPrimitive(exps []ast.Statement) (string, *MBB)
 	return clamp(%v, 0.0, 1.0);
 }
 `, fName, strings.Join(calls, " + "))
+	s.Functions = append(s.Functions, newFunc)
+
+	return fmt.Sprintf("%v(xyz)", fName), mbb
+}
+
+func (s *Shader) processDifferenceBlockPrimitive(exps []ast.Statement) (string, *MBB) {
+	calls, mbb := s.getCalls(exps)
+	if len(calls) == 0 {
+		return "", nil
+	}
+
+	fNum := len(s.Functions)
+	fName := fmt.Sprintf("difference%v", fNum)
+	newFunc := fmt.Sprintf(`float %v(in vec3 xyz) {
+	return clamp(%v, 0.0, 1.0);
+}
+`, fName, strings.Join(calls, " - "))
+	s.Functions = append(s.Functions, newFunc)
+
+	return fmt.Sprintf("%v(xyz)", fName), mbb
+}
+
+func (s *Shader) processIntersectionBlockPrimitive(exps []ast.Statement) (string, *MBB) {
+	calls, mbb := s.getCalls(exps)
+	if len(calls) == 0 {
+		return "", nil
+	}
+
+	fNum := len(s.Functions)
+	fName := fmt.Sprintf("intersection%v", fNum)
+	newFunc := fmt.Sprintf(`float %v(in vec3 xyz) {
+	return clamp(%v, 0.0, 1.0);
+}
+`, fName, strings.Join(calls, " * "))
 	s.Functions = append(s.Functions, newFunc)
 
 	return fmt.Sprintf("%v(xyz)", fName), mbb

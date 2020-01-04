@@ -147,18 +147,7 @@ func (s *Shader) processExpression(exp ast.Expression) (string, *MBB) {
 		return s.processCylinderPrimitive(node.Arguments)
 	case *ast.DifferenceBlockPrimitive:
 		if node.Body != nil {
-			// TODO: make a new function to call these statements.
-			calls, mbb := s.getCalls(node.Body.Statements)
-			if len(calls) > 0 {
-				fNum := len(s.Functions)
-				fName := fmt.Sprintf("differenceBlock%v", fNum)
-				newFunc := fmt.Sprintf(`float %v(TODO) {
-	return %v;
-}
-`, fName, strings.Join(calls, " + "))
-				s.Functions = append(s.Functions, newFunc)
-				return fmt.Sprintf("%v(TODO)", fName), mbb
-			}
+			return s.processDifferenceBlockPrimitive(node.Body.Statements)
 		}
 	case *ast.GroupBlockPrimitive:
 		if node.Body != nil {
@@ -192,18 +181,7 @@ func (s *Shader) processExpression(exp ast.Expression) (string, *MBB) {
 		}
 	case *ast.IntersectionBlockPrimitive:
 		if node.Body != nil {
-			// TODO: make a new function to call these statements.
-			calls, mbb := s.getCalls(node.Body.Statements)
-			if len(calls) > 0 {
-				fNum := len(s.Functions)
-				fName := fmt.Sprintf("intersectionBlock%v", fNum)
-				newFunc := fmt.Sprintf(`float %v(TODO) {
-	return %v;
-}
-`, fName, strings.Join(calls, " + "))
-				s.Functions = append(s.Functions, newFunc)
-				return fmt.Sprintf("%v(TODO)", fName), mbb
-			}
+			return s.processIntersectionBlockPrimitive(node.Body.Statements)
 		}
 	case *ast.LinearExtrudeBlockPrimitive:
 		if node.Body != nil {
