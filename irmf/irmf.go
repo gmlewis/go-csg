@@ -6,6 +6,7 @@ package irmf
 import (
 	"fmt"
 	"log"
+	"math"
 	"sort"
 	"strings"
 
@@ -14,6 +15,11 @@ import (
 
 const (
 	mainBodyFmt = `void mainModel4(out vec4 materials, in vec3 xyz) {
+	materials[0] = %v;
+}
+`
+	mainBodyCenterFmt = `void mainModel4(out vec4 materials, in vec3 xyz) {
+	xyz -= vec3(%v, %v, %v);
 	materials[0] = %v;
 }
 `
@@ -47,7 +53,7 @@ func (s *Shader) String() string {
 }
 
 // New returns a new IRMF Shader from a CSG ast.Program.
-func New(program *ast.Program) *Shader {
+func New(program *ast.Program, center bool) *Shader {
 	s := &Shader{
 		Program:    program,
 		Primitives: map[string]bool{},
@@ -56,6 +62,19 @@ func New(program *ast.Program) *Shader {
 	calls, mbb := s.getCalls(program.Statements)
 	if len(calls) > 0 {
 		mainFunc := fmt.Sprintf(mainBodyFmt, strings.Join(calls, " + "))
+		if center {
+			cx := 0.5 * (mbb.XMax + mbb.XMin)
+			cy := 0.5 * (mbb.YMax + mbb.YMin)
+			cz := 0.5 * (mbb.ZMax + mbb.ZMin)
+			dx := 0.5 * math.Round(0.5+mbb.XMax-mbb.XMin) // Round up
+			dy := 0.5 * math.Round(0.5+mbb.YMax-mbb.YMin)
+			dz := 0.5 * math.Round(0.5+mbb.ZMax-mbb.ZMin)
+			mbb = &MBB{XMin: -dx, YMin: -dy, ZMin: -dz, XMax: dx, YMax: dy, ZMax: dz}
+
+			// Modify mainFunc to center the design.
+			mainFunc = fmt.Sprintf(mainBodyCenterFmt, cx, cy, cz, strings.Join(calls, " + "))
+		}
+
 		s.Functions = append(s.Functions, mainFunc)
 		s.MBB = mbb
 	}

@@ -14,6 +14,7 @@ import (
 )
 
 var (
+	center  = flag.Bool("center", true, "Center the IRMF in world space.")
 	verbose = flag.Bool("v", false, "Verbose logging")
 )
 
@@ -39,7 +40,7 @@ func process(filename string) {
 		log.Fatalf("%v\n", strings.Join(errs, "\n"))
 	}
 
-	shader := irmf.New(program)
+	shader := irmf.New(program, *center)
 
 	if shader.MBB == nil {
 		log.Println("WARNING: CSG contains features that are not yet supported.")

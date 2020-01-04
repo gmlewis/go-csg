@@ -1,8 +1,8 @@
 /*{
   irmf: "1.0",
   materials: ["PLA"],
-  max: [32.5,30.4,15.600000000000001],
-  min: [-32.50000000000001,-30.39997,-5.2],
+  max: [33,30.5,10.5],
+  min: [-33,-30.5,-10.5],
   units: "mm",
 }*/
 
@@ -906,6 +906,7 @@ float groupBlock182(in vec3 xyz) {
 }
 
 void mainModel4(out vec4 materials, in vec3 xyz) {
+	xyz -= vec3(-3.552713678800501e-15, 1.4999999999432134e-05, 5.200000000000001);
 	materials[0] = groupBlock182(xyz);
 }
 

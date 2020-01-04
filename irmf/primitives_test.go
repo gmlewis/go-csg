@@ -81,9 +81,10 @@ func TestParseVec4(t *testing.T) {
 
 func TestProcessCubePrimitive(t *testing.T) {
 	tests := []struct {
-		src  string
-		want []string
-		mbb  *MBB
+		src    string
+		center bool
+		want   []string
+		mbb    *MBB
 	}{
 		{
 			src:  "cube();",
@@ -126,7 +127,7 @@ func TestProcessCubePrimitive(t *testing.T) {
 				t.Fatalf("ParseProgram: %v", strings.Join(errs, "\n"))
 			}
 
-			shader := New(program)
+			shader := New(program, tt.center)
 			if !reflect.DeepEqual(shader.Functions, tt.want) {
 				t.Errorf("functions = %+v, want %+v", shader.Functions, tt.want)
 			}
@@ -139,9 +140,10 @@ func TestProcessCubePrimitive(t *testing.T) {
 
 func TestProcessSpherePrimitive(t *testing.T) {
 	tests := []struct {
-		src  string
-		want []string
-		mbb  *MBB
+		src    string
+		center bool
+		want   []string
+		mbb    *MBB
 	}{
 		{
 			src:  "sphere();",
@@ -194,7 +196,7 @@ func TestProcessSpherePrimitive(t *testing.T) {
 				t.Fatalf("ParseProgram: %v", strings.Join(errs, "\n"))
 			}
 
-			shader := New(program)
+			shader := New(program, tt.center)
 			if !reflect.DeepEqual(shader.Functions, tt.want) {
 				t.Errorf("functions = %+v, want %+v", shader.Functions, tt.want)
 			}
@@ -207,9 +209,10 @@ func TestProcessSpherePrimitive(t *testing.T) {
 
 func TestProcessCylinderPrimitive(t *testing.T) {
 	tests := []struct {
-		src  string
-		want []string
-		mbb  *MBB
+		src    string
+		center bool
+		want   []string
+		mbb    *MBB
 	}{
 		{
 			src:  "cylinder();",
@@ -303,7 +306,7 @@ func TestProcessCylinderPrimitive(t *testing.T) {
 				t.Fatalf("ParseProgram: %v", strings.Join(errs, "\n"))
 			}
 
-			shader := New(program)
+			shader := New(program, tt.center)
 			if !reflect.DeepEqual(shader.Functions, tt.want) {
 				t.Errorf("functions = %+v, want %+v", shader.Functions, tt.want)
 			}
@@ -316,9 +319,10 @@ func TestProcessCylinderPrimitive(t *testing.T) {
 
 func TestProcessSquarePrimitive(t *testing.T) {
 	tests := []struct {
-		src  string
-		want []string
-		mbb  *MBB
+		src    string
+		center bool
+		want   []string
+		mbb    *MBB
 	}{
 		{
 			src:  "square();",
@@ -381,7 +385,7 @@ func TestProcessSquarePrimitive(t *testing.T) {
 				t.Fatalf("ParseProgram: %v", strings.Join(errs, "\n"))
 			}
 
-			shader := New(program)
+			shader := New(program, tt.center)
 			if !reflect.DeepEqual(shader.Functions, tt.want) {
 				t.Errorf("functions = %+v, want %+v", shader.Functions, tt.want)
 			}
@@ -394,9 +398,10 @@ func TestProcessSquarePrimitive(t *testing.T) {
 
 func TestProcessMultmatrixBlockPrimitive(t *testing.T) {
 	tests := []struct {
-		src  string
-		want []string
-		mbb  *MBB
+		src    string
+		center bool
+		want   []string
+		mbb    *MBB
 	}{
 		{
 			src: "multmatrix([[1, 0, 0, -19], [0, 1, 0, -0.5], [0, 0, 1, 0], [0, 0, 0, 1]]) {sphere();}",
@@ -422,7 +427,7 @@ func TestProcessMultmatrixBlockPrimitive(t *testing.T) {
 				t.Fatalf("ParseProgram: %v", strings.Join(errs, "\n"))
 			}
 
-			shader := New(program)
+			shader := New(program, tt.center)
 			if !reflect.DeepEqual(shader.Functions, tt.want) {
 				t.Errorf("functions = %#v, want %#v", shader.Functions, tt.want)
 			}
@@ -435,9 +440,10 @@ func TestProcessMultmatrixBlockPrimitive(t *testing.T) {
 
 func TestProcessUnionBlockPrimitive(t *testing.T) {
 	tests := []struct {
-		src  string
-		want []string
-		mbb  *MBB
+		src    string
+		center bool
+		want   []string
+		mbb    *MBB
 	}{
 		{
 			src: `union() {
@@ -470,7 +476,7 @@ func TestProcessUnionBlockPrimitive(t *testing.T) {
 				t.Fatalf("ParseProgram: %v", strings.Join(errs, "\n"))
 			}
 
-			shader := New(program)
+			shader := New(program, tt.center)
 			if !reflect.DeepEqual(shader.Functions, tt.want) {
 				t.Errorf("functions = %#v, want %#v", shader.Functions, tt.want)
 			}
@@ -483,9 +489,10 @@ func TestProcessUnionBlockPrimitive(t *testing.T) {
 
 func TestProcessDifferenceBlockPrimitive(t *testing.T) {
 	tests := []struct {
-		src  string
-		want []string
-		mbb  *MBB
+		src    string
+		center bool
+		want   []string
+		mbb    *MBB
 	}{
 		{
 			src: `difference() {
@@ -518,7 +525,7 @@ func TestProcessDifferenceBlockPrimitive(t *testing.T) {
 				t.Fatalf("ParseProgram: %v", strings.Join(errs, "\n"))
 			}
 
-			shader := New(program)
+			shader := New(program, tt.center)
 			if !reflect.DeepEqual(shader.Functions, tt.want) {
 				t.Errorf("functions = %#v, want %#v", shader.Functions, tt.want)
 			}
@@ -531,9 +538,10 @@ func TestProcessDifferenceBlockPrimitive(t *testing.T) {
 
 func TestProcessIntersectionBlockPrimitive(t *testing.T) {
 	tests := []struct {
-		src  string
-		want []string
-		mbb  *MBB
+		src    string
+		center bool
+		want   []string
+		mbb    *MBB
 	}{
 		{
 			src: `intersection() {
@@ -566,7 +574,7 @@ func TestProcessIntersectionBlockPrimitive(t *testing.T) {
 				t.Fatalf("ParseProgram: %v", strings.Join(errs, "\n"))
 			}
 
-			shader := New(program)
+			shader := New(program, tt.center)
 			if !reflect.DeepEqual(shader.Functions, tt.want) {
 				t.Errorf("functions = %#v, want %#v", shader.Functions, tt.want)
 			}
