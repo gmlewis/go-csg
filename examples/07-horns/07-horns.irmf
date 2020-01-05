@@ -1,8 +1,8 @@
 /*{
   irmf: "1.0",
   materials: ["PLA"],
-  max: [5.5,2,5.5],
-  min: [-5.5,-2,-5.5],
+  max: [5.5,1.5,5.5],
+  min: [-5.5,-1.5,-5.5],
   units: "mm",
 }*/
 
@@ -38,7 +38,7 @@ float linearExtrudeBlock1(in vec3 xyz) {
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(720)*3.1415926535897932384626433832795/180.0, z);
-	vec2 s = mix(vec2(1),vec2(1,0),z);
+	vec2 s = mix(vec2(1),vec2(0,0),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return multimatrixBlock0(xyz);
@@ -78,7 +78,7 @@ float linearExtrudeBlock7(in vec3 xyz) {
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(720)*3.1415926535897932384626433832795/180.0, z);
-	vec2 s = mix(vec2(1),vec2(1,0),z);
+	vec2 s = mix(vec2(1),vec2(0,0),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return multimatrixBlock6(xyz);
@@ -105,7 +105,7 @@ float groupBlock11(in vec3 xyz) {
 }
 
 void mainModel4(out vec4 materials, in vec3 xyz) {
-	xyz += vec3(0, -0.03037744077856408, 5);
+	xyz += vec3(0, -0.12024728503575377, 5);
 	materials[0] = groupBlock11(xyz);
 }
 
