@@ -416,13 +416,6 @@ func (s *Shader) processMultmatrixBlockPrimitive(args []ast.Expression, exps []a
 	fNum := len(s.Functions)
 	fName := fmt.Sprintf("multimatrixBlock%v", fNum)
 	vec4s := s.getMat4Args(args)
-	newFunc := fmt.Sprintf(`float %v(in vec3 xyz) {
-	mat4 xfm = inverse(mat4(vec4(%v), vec4(%v), vec4(%v), vec4(%v)));
-	xyz = (vec4(xyz, 1.0) * xfm).xyz;
-	return %v;
-}
-`, fName, vec4s[0], vec4s[1], vec4s[2], vec4s[3], strings.Join(calls, " + "))
-	s.Functions = append(s.Functions, newFunc)
 
 	vec0, err := parseVec4(vec4s[0])
 	if err != nil {
@@ -440,6 +433,16 @@ func (s *Shader) processMultmatrixBlockPrimitive(args []ast.Expression, exps []a
 	if err != nil {
 		log.Fatalf("vec3: %v", err)
 	}
+
+	inv0, inv1, inv2, inv3 := matrixInverse(vec0, vec1, vec2, vec3)
+
+	newFunc := fmt.Sprintf(`float %v(in vec3 xyz) {
+	mat4 xfm = mat4(vec4(%v), vec4(%v), vec4(%v), vec4(%v));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return %v;
+}
+`, fName, vs(inv0), vs(inv1), vs(inv2), vs(inv3), strings.Join(calls, " + "))
+	s.Functions = append(s.Functions, newFunc)
 
 	newMBB := matrixMult(mbb, vec0, vec1, vec2, vec3)
 

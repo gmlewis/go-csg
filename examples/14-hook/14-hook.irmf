@@ -37,7 +37,7 @@ mat4 rotZ(float angle) {
 }
 
 float multimatrixBlock0(in vec3 xyz) {
-	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 40), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	mat4 xfm = mat4(vec4(1, 0, 0, -40), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, 1.0) * xfm).xyz;
 	return circle(float(10), xyz);
 }
@@ -52,13 +52,13 @@ float rotateExtrudeBlock1(in vec3 xyz) {
 }
 
 float multimatrixBlock2(in vec3 xyz) {
-	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, 60), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 1, 0, -60), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, 1.0) * xfm).xyz;
 	return rotateExtrudeBlock1(xyz);
 }
 
 float multimatrixBlock3(in vec3 xyz) {
-	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 20), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	mat4 xfm = mat4(vec4(1, 0, 0, -20), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, 1.0) * xfm).xyz;
 	return circle(float(10), xyz);
 }
@@ -73,13 +73,13 @@ float rotateExtrudeBlock4(in vec3 xyz) {
 }
 
 float multimatrixBlock5(in vec3 xyz) {
-	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0), vec4(0, 0, -1, 0), vec4(0, 1, 0, 0), vec4(0, 0, 0, 1)));
+	mat4 xfm = mat4(vec4(1, 0, 0, 0), vec4(0, 0, 1, 0), vec4(0, -1, 0, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, 1.0) * xfm).xyz;
 	return cylinder(float(80), float(10), float(10), false, xyz);
 }
 
 float multimatrixBlock6(in vec3 xyz) {
-	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 20), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	mat4 xfm = mat4(vec4(1, 0, 0, -20), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, 1.0) * xfm).xyz;
 	return multimatrixBlock5(xyz);
 }

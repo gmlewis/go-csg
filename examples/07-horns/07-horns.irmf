@@ -27,7 +27,7 @@ mat4 rotZ(float angle) {
 }
 
 float multimatrixBlock0(in vec3 xyz) {
-	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0.75), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	mat4 xfm = mat4(vec4(1, 0, 0, -0.75), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, 1.0) * xfm).xyz;
 	return circle(float(0.75), xyz);
 }
@@ -45,7 +45,7 @@ float linearExtrudeBlock1(in vec3 xyz) {
 }
 
 float multimatrixBlock2(in vec3 xyz) {
-	mat4 xfm = inverse(mat4(vec4(1, 0, 0, -0.75), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	mat4 xfm = mat4(vec4(1, 0, 0, 0.75), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, 1.0) * xfm).xyz;
 	return linearExtrudeBlock1(xyz);
 }
@@ -55,19 +55,19 @@ float groupBlock3(in vec3 xyz) {
 }
 
 float multimatrixBlock4(in vec3 xyz) {
-	mat4 xfm = inverse(mat4(vec4(-1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	mat4 xfm = mat4(vec4(-1, 0, 0, 0), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, 1.0) * xfm).xyz;
 	return groupBlock3(xyz);
 }
 
 float multimatrixBlock5(in vec3 xyz) {
-	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 3), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	mat4 xfm = mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, 1.0) * xfm).xyz;
 	return multimatrixBlock4(xyz);
 }
 
 float multimatrixBlock6(in vec3 xyz) {
-	mat4 xfm = inverse(mat4(vec4(1, 0, 0, 0.75), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	mat4 xfm = mat4(vec4(1, 0, 0, -0.75), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, 1.0) * xfm).xyz;
 	return circle(float(0.75), xyz);
 }
@@ -85,7 +85,7 @@ float linearExtrudeBlock7(in vec3 xyz) {
 }
 
 float multimatrixBlock8(in vec3 xyz) {
-	mat4 xfm = inverse(mat4(vec4(1, 0, 0, -0.75), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	mat4 xfm = mat4(vec4(1, 0, 0, 0.75), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, 1.0) * xfm).xyz;
 	return linearExtrudeBlock7(xyz);
 }
@@ -95,7 +95,7 @@ float groupBlock9(in vec3 xyz) {
 }
 
 float multimatrixBlock10(in vec3 xyz) {
-	mat4 xfm = inverse(mat4(vec4(1, 0, 0, -3), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1)));
+	mat4 xfm = mat4(vec4(1, 0, 0, 3), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, 1.0) * xfm).xyz;
 	return groupBlock9(xyz);
 }
