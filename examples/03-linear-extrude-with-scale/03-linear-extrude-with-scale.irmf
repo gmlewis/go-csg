@@ -1,8 +1,8 @@
 /*{
   irmf: "1.0",
   materials: ["PLA"],
-  max: [11,8.5,33],
-  min: [-11,-8.5,-33],
+  max: [11,9.5,35.5],
+  min: [-11,-9.5,-35.5],
   units: "mm",
 }*/
 
@@ -55,7 +55,7 @@ float linearExtrudeBlock4(in vec3 xyz) {
 	float z = xyz.z;
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
-	float s = mix(float(2.46591),float(2.46591),z);
+	vec2 s = mix(vec2(1),vec2(2.46591,2.46591),z);
 	xyz.xy /= s;
 	return multimatrixBlock3(xyz);
 }
@@ -93,7 +93,7 @@ float linearExtrudeBlock10(in vec3 xyz) {
 	float z = xyz.z;
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
-	float s = mix(float(1.18118),float(1.18118),z);
+	vec2 s = mix(vec2(1),vec2(1.18118,1.18118),z);
 	xyz.xy /= s;
 	return multimatrixBlock9(xyz);
 }
@@ -131,7 +131,7 @@ float linearExtrudeBlock16(in vec3 xyz) {
 	float z = xyz.z;
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
-	float s = mix(float(0.740094),float(0.740094),z);
+	vec2 s = mix(vec2(1),vec2(0.740094,0.740094),z);
 	xyz.xy /= s;
 	return multimatrixBlock15(xyz);
 }
@@ -169,7 +169,7 @@ float linearExtrudeBlock22(in vec3 xyz) {
 	float z = xyz.z;
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
-	float s = mix(float(0.235526),float(0.235526),z);
+	vec2 s = mix(vec2(1),vec2(0.235526,0.235526),z);
 	xyz.xy /= s;
 	return multimatrixBlock21(xyz);
 }
@@ -225,7 +225,7 @@ float linearExtrudeBlock32(in vec3 xyz) {
 	float z = xyz.z;
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
-	float s = mix(float(1.35006),float(1.35006),z);
+	vec2 s = mix(vec2(1),vec2(1.35006,1.35006),z);
 	xyz.xy /= s;
 	return multimatrixBlock31(xyz);
 }
@@ -263,7 +263,7 @@ float linearExtrudeBlock38(in vec3 xyz) {
 	float z = xyz.z;
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
-	float s = mix(float(1.24218),float(1.24218),z);
+	vec2 s = mix(vec2(1),vec2(1.24218,1.24218),z);
 	xyz.xy /= s;
 	return multimatrixBlock37(xyz);
 }
@@ -301,7 +301,7 @@ float linearExtrudeBlock44(in vec3 xyz) {
 	float z = xyz.z;
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
-	float s = mix(float(1.17786),float(1.17786),z);
+	vec2 s = mix(vec2(1),vec2(1.17786,1.17786),z);
 	xyz.xy /= s;
 	return multimatrixBlock43(xyz);
 }
@@ -339,7 +339,7 @@ float linearExtrudeBlock50(in vec3 xyz) {
 	float z = xyz.z;
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
-	float s = mix(float(1.13389),float(1.13389),z);
+	vec2 s = mix(vec2(1),vec2(1.13389,1.13389),z);
 	xyz.xy /= s;
 	return multimatrixBlock49(xyz);
 }
@@ -377,7 +377,7 @@ float linearExtrudeBlock56(in vec3 xyz) {
 	float z = xyz.z;
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
-	float s = mix(float(1.10097),float(1.10097),z);
+	vec2 s = mix(vec2(1),vec2(1.10097,1.10097),z);
 	xyz.xy /= s;
 	return multimatrixBlock55(xyz);
 }
@@ -415,7 +415,7 @@ float linearExtrudeBlock62(in vec3 xyz) {
 	float z = xyz.z;
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
-	float s = mix(float(1.0746),float(1.0746),z);
+	vec2 s = mix(vec2(1),vec2(1.0746,1.0746),z);
 	xyz.xy /= s;
 	return multimatrixBlock61(xyz);
 }
@@ -453,7 +453,7 @@ float linearExtrudeBlock68(in vec3 xyz) {
 	float z = xyz.z;
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
-	float s = mix(float(1.05231),float(1.05231),z);
+	vec2 s = mix(vec2(1),vec2(1.05231,1.05231),z);
 	xyz.xy /= s;
 	return multimatrixBlock67(xyz);
 }
@@ -491,7 +491,7 @@ float linearExtrudeBlock74(in vec3 xyz) {
 	float z = xyz.z;
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
-	float s = mix(float(1.0326),float(1.0326),z);
+	vec2 s = mix(vec2(1),vec2(1.0326,1.0326),z);
 	xyz.xy /= s;
 	return multimatrixBlock73(xyz);
 }
@@ -529,7 +529,7 @@ float linearExtrudeBlock80(in vec3 xyz) {
 	float z = xyz.z;
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
-	float s = mix(float(1.01446),float(1.01446),z);
+	vec2 s = mix(vec2(1),vec2(1.01446,1.01446),z);
 	xyz.xy /= s;
 	return multimatrixBlock79(xyz);
 }
@@ -567,7 +567,7 @@ float linearExtrudeBlock86(in vec3 xyz) {
 	float z = xyz.z;
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
-	float s = mix(float(0.997144),float(0.997144),z);
+	vec2 s = mix(vec2(1),vec2(0.997144,0.997144),z);
 	xyz.xy /= s;
 	return multimatrixBlock85(xyz);
 }
@@ -605,7 +605,7 @@ float linearExtrudeBlock92(in vec3 xyz) {
 	float z = xyz.z;
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
-	float s = mix(float(0.980025),float(0.980025),z);
+	vec2 s = mix(vec2(1),vec2(0.980025,0.980025),z);
 	xyz.xy /= s;
 	return multimatrixBlock91(xyz);
 }
@@ -643,7 +643,7 @@ float linearExtrudeBlock98(in vec3 xyz) {
 	float z = xyz.z;
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
-	float s = mix(float(0.962508),float(0.962508),z);
+	vec2 s = mix(vec2(1),vec2(0.962508,0.962508),z);
 	xyz.xy /= s;
 	return multimatrixBlock97(xyz);
 }
@@ -681,7 +681,7 @@ float linearExtrudeBlock104(in vec3 xyz) {
 	float z = xyz.z;
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
-	float s = mix(float(0.943937),float(0.943937),z);
+	vec2 s = mix(vec2(1),vec2(0.943937,0.943937),z);
 	xyz.xy /= s;
 	return multimatrixBlock103(xyz);
 }
@@ -719,7 +719,7 @@ float linearExtrudeBlock110(in vec3 xyz) {
 	float z = xyz.z;
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
-	float s = mix(float(0.923497),float(0.923497),z);
+	vec2 s = mix(vec2(1),vec2(0.923497,0.923497),z);
 	xyz.xy /= s;
 	return multimatrixBlock109(xyz);
 }
@@ -757,7 +757,7 @@ float linearExtrudeBlock116(in vec3 xyz) {
 	float z = xyz.z;
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
-	float s = mix(float(0.900049),float(0.900049),z);
+	vec2 s = mix(vec2(1),vec2(0.900049,0.900049),z);
 	xyz.xy /= s;
 	return multimatrixBlock115(xyz);
 }
@@ -795,7 +795,7 @@ float linearExtrudeBlock122(in vec3 xyz) {
 	float z = xyz.z;
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
-	float s = mix(float(0.87184),float(0.87184),z);
+	vec2 s = mix(vec2(1),vec2(0.87184,0.87184),z);
 	xyz.xy /= s;
 	return multimatrixBlock121(xyz);
 }
@@ -833,7 +833,7 @@ float linearExtrudeBlock128(in vec3 xyz) {
 	float z = xyz.z;
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
-	float s = mix(float(0.83589),float(0.83589),z);
+	vec2 s = mix(vec2(1),vec2(0.83589,0.83589),z);
 	xyz.xy /= s;
 	return multimatrixBlock127(xyz);
 }
@@ -871,7 +871,7 @@ float linearExtrudeBlock134(in vec3 xyz) {
 	float z = xyz.z;
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
-	float s = mix(float(0.78656),float(0.78656),z);
+	vec2 s = mix(vec2(1),vec2(0.78656,0.78656),z);
 	xyz.xy /= s;
 	return multimatrixBlock133(xyz);
 }
@@ -909,7 +909,7 @@ float linearExtrudeBlock140(in vec3 xyz) {
 	float z = xyz.z;
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
-	float s = mix(float(0.711531),float(0.711531),z);
+	vec2 s = mix(vec2(1),vec2(0.711531,0.711531),z);
 	xyz.xy /= s;
 	return multimatrixBlock139(xyz);
 }
@@ -947,7 +947,7 @@ float linearExtrudeBlock146(in vec3 xyz) {
 	float z = xyz.z;
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
-	float s = mix(float(0.577469),float(0.577469),z);
+	vec2 s = mix(vec2(1),vec2(0.577469,0.577469),z);
 	xyz.xy /= s;
 	return multimatrixBlock145(xyz);
 }
@@ -998,7 +998,7 @@ float linearExtrudeBlock155(in vec3 xyz) {
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(3)*3.1415926535897932384626433832795/180.0, z);
-	float s = mix(float(1.23565),float(1.23565),z);
+	vec2 s = mix(vec2(1),vec2(1.23565,1.23565),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return multimatrixBlock154(xyz);
@@ -1038,7 +1038,7 @@ float linearExtrudeBlock161(in vec3 xyz) {
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(3)*3.1415926535897932384626433832795/180.0, z);
-	float s = mix(float(1.1831),float(1.1831),z);
+	vec2 s = mix(vec2(1),vec2(1.1831,1.1831),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return multimatrixBlock160(xyz);
@@ -1078,7 +1078,7 @@ float linearExtrudeBlock167(in vec3 xyz) {
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(3)*3.1415926535897932384626433832795/180.0, z);
-	float s = mix(float(1.14715),float(1.14715),z);
+	vec2 s = mix(vec2(1),vec2(1.14715,1.14715),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return multimatrixBlock166(xyz);
@@ -1118,7 +1118,7 @@ float linearExtrudeBlock173(in vec3 xyz) {
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(3)*3.1415926535897932384626433832795/180.0, z);
-	float s = mix(float(1.12067),float(1.12067),z);
+	vec2 s = mix(vec2(1),vec2(1.12067,1.12067),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return multimatrixBlock172(xyz);
@@ -1158,7 +1158,7 @@ float linearExtrudeBlock179(in vec3 xyz) {
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(3)*3.1415926535897932384626433832795/180.0, z);
-	float s = mix(float(1.10006),float(1.10006),z);
+	vec2 s = mix(vec2(1),vec2(1.10006,1.10006),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return multimatrixBlock178(xyz);
@@ -1198,7 +1198,7 @@ float linearExtrudeBlock185(in vec3 xyz) {
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(3)*3.1415926535897932384626433832795/180.0, z);
-	float s = mix(float(1.08335),float(1.08335),z);
+	vec2 s = mix(vec2(1),vec2(1.08335,1.08335),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return multimatrixBlock184(xyz);
@@ -1238,7 +1238,7 @@ float linearExtrudeBlock191(in vec3 xyz) {
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(3)*3.1415926535897932384626433832795/180.0, z);
-	float s = mix(float(1.06933),float(1.06933),z);
+	vec2 s = mix(vec2(1),vec2(1.06933,1.06933),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return multimatrixBlock190(xyz);
@@ -1278,7 +1278,7 @@ float linearExtrudeBlock197(in vec3 xyz) {
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(3)*3.1415926535897932384626433832795/180.0, z);
-	float s = mix(float(1.05722),float(1.05722),z);
+	vec2 s = mix(vec2(1),vec2(1.05722,1.05722),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return multimatrixBlock196(xyz);
@@ -1318,7 +1318,7 @@ float linearExtrudeBlock203(in vec3 xyz) {
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(3)*3.1415926535897932384626433832795/180.0, z);
-	float s = mix(float(1.04651),float(1.04651),z);
+	vec2 s = mix(vec2(1),vec2(1.04651,1.04651),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return multimatrixBlock202(xyz);
@@ -1358,7 +1358,7 @@ float linearExtrudeBlock209(in vec3 xyz) {
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(3)*3.1415926535897932384626433832795/180.0, z);
-	float s = mix(float(1.03684),float(1.03684),z);
+	vec2 s = mix(vec2(1),vec2(1.03684,1.03684),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return multimatrixBlock208(xyz);
@@ -1398,7 +1398,7 @@ float linearExtrudeBlock215(in vec3 xyz) {
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(3)*3.1415926535897932384626433832795/180.0, z);
-	float s = mix(float(1.02792),float(1.02792),z);
+	vec2 s = mix(vec2(1),vec2(1.02792,1.02792),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return multimatrixBlock214(xyz);
@@ -1438,7 +1438,7 @@ float linearExtrudeBlock221(in vec3 xyz) {
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(3)*3.1415926535897932384626433832795/180.0, z);
-	float s = mix(float(1.01955),float(1.01955),z);
+	vec2 s = mix(vec2(1),vec2(1.01955,1.01955),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return multimatrixBlock220(xyz);
@@ -1478,7 +1478,7 @@ float linearExtrudeBlock227(in vec3 xyz) {
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(3)*3.1415926535897932384626433832795/180.0, z);
-	float s = mix(float(1.01156),float(1.01156),z);
+	vec2 s = mix(vec2(1),vec2(1.01156,1.01156),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return multimatrixBlock226(xyz);
@@ -1518,7 +1518,7 @@ float linearExtrudeBlock233(in vec3 xyz) {
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(3)*3.1415926535897932384626433832795/180.0, z);
-	float s = mix(float(1.00382),float(1.00382),z);
+	vec2 s = mix(vec2(1),vec2(1.00382,1.00382),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return multimatrixBlock232(xyz);
@@ -1558,7 +1558,7 @@ float linearExtrudeBlock239(in vec3 xyz) {
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(3)*3.1415926535897932384626433832795/180.0, z);
-	float s = mix(float(0.996195),float(0.996195),z);
+	vec2 s = mix(vec2(1),vec2(0.996195,0.996195),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return multimatrixBlock238(xyz);
@@ -1598,7 +1598,7 @@ float linearExtrudeBlock245(in vec3 xyz) {
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(3)*3.1415926535897932384626433832795/180.0, z);
-	float s = mix(float(0.98857),float(0.98857),z);
+	vec2 s = mix(vec2(1),vec2(0.98857,0.98857),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return multimatrixBlock244(xyz);
@@ -1638,7 +1638,7 @@ float linearExtrudeBlock251(in vec3 xyz) {
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(3)*3.1415926535897932384626433832795/180.0, z);
-	float s = mix(float(0.980827),float(0.980827),z);
+	vec2 s = mix(vec2(1),vec2(0.980827,0.980827),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return multimatrixBlock250(xyz);
@@ -1678,7 +1678,7 @@ float linearExtrudeBlock257(in vec3 xyz) {
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(3)*3.1415926535897932384626433832795/180.0, z);
-	float s = mix(float(0.972841),float(0.972841),z);
+	vec2 s = mix(vec2(1),vec2(0.972841,0.972841),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return multimatrixBlock256(xyz);
@@ -1718,7 +1718,7 @@ float linearExtrudeBlock263(in vec3 xyz) {
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(3)*3.1415926535897932384626433832795/180.0, z);
-	float s = mix(float(0.964473),float(0.964473),z);
+	vec2 s = mix(vec2(1),vec2(0.964473,0.964473),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return multimatrixBlock262(xyz);
@@ -1758,7 +1758,7 @@ float linearExtrudeBlock269(in vec3 xyz) {
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(3)*3.1415926535897932384626433832795/180.0, z);
-	float s = mix(float(0.955553),float(0.955553),z);
+	vec2 s = mix(vec2(1),vec2(0.955553,0.955553),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return multimatrixBlock268(xyz);
@@ -1798,7 +1798,7 @@ float linearExtrudeBlock275(in vec3 xyz) {
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(3)*3.1415926535897932384626433832795/180.0, z);
-	float s = mix(float(0.945875),float(0.945875),z);
+	vec2 s = mix(vec2(1),vec2(0.945875,0.945875),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return multimatrixBlock274(xyz);
@@ -1838,7 +1838,7 @@ float linearExtrudeBlock281(in vec3 xyz) {
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(3)*3.1415926535897932384626433832795/180.0, z);
-	float s = mix(float(0.935168),float(0.935168),z);
+	vec2 s = mix(vec2(1),vec2(0.935168,0.935168),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return multimatrixBlock280(xyz);
@@ -1878,7 +1878,7 @@ float linearExtrudeBlock287(in vec3 xyz) {
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(3)*3.1415926535897932384626433832795/180.0, z);
-	float s = mix(float(0.923062),float(0.923062),z);
+	vec2 s = mix(vec2(1),vec2(0.923062,0.923062),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return multimatrixBlock286(xyz);
@@ -1918,7 +1918,7 @@ float linearExtrudeBlock293(in vec3 xyz) {
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(3)*3.1415926535897932384626433832795/180.0, z);
-	float s = mix(float(0.909039),float(0.909039),z);
+	vec2 s = mix(vec2(1),vec2(0.909039,0.909039),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return multimatrixBlock292(xyz);
@@ -1958,7 +1958,7 @@ float linearExtrudeBlock299(in vec3 xyz) {
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(3)*3.1415926535897932384626433832795/180.0, z);
-	float s = mix(float(0.892327),float(0.892327),z);
+	vec2 s = mix(vec2(1),vec2(0.892327,0.892327),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return multimatrixBlock298(xyz);
@@ -1998,7 +1998,7 @@ float linearExtrudeBlock305(in vec3 xyz) {
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(3)*3.1415926535897932384626433832795/180.0, z);
-	float s = mix(float(0.871723),float(0.871723),z);
+	vec2 s = mix(vec2(1),vec2(0.871723,0.871723),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return multimatrixBlock304(xyz);
@@ -2038,7 +2038,7 @@ float linearExtrudeBlock311(in vec3 xyz) {
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(3)*3.1415926535897932384626433832795/180.0, z);
-	float s = mix(float(0.845237),float(0.845237),z);
+	vec2 s = mix(vec2(1),vec2(0.845237,0.845237),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return multimatrixBlock310(xyz);
@@ -2078,7 +2078,7 @@ float linearExtrudeBlock317(in vec3 xyz) {
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(3)*3.1415926535897932384626433832795/180.0, z);
-	float s = mix(float(0.809289),float(0.809289),z);
+	vec2 s = mix(vec2(1),vec2(0.809289,0.809289),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return multimatrixBlock316(xyz);
@@ -2118,7 +2118,7 @@ float linearExtrudeBlock323(in vec3 xyz) {
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(3)*3.1415926535897932384626433832795/180.0, z);
-	float s = mix(float(0.756736),float(0.756736),z);
+	vec2 s = mix(vec2(1),vec2(0.756736,0.756736),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return multimatrixBlock322(xyz);
@@ -2158,7 +2158,7 @@ float linearExtrudeBlock329(in vec3 xyz) {
 	if (false) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(3)*3.1415926535897932384626433832795/180.0, z);
-	float s = mix(float(0.670925),float(0.670925),z);
+	vec2 s = mix(vec2(1),vec2(0.670925,0.670925),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return multimatrixBlock328(xyz);
@@ -2193,7 +2193,7 @@ float groupBlock335(in vec3 xyz) {
 }
 
 void mainModel4(out vec4 materials, in vec3 xyz) {
-	xyz += vec3(3.465934747235001, 4.2386099999999995, 7.5);
+	xyz += vec3(3.469960801056773, 3.5052419763, 10);
 	materials[0] = groupBlock335(xyz);
 }
 

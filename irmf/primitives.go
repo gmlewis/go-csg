@@ -3,6 +3,7 @@ package irmf
 import (
 	"fmt"
 	"log"
+	"math"
 	"strconv"
 	"strings"
 
@@ -504,10 +505,21 @@ func (s *Shader) processLinearExtrudeBlockPrimitive(args []ast.Expression, exps 
 
 	argVals := s.getArgs(args, "height", "center", "twist", "scale")
 
-	if argVals[1] != "true" {
-		argVals[1] = "false"
+	height, err := strconv.ParseFloat(argVals[0], 64)
+	if err != nil {
+		log.Fatalf("unable to parse height %q: %v", argVals[0], err)
 	}
 
+	if argVals[1] == "true" {
+		mbb.ZMin = -0.5 * height
+		mbb.ZMax = 0.5 * height
+	} else {
+		argVals[1] = "false"
+		mbb.ZMin = 0.0
+		mbb.ZMax = height
+	}
+
+	argVals[2] = strings.Trim(argVals[2], "()")
 	argVals[3] = strings.Trim(argVals[3], "[]")
 	scaleVec, err := parseVec2(argVals[3])
 	if err != nil {
@@ -523,11 +535,24 @@ func (s *Shader) processLinearExtrudeBlockPrimitive(args []ast.Expression, exps 
 	float z = xyz.z;
 	if (%v) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
-	float s = mix(float(%v),float(%v),z);
+	vec2 s = mix(vec2(1),vec2(%v,%v),z);
 	xyz.xy /= s;
 	return %v;
 }
 `, fName, argVals[0], argVals[1], scaleVec[0], scaleVec[1], strings.Join(calls, " + "))
+		// Modify MBB based on scale.
+		if scaleVec[0] > 1.0 {
+			cx := 0.5 * (mbb.XMax + mbb.XMin)
+			dx := 0.5 * (mbb.XMax - mbb.XMin)
+			mbb.XMin = cx - scaleVec[0]*dx
+			mbb.XMax = cx + scaleVec[0]*dx
+		}
+		if scaleVec[1] > 1.0 {
+			cy := 0.5 * (mbb.YMax + mbb.YMin)
+			dy := 0.5 * (mbb.YMax - mbb.YMin)
+			mbb.YMin = cy - scaleVec[1]*dy
+			mbb.YMax = cy + scaleVec[1]*dy
+		}
 	} else {
 		// With twist.
 		s.Primitives["rotAxis"] = true
@@ -539,16 +564,56 @@ func (s *Shader) processLinearExtrudeBlockPrimitive(args []ast.Expression, exps 
 	if (%v) { z += 0.5; } else { xyz.z -= 0.5; }
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	float angle = mix(0.0, float(%v)*3.1415926535897932384626433832795/180.0, z);
-	float s = mix(float(%v),float(%v),z);
+	vec2 s = mix(vec2(1),vec2(%v,%v),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
 	return %v;
 }
 `, fName, argVals[0], argVals[1], argVals[2], scaleVec[0], scaleVec[1], strings.Join(calls, " + "))
+
+		// Modify MBB based on twist and scale.
+		twist, err := strconv.ParseFloat(argVals[2], 64)
+		if err != nil {
+			log.Fatalf("unable to parse twist %q: %v", argVals[2], err)
+		}
+
+		cx := 0.5 * (mbb.XMax + mbb.XMin)
+		dx := 0.5 * (mbb.XMax - mbb.XMin)
+		cy := 0.5 * (mbb.YMax + mbb.YMin)
+		dy := 0.5 * (mbb.YMax - mbb.YMin)
+
+		const vertSteps = 33
+		for t := 0.0; t <= 1.0; t += (1.0 / vertSteps) {
+			sx := lerp(1.0, scaleVec[0], t)
+			xmin := cx - sx*dx
+			xmax := cx + sx*dx
+			sy := lerp(1.0, scaleVec[1], t)
+			ymin := cy - sy*dy
+			ymax := cy + sy*dy
+			rot := lerp(0.0, -twist*math.Pi/180.0, t)
+
+			s := math.Sin(rot)
+			c := math.Cos(rot)
+
+			x1 := xmin*c - ymin*s
+			y1 := xmin*s + ymin*c
+			x2 := xmax*c - ymax*s
+			y2 := xmax*s + ymax*c
+			if x1 > x2 {
+				x1, x2 = x2, x1
+			}
+			if y1 > y2 {
+				y1, y2 = y2, y1
+			}
+			m := &MBB{XMin: x1, YMin: y1, XMax: x2, YMax: y2}
+			mbb.update(m)
+		}
 	}
 	s.Functions = append(s.Functions, newFunc)
 
-	// TODO: newMBB := matrixMult(mbb, vec0, vec1, vec2, vec3)
-
 	return fmt.Sprintf("%v(xyz)", fName), mbb
+}
+
+func lerp(a, b, t float64) float64 {
+	return (1.0-t)*a + t*b
 }
