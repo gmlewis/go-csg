@@ -1,0 +1,18 @@
+multmatrix([[1, 0, 0, 0], [0, 1, 0, 60], [0, 0, 1, 0], [0, 0, 0, 1]]) {
+	rotate_extrude(angle = 270, convexity = 10, $fn = 0, $fa = 12, $fs = 2) {
+		multmatrix([[1, 0, 0, 40], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]) {
+			circle($fn = 0, $fa = 12, $fs = 2, r = 10);
+		}
+	}
+}
+rotate_extrude(angle = 90, convexity = 10, $fn = 0, $fa = 12, $fs = 2) {
+	multmatrix([[1, 0, 0, 20], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]) {
+		circle($fn = 0, $fa = 12, $fs = 2, r = 10);
+	}
+}
+multmatrix([[1, 0, 0, 20], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]) {
+	multmatrix([[1, 0, 0, 0], [0, 0, -1, 0], [0, 1, 0, 0], [0, 0, 0, 1]]) {
+		cylinder($fn = 0, $fa = 12, $fs = 2, h = 80, r1 = 10, r2 = 10, center = false);
+	}
+}
+

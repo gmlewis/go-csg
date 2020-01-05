@@ -617,3 +617,42 @@ func (s *Shader) processLinearExtrudeBlockPrimitive(args []ast.Expression, exps 
 func lerp(a, b, t float64) float64 {
 	return (1.0-t)*a + t*b
 }
+
+func (s *Shader) processRotateExtrudeBlockPrimitive(args []ast.Expression, exps []ast.Statement) (string, *MBB) {
+	calls, mbb := s.getCalls(exps)
+	if len(calls) == 0 || mbb == nil {
+		return "", nil
+	}
+
+	s.Primitives["rotAxis"] = true
+	s.Primitives["rotZ"] = true
+
+	argVals := s.getArgs(args, "angle")
+
+	argVals[0] = strings.Trim(argVals[0], "()")
+
+	fNum := len(s.Functions)
+	fName := fmt.Sprintf("rotateExtrudeBlock%v", fNum)
+	newFunc := fmt.Sprintf(`float %v(in vec3 xyz) {
+	float angle = atan(xyz.y, xyz.x);
+	if (angle<0.) { angle+=(2.*3.1415926535897932384626433832795); }
+	if (angle>float(%v)*3.1415926535897932384626433832795/180.0) { return 0.0; }
+	vec3 slice=(vec4(xyz,1)*rotZ(-angle)).xyz;
+	xyz = slice.xzy;
+	return %v;
+}
+`, fName, argVals[0], strings.Join(calls, " + "))
+
+	s.Functions = append(s.Functions, newFunc)
+
+	// TODO: Sample rotation to get a more accurate MBB.
+	xmin := -mbb.XMax
+	xmax := mbb.XMax
+	ymin := -mbb.XMax
+	ymax := mbb.XMax
+	zmin := mbb.YMin
+	zmax := mbb.YMax
+	newMBB := &MBB{XMin: xmin, YMin: ymin, ZMin: zmin, XMax: xmax, YMax: ymax, ZMax: zmax}
+
+	return fmt.Sprintf("%v(xyz)", fName), newMBB
+}
