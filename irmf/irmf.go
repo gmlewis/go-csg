@@ -225,9 +225,7 @@ func (s *Shader) processExpression(exp ast.Expression) (string, *MBB) {
 			return s.processMultmatrixBlockPrimitive(node.Arguments, node.Body.Statements)
 		}
 	case *ast.PolygonPrimitive:
-		s.Primitives["polygon"] = true
-		// TODO: make a new function to call this primitive.
-		return "polygon(TODO)", nil
+		return s.processPolygonPrimitive(node.Arguments)
 	case *ast.PolyhedronPrimitive:
 		s.Primitives["polyhedron"] = true
 		// TODO: make a new function to call this primitive.

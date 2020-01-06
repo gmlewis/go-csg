@@ -3,6 +3,10 @@
 06-rocket is an example taken from the OpenSCAD User Manual:
 https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Commented_Example_Projects
 
+![06-rocket](06-rocket.png)
+
+- Try loading [06-rocket.irmf](https://gmlewis.github.io/irmf-editor/?s=github.com/gmlewis/go-csg/blob/master/examples/06-rocket/06-rocket.irmf) now in the experimental IRMF editor!
+
 ---
 
 # License

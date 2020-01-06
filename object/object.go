@@ -17,6 +17,7 @@ type T string
 const (
 	BooleanT     = "BOOLEAN"
 	IntegerT     = "INTEGER"
+	FloatT       = "FLOAT"
 	NullT        = "NULL"
 	ReturnValueT = "RETURN_VALUE"
 	ErrorT       = "ERROR"
@@ -43,6 +44,17 @@ func (i *Integer) Inspect() string { return fmt.Sprintf("%v", i.Value) }
 
 // Type returns the type of the object.
 func (i *Integer) Type() T { return IntegerT }
+
+// Float represents an object of that type.
+type Float struct {
+	Value float64
+}
+
+// Inspect returns a representation of the object value.
+func (i *Float) Inspect() string { return fmt.Sprintf("%v", i.Value) }
+
+// Type returns the type of the object.
+func (i *Float) Type() T { return FloatT }
 
 // String represents an object of that type.
 type String struct {

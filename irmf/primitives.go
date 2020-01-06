@@ -78,6 +78,14 @@ var primitives = map[string]string{
 	return 1.0;
 }
 `,
+
+	"testTwoLineSegments": `float testTwoLineSegments(in vec2 ll, in vec2 ul, in vec2 lr, in vec2 ur, in vec2 xy) {
+	float lx = mix(ll.x,ul.x,(xy.y-ll.y)/(ul.y-ll.y));
+	float rx = mix(lr.x,ur.x,(xy.y-lr.y)/(ur.y-lr.y));
+	if (xy.x<lx || xy.x>rx) { return 0.0; }
+	return 1.0;
+}
+`,
 }
 
 func (s *Shader) getArgs(exps []ast.Expression, names ...string) []string {
@@ -633,6 +641,9 @@ func (s *Shader) processRotateExtrudeBlockPrimitive(args []ast.Expression, exps 
 	argVals := s.getArgs(args, "angle")
 
 	argVals[0] = strings.Trim(argVals[0], "()")
+	if argVals[0] == "" {
+		argVals[0] = "360"
+	}
 
 	fNum := len(s.Functions)
 	fName := fmt.Sprintf("rotateExtrudeBlock%v", fNum)

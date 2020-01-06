@@ -1,5 +1,8 @@
 # go-csg
 
+[![GoDoc](https://godoc.org/github.com/gmlewis/go-csg?status.svg)](https://godoc.org/github.com/gmlewis/go-csg)
+[![Test Status](https://github.com/gmlewis/go-csg/workflows/tests/badge.svg)](https://github.com/gmlewis/go-csg/actions?query=workflow%3Atests)
+
 An experimental CSG interpreter and converter written in Go.
 
 CSG is an intermediate file format that is output by CAD tools
@@ -30,11 +33,11 @@ $ ./run.sh 11
 (ctrl-c to quit)
 ```
 
-----------------------------------------------------------------------
+---
 
 Enjoy!
 
-----------------------------------------------------------------------
+---
 
 # License
 
