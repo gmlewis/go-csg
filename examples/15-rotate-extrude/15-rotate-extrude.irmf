@@ -1,0 +1,54 @@
+/*{
+  irmf: "1.0",
+  materials: ["PLA"],
+  max: [3.5,3.5,3],
+  min: [-3.5,-3.5,-3],
+  units: "mm",
+}*/
+
+mat3 rotAxis(vec3 axis, float a) {
+  // This is from: http://www.neilmendoza.com/glsl-rotation-about-an-arbitrary-axis/
+  float s = sin(a);
+  float c = cos(a);
+  float oc = 1.0 - c;
+  vec3 as = axis * s;
+  mat3 p = mat3(axis.x * axis, axis.y * axis, axis.z * axis);
+  mat3 q = mat3(c, - as.z, as.y, as.z, c, - as.x, - as.y, as.x, c);
+  return p * oc + q;
+}
+
+mat4 rotZ(float angle) {
+  return mat4(rotAxis(vec3(0, 0, 1), angle));
+}
+
+float testTwoLineSegments(in vec2 ll, in vec2 ul, in vec2 lr, in vec2 ur, in vec2 xy) {
+	float lx = mix(ll.x,ul.x,(xy.y-ll.y)/(ul.y-ll.y));
+	float rx = mix(lr.x,ur.x,(xy.y-lr.y)/(ur.y-lr.y));
+	if (xy.x<lx || xy.x>rx) { return 0.0; }
+	return 1.0;
+}
+
+float simplePolygon0(in vec3 xyz) {
+	if (any(lessThan(xyz.xy, vec2(0,0))) || any(greaterThan(xyz.xy, vec2(3,5)))) { return 0.0; }
+	if (xyz.y >= float(0) && xyz.y <= float(1)) { return testTwoLineSegments(vec2(0,0),vec2(0,5),vec2(0,0),vec2(2,1),xyz.xy); }
+	if (xyz.y >= float(1) && xyz.y <= float(2)) { return testTwoLineSegments(vec2(0,0),vec2(0,5),vec2(2,1),vec2(1,2),xyz.xy); }
+	if (xyz.y >= float(2) && xyz.y <= float(3)) { return testTwoLineSegments(vec2(0,0),vec2(0,5),vec2(1,2),vec2(1,3),xyz.xy); }
+	if (xyz.y >= float(3) && xyz.y <= float(4)) { return testTwoLineSegments(vec2(0,0),vec2(0,5),vec2(1,3),vec2(3,4),xyz.xy); }
+	if (xyz.y >= float(4) && xyz.y <= float(5)) { return testTwoLineSegments(vec2(0,0),vec2(0,5),vec2(3,4),vec2(0,5),xyz.xy); }
+	return 1.0;
+}
+
+float rotateExtrudeBlock1(in vec3 xyz) {
+	float angle = atan(xyz.y, xyz.x);
+	if (angle<0.) { angle+=(2.*3.1415926535897932384626433832795); }
+	if (angle>float(360)*3.1415926535897932384626433832795/180.0) { return 0.0; }
+	vec3 slice=(vec4(xyz,1)*rotZ(-angle)).xyz;
+	xyz = slice.xzy;
+	return simplePolygon0(xyz);
+}
+
+void mainModel4(out vec4 materials, in vec3 xyz) {
+	xyz += vec3(0, 0, 2.5);
+	materials[0] = rotateExtrudeBlock1(xyz);
+}
+

@@ -172,7 +172,7 @@ func processSegment(ly, uy float64, pts []ptT) string {
 			leftSeg = &segT{ly: lypt, uy: uypt}
 		} else if rightSeg == nil {
 			rightSeg = &segT{ly: lypt, uy: uypt}
-			if lypt.x < leftSeg.ly.x {
+			if lypt.x < leftSeg.ly.x || uypt.x < leftSeg.uy.x {
 				// TODO: Check if lines cross?!?
 				leftSeg, rightSeg = rightSeg, leftSeg
 			}

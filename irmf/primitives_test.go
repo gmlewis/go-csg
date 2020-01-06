@@ -740,6 +740,35 @@ func TestProcessRotateExtrudeBlockPrimitive(t *testing.T) {
 			},
 			mbb: &MBB{XMin: -2, XMax: 2, YMin: -2, YMax: 2, ZMin: -1, ZMax: 1},
 		},
+		{
+			src: `rotate_extrude(angle = 360, convexity = 2, $fn = 200, $fa = 12, $fs = 2) {
+	polygon(points = [[0, 0], [2, 1], [1, 2], [1, 3], [3, 4], [0, 5]], paths = undef, convexity = 1);
+}
+`,
+			want: []string{
+				`float simplePolygon0(in vec3 xyz) {
+	if (any(lessThan(xyz.xy, vec2(0,0))) || any(greaterThan(xyz.xy, vec2(3,5)))) { return 0.0; }
+	if (xyz.y >= float(0) && xyz.y <= float(1)) { return testTwoLineSegments(vec2(0,0),vec2(0,5),vec2(0,0),vec2(2,1),xyz.xy); }
+	if (xyz.y >= float(1) && xyz.y <= float(2)) { return testTwoLineSegments(vec2(0,0),vec2(0,5),vec2(2,1),vec2(1,2),xyz.xy); }
+	if (xyz.y >= float(2) && xyz.y <= float(3)) { return testTwoLineSegments(vec2(0,0),vec2(0,5),vec2(1,2),vec2(1,3),xyz.xy); }
+	if (xyz.y >= float(3) && xyz.y <= float(4)) { return testTwoLineSegments(vec2(0,0),vec2(0,5),vec2(1,3),vec2(3,4),xyz.xy); }
+	if (xyz.y >= float(4) && xyz.y <= float(5)) { return testTwoLineSegments(vec2(0,0),vec2(0,5),vec2(3,4),vec2(0,5),xyz.xy); }
+	return 1.0;
+}
+`,
+				`float rotateExtrudeBlock1(in vec3 xyz) {
+	float angle = atan(xyz.y, xyz.x);
+	if (angle<0.) { angle+=(2.*3.1415926535897932384626433832795); }
+	if (angle>float(360)*3.1415926535897932384626433832795/180.0) { return 0.0; }
+	vec3 slice=(vec4(xyz,1)*rotZ(-angle)).xyz;
+	xyz = slice.xzy;
+	return simplePolygon0(xyz);
+}
+`,
+				fmt.Sprintf(mainBodyFmt, "rotateExtrudeBlock1(xyz)"),
+			},
+			mbb: &MBB{XMin: -3, XMax: 3, YMin: -3, YMax: 3, ZMin: 0, ZMax: 5},
+		},
 	}
 
 	for i, tt := range tests {
