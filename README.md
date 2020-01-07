@@ -45,7 +45,7 @@ $ ./run.sh 11
 - [ ] minkowski
 - [x] multmatrix
 - [x] polygon
-- [ ] polyhdron
+- [ ] polyhedron
 - [ ] projection
 - [x] rotate_extrude
 - [x] sphere
