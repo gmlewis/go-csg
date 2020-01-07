@@ -33,6 +33,27 @@ $ ./run.sh 11
 (ctrl-c to quit)
 ```
 
+## CSG Supported Features:
+
+- [x] circle
+- [x] cube
+- [x] cylinder
+- [x] difference
+- [ ] hull
+- [x] intersection
+- [x] linear_extrude
+- [ ] minkowski
+- [x] multmatrix
+- [x] polygon
+- [ ] polyhdron
+- [ ] projection
+- [x] rotate_extrude
+- [x] sphere
+- [x] square
+- [x] union
+
+PRs are welcome! :smile:
+
 ---
 
 Enjoy!
