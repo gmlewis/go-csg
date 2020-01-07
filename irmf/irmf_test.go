@@ -5,7 +5,9 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/gmlewis/go-csg/evaluator"
 	"github.com/gmlewis/go-csg/lexer"
+	"github.com/gmlewis/go-csg/object"
 	"github.com/gmlewis/go-csg/parser"
 )
 
@@ -58,7 +60,10 @@ void mainModel4(out vec4 materials, in vec3 xyz) {
 				t.Fatalf("ParseProgram: %v", strings.Join(errs, "\n"))
 			}
 
-			shader := New(program, tt.center)
+			env := object.NewEnvironment()
+			obj := evaluator.Eval(program, env)
+
+			shader := New(obj, tt.center)
 
 			if got := shader.String(); got != tt.want {
 				t.Errorf("shader.String =\n%v\nwant:\n%v", got, tt.want)

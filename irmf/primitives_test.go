@@ -7,7 +7,9 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/gmlewis/go-csg/evaluator"
 	"github.com/gmlewis/go-csg/lexer"
+	"github.com/gmlewis/go-csg/object"
 	"github.com/gmlewis/go-csg/parser"
 )
 
@@ -128,7 +130,10 @@ func TestProcessCubePrimitive(t *testing.T) {
 				t.Fatalf("ParseProgram: %v", strings.Join(errs, "\n"))
 			}
 
-			shader := New(program, tt.center)
+			env := object.NewEnvironment()
+			obj := evaluator.Eval(program, env)
+
+			shader := New(obj, tt.center)
 			if !reflect.DeepEqual(shader.Functions, tt.want) {
 				t.Errorf("functions = %+v, want %+v", shader.Functions, tt.want)
 			}
@@ -197,7 +202,10 @@ func TestProcessSpherePrimitive(t *testing.T) {
 				t.Fatalf("ParseProgram: %v", strings.Join(errs, "\n"))
 			}
 
-			shader := New(program, tt.center)
+			env := object.NewEnvironment()
+			obj := evaluator.Eval(program, env)
+
+			shader := New(obj, tt.center)
 			if !reflect.DeepEqual(shader.Functions, tt.want) {
 				t.Errorf("functions = %+v, want %+v", shader.Functions, tt.want)
 			}
@@ -307,7 +315,10 @@ func TestProcessCylinderPrimitive(t *testing.T) {
 				t.Fatalf("ParseProgram: %v", strings.Join(errs, "\n"))
 			}
 
-			shader := New(program, tt.center)
+			env := object.NewEnvironment()
+			obj := evaluator.Eval(program, env)
+
+			shader := New(obj, tt.center)
 			if !reflect.DeepEqual(shader.Functions, tt.want) {
 				t.Errorf("functions = %+v, want %+v", shader.Functions, tt.want)
 			}
@@ -386,7 +397,10 @@ func TestProcessSquarePrimitive(t *testing.T) {
 				t.Fatalf("ParseProgram: %v", strings.Join(errs, "\n"))
 			}
 
-			shader := New(program, tt.center)
+			env := object.NewEnvironment()
+			obj := evaluator.Eval(program, env)
+
+			shader := New(obj, tt.center)
 			if !reflect.DeepEqual(shader.Functions, tt.want) {
 				t.Errorf("functions = %+v, want %+v", shader.Functions, tt.want)
 			}
@@ -428,7 +442,10 @@ func TestProcessMultmatrixBlockPrimitive(t *testing.T) {
 				t.Fatalf("ParseProgram: %v", strings.Join(errs, "\n"))
 			}
 
-			shader := New(program, tt.center)
+			env := object.NewEnvironment()
+			obj := evaluator.Eval(program, env)
+
+			shader := New(obj, tt.center)
 			if !reflect.DeepEqual(shader.Functions, tt.want) {
 				t.Errorf("functions = %#v, want %#v", shader.Functions, tt.want)
 			}
@@ -477,7 +494,10 @@ func TestProcessUnionBlockPrimitive(t *testing.T) {
 				t.Fatalf("ParseProgram: %v", strings.Join(errs, "\n"))
 			}
 
-			shader := New(program, tt.center)
+			env := object.NewEnvironment()
+			obj := evaluator.Eval(program, env)
+
+			shader := New(obj, tt.center)
 			if !reflect.DeepEqual(shader.Functions, tt.want) {
 				t.Errorf("functions = %#v, want %#v", shader.Functions, tt.want)
 			}
@@ -526,7 +546,10 @@ func TestProcessDifferenceBlockPrimitive(t *testing.T) {
 				t.Fatalf("ParseProgram: %v", strings.Join(errs, "\n"))
 			}
 
-			shader := New(program, tt.center)
+			env := object.NewEnvironment()
+			obj := evaluator.Eval(program, env)
+
+			shader := New(obj, tt.center)
 			if !reflect.DeepEqual(shader.Functions, tt.want) {
 				t.Errorf("functions = %#v, want %#v", shader.Functions, tt.want)
 			}
@@ -575,7 +598,10 @@ func TestProcessIntersectionBlockPrimitive(t *testing.T) {
 				t.Fatalf("ParseProgram: %v", strings.Join(errs, "\n"))
 			}
 
-			shader := New(program, tt.center)
+			env := object.NewEnvironment()
+			obj := evaluator.Eval(program, env)
+
+			shader := New(obj, tt.center)
 			if !reflect.DeepEqual(shader.Functions, tt.want) {
 				t.Errorf("functions = %#v, want %#v", shader.Functions, tt.want)
 			}
@@ -687,7 +713,10 @@ func TestProcessLinearExtrudeBlockPrimitive(t *testing.T) {
 				t.Fatalf("ParseProgram: %v", strings.Join(errs, "\n"))
 			}
 
-			shader := New(program, tt.center)
+			env := object.NewEnvironment()
+			obj := evaluator.Eval(program, env)
+
+			shader := New(obj, tt.center)
 			if !reflect.DeepEqual(shader.Functions, tt.want) {
 				t.Errorf("functions = %#v, want %#v", shader.Functions, tt.want)
 			}
@@ -780,7 +809,10 @@ func TestProcessRotateExtrudeBlockPrimitive(t *testing.T) {
 				t.Fatalf("ParseProgram: %v", strings.Join(errs, "\n"))
 			}
 
-			shader := New(program, tt.center)
+			env := object.NewEnvironment()
+			obj := evaluator.Eval(program, env)
+
+			shader := New(obj, tt.center)
 			if !reflect.DeepEqual(shader.Functions, tt.want) {
 				t.Errorf("functions = %#v, want %#v", shader.Functions, tt.want)
 			}

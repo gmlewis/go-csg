@@ -8,6 +8,7 @@ import (
 	"log"
 	"strings"
 
+	"github.com/gmlewis/go-csg/evaluator"
 	"github.com/gmlewis/go-csg/irmf"
 	"github.com/gmlewis/go-csg/lexer"
 	"github.com/gmlewis/go-csg/parser"
@@ -40,7 +41,9 @@ func process(filename string) {
 		log.Fatalf("%v\n", strings.Join(errs, "\n"))
 	}
 
-	shader := irmf.New(program, *center)
+	obj := evaluator.Eval(program, nil)
+
+	shader := irmf.New(obj, *center)
 
 	if shader.MBB == nil {
 		log.Println("WARNING: CSG contains features that are not yet supported.")

@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/gmlewis/go-csg/ast"
+	"github.com/gmlewis/go-csg/object"
 )
 
 var primitives = map[string]string{
@@ -101,6 +102,32 @@ func (s *Shader) getArgs(exps []ast.Expression, names ...string) []string {
 			count++
 		default:
 			log.Fatalf("getArgs: unhandled type %T (%+v)", exp, exp)
+		}
+	}
+
+	for i, name := range names {
+		if v, ok := values[name]; ok {
+			result[i] = v
+		}
+	}
+	return result
+}
+
+func (s *Shader) getArgObjects(objs []object.Object, names ...string) []string {
+	result := make([]string, len(names))
+	values := map[string]string{}
+	// var count int
+	for _, obj := range objs {
+		switch obj := obj.(type) {
+		case *object.NamedArgument:
+			values[obj.Name] = obj.Value.Inspect()
+		// case *ast.NamedArgument:
+		// 	values[obj.Name.String()] = obj.Value.String()
+		// case *ast.StringLiteral, *ast.IntegerLiteral, *ast.FloatLiteral, *ast.BooleanLiteral, *ast.ArrayLiteral:
+		// 	result[count] = obj.String()
+		// 	count++
+		default:
+			log.Fatalf("getArgObjects: unhandled type %T (%+v)", obj, obj)
 		}
 	}
 
@@ -262,6 +289,35 @@ func (s *Shader) processCubePrimitive(exps []ast.Expression) (string, *MBB) {
 	}
 
 	return fmt.Sprintf("cube(vec3(%v), %v, xyz)", size, center), mbb
+}
+
+func (s *Shader) processCubePrimitiveObject(objs []object.Object) ([]string, *MBB) {
+	s.Primitives["cube"] = true
+	args := s.getArgObjects(objs, "size", "center")
+
+	size := strings.Trim(args[0], "[]")
+	if size == "" {
+		size = "1"
+	}
+
+	vec3, err := parseVec3(size)
+	if err != nil {
+		log.Printf("error parsing cube size=%q, setting to 1", size)
+		size = "1"
+		vec3 = []float64{1, 1, 1}
+	}
+
+	var mbb *MBB
+
+	center := args[1]
+	if center == "true" {
+		mbb = &MBB{XMin: -0.5 * vec3[0], YMin: -0.5 * vec3[1], ZMin: -0.5 * vec3[2], XMax: 0.5 * vec3[0], YMax: 0.5 * vec3[1], ZMax: 0.5 * vec3[2]}
+	} else {
+		center = "false"
+		mbb = &MBB{XMax: vec3[0], YMax: vec3[1], ZMax: vec3[2]}
+	}
+
+	return []string{fmt.Sprintf("cube(vec3(%v), %v, xyz)", size, center)}, mbb
 }
 
 func (s *Shader) processSpherePrimitive(exps []ast.Expression) (string, *MBB) {

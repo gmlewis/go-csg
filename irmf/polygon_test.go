@@ -6,6 +6,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/gmlewis/go-csg/evaluator"
 	"github.com/gmlewis/go-csg/lexer"
 	"github.com/gmlewis/go-csg/parser"
 )
@@ -41,7 +42,9 @@ func TestProcessSimplyPolygonPrimitive(t *testing.T) {
 				t.Fatalf("ParseProgram: %v", strings.Join(errs, "\n"))
 			}
 
-			shader := New(program, tt.center)
+			obj := evaluator.Eval(program, nil)
+
+			shader := New(obj, tt.center)
 			if !reflect.DeepEqual(shader.Functions, tt.want) {
 				t.Errorf("functions = %#v, want %#v", shader.Functions, tt.want)
 			}

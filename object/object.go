@@ -26,6 +26,12 @@ const (
 	BuiltinT     = "BUILTIN"
 	ArrayT       = "ARRAY"
 	HashT        = "HASH"
+
+	// CSG
+	CubePrimitiveT       = "CUBE"
+	GroupBlockPrimitiveT = "GROUP"
+	NamedArgumentT       = "NAMED_ARGUMENT"
+	PolygonPrimitiveT    = "POLYGON"
 )
 
 // Object represents an object or value type within the language.

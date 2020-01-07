@@ -11,6 +11,7 @@ import (
 	"strings"
 
 	"github.com/gmlewis/go-csg/ast"
+	"github.com/gmlewis/go-csg/object"
 )
 
 const (
@@ -27,7 +28,6 @@ const (
 
 // Shader represents an IRMF shader.
 type Shader struct {
-	Program    *ast.Program
 	Functions  []string
 	Primitives map[string]bool
 	MBB        *MBB
@@ -52,14 +52,14 @@ func (s *Shader) String() string {
 	return strings.Join(result, "\n")
 }
 
-// New returns a new IRMF Shader from a CSG ast.Program.
-func New(program *ast.Program, center bool) *Shader {
+// New returns a new IRMF Shader from a CSG Object.
+func New(obj object.Object, center bool) *Shader {
 	s := &Shader{
-		Program:    program,
 		Primitives: map[string]bool{},
 	}
 
-	calls, mbb := s.getCalls(program.Statements)
+	calls, mbb := s.processObject(obj)
+	// calls, mbb := s.getCalls(program.Statements)
 	if len(calls) > 0 {
 		mainFunc := fmt.Sprintf(mainBodyFmt, strings.Join(calls, " + "))
 		if center {
@@ -111,6 +111,36 @@ func (mbb *MBB) update(other *MBB) {
 	if other.ZMax > mbb.ZMax {
 		mbb.ZMax = other.ZMax
 	}
+}
+
+func (s *Shader) processObject(obj object.Object) ([]string, *MBB) {
+	switch obj := obj.(type) {
+	case *object.CubePrimitive:
+		return s.processCubePrimitiveObject(obj.Arguments)
+
+	case *object.GroupBlockPrimitive:
+		if obj.Body != nil {
+			calls, mbb := s.processObject(obj.Body)
+			if len(calls) > 0 {
+				fNum := len(s.Functions)
+				fName := fmt.Sprintf("groupBlock%v", fNum)
+				newFunc := fmt.Sprintf(`float %v(in vec3 xyz) {
+	return %v;
+}
+`, fName, strings.Join(calls, " + "))
+				s.Functions = append(s.Functions, newFunc)
+				return []string{fmt.Sprintf("%v(xyz)", fName)}, mbb
+			}
+		}
+
+	case *object.PolygonPrimitive:
+		return s.processPolygonPrimitiveObject(obj.Arguments)
+
+	default:
+		log.Fatalf("unhandled object type %T (%+v)", obj, obj)
+	}
+
+	return nil, nil
 }
 
 func (s *Shader) getCalls(stmts []ast.Statement) ([]string, *MBB) {
@@ -169,7 +199,6 @@ func (s *Shader) processExpression(exp ast.Expression) (string, *MBB) {
 		}
 	case *ast.GroupBlockPrimitive:
 		if node.Body != nil {
-			// TODO: make a new function to call these statements.
 			calls, mbb := s.getCalls(node.Body.Statements)
 			if len(calls) > 0 {
 				fNum := len(s.Functions)

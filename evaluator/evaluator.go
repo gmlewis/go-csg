@@ -3,6 +3,7 @@ package evaluator
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/gmlewis/go-csg/ast"
 	"github.com/gmlewis/go-csg/object"
@@ -119,6 +120,38 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 
 	case *ast.HashLiteral:
 		return evalHashLiteral(node, env)
+
+	// CSG...
+
+	case *ast.CubePrimitive:
+		args := evalExpressions(node.Arguments, env)
+		if len(args) == 1 && isError(args[0]) {
+			return args[0]
+		}
+
+		return &object.CubePrimitive{Arguments: args}
+
+	case *ast.GroupBlockPrimitive:
+		body := Eval(node.Body, env)
+		return &object.GroupBlockPrimitive{Body: body}
+
+	case *ast.NamedArgument:
+		value := Eval(node.Value, env)
+		return &object.NamedArgument{Name: node.Name.String(), Value: value}
+
+	case *ast.PolygonPrimitive:
+		args := evalExpressions(node.Arguments, env)
+		if len(args) == 1 && isError(args[0]) {
+			return args[0]
+		}
+
+		return &object.PolygonPrimitive{Arguments: args}
+
+	case *ast.UndefLiteral:
+		return Null
+
+	default:
+		log.Fatalf("unhandled AST Node type %T (%+v)", node, node)
 	}
 
 	return nil
