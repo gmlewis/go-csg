@@ -118,6 +118,9 @@ func (s *Shader) processObject(obj object.Object) ([]string, *MBB) {
 	case *object.CubePrimitive:
 		return s.processCubePrimitiveObject(obj.Arguments)
 
+	case *object.CylinderPrimitive:
+		return s.processCylinderPrimitiveObject(obj.Arguments)
+
 	case *object.GroupBlockPrimitive:
 		if obj.Body != nil {
 			calls, mbb := s.processObject(obj.Body)
@@ -135,6 +138,12 @@ func (s *Shader) processObject(obj object.Object) ([]string, *MBB) {
 
 	case *object.PolygonPrimitive:
 		return s.processPolygonPrimitiveObject(obj.Arguments)
+
+	case *object.SpherePrimitive:
+		return s.processSpherePrimitiveObject(obj.Arguments)
+
+	case *object.SquarePrimitive:
+		return s.processSquarePrimitiveObject(obj.Arguments)
 
 	default:
 		log.Fatalf("unhandled object type %T (%+v)", obj, obj)

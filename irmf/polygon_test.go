@@ -11,7 +11,7 @@ import (
 	"github.com/gmlewis/go-csg/parser"
 )
 
-func TestProcessSimplyPolygonPrimitive(t *testing.T) {
+func TestProcessSimplePolygonPrimitive(t *testing.T) {
 	tests := []struct {
 		src    string
 		center bool
@@ -43,11 +43,12 @@ func TestProcessSimplyPolygonPrimitive(t *testing.T) {
 			}
 
 			obj := evaluator.Eval(program, nil)
-
 			shader := New(obj, tt.center)
+
 			if !reflect.DeepEqual(shader.Functions, tt.want) {
 				t.Errorf("functions = %#v, want %#v", shader.Functions, tt.want)
 			}
+
 			if !reflect.DeepEqual(shader.MBB, tt.mbb) {
 				t.Errorf("mbb = %+v, want %+v", shader.MBB, tt.mbb)
 			}

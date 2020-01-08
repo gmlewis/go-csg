@@ -131,6 +131,14 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 
 		return &object.CubePrimitive{Arguments: args}
 
+	case *ast.CylinderPrimitive:
+		args := evalExpressions(node.Arguments, env)
+		if len(args) == 1 && isError(args[0]) {
+			return args[0]
+		}
+
+		return &object.CylinderPrimitive{Arguments: args}
+
 	case *ast.GroupBlockPrimitive:
 		body := Eval(node.Body, env)
 		return &object.GroupBlockPrimitive{Body: body}
@@ -146,6 +154,22 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 		}
 
 		return &object.PolygonPrimitive{Arguments: args}
+
+	case *ast.SpherePrimitive:
+		args := evalExpressions(node.Arguments, env)
+		if len(args) == 1 && isError(args[0]) {
+			return args[0]
+		}
+
+		return &object.SpherePrimitive{Arguments: args}
+
+	case *ast.SquarePrimitive:
+		args := evalExpressions(node.Arguments, env)
+		if len(args) == 1 && isError(args[0]) {
+			return args[0]
+		}
+
+		return &object.SquarePrimitive{Arguments: args}
 
 	case *ast.UndefLiteral:
 		return Null

@@ -116,7 +116,7 @@ func (s *Shader) getArgs(exps []ast.Expression, names ...string) []string {
 func (s *Shader) getArgObjects(objs []object.Object, names ...string) []object.Object {
 	result := make([]object.Object, len(names))
 	values := map[string]object.Object{}
-	// var count int
+	var count int
 	for _, obj := range objs {
 		switch obj := obj.(type) {
 		case *object.NamedArgument:
@@ -124,8 +124,9 @@ func (s *Shader) getArgObjects(objs []object.Object, names ...string) []object.O
 		// case *ast.NamedArgument:
 		// 	values[obj.Name.String()] = obj.Value.String()
 		// case *ast.StringLiteral, *ast.IntegerLiteral, *ast.FloatLiteral, *ast.BooleanLiteral, *ast.ArrayLiteral:
-		// 	result[count] = obj.String()
-		// 	count++
+		case *object.String, *object.Integer, *object.Float, *object.Boolean, *object.Array:
+			result[count] = obj
+			count++
 		default:
 			log.Fatalf("getArgObjects: unhandled type %T (%+v)", obj, obj)
 		}
@@ -296,7 +297,7 @@ func (s *Shader) processCubePrimitiveObject(objs []object.Object) ([]string, *MB
 	args := s.getArgObjects(objs, "size", "center")
 
 	size := "1"
-	if args[0] != nil {
+	if args[0] != nil && args[0].Inspect() != "" {
 		size = strings.Trim(args[0].Inspect(), "[]")
 	}
 
@@ -309,7 +310,10 @@ func (s *Shader) processCubePrimitiveObject(objs []object.Object) ([]string, *MB
 
 	var mbb *MBB
 
-	center := args[1].Inspect()
+	var center string
+	if args[1] != nil {
+		center = args[1].Inspect()
+	}
 	if center == "true" {
 		mbb = &MBB{XMin: -0.5 * vec3[0], YMin: -0.5 * vec3[1], ZMin: -0.5 * vec3[2], XMax: 0.5 * vec3[0], YMax: 0.5 * vec3[1], ZMax: 0.5 * vec3[2]}
 	} else {
@@ -318,6 +322,39 @@ func (s *Shader) processCubePrimitiveObject(objs []object.Object) ([]string, *MB
 	}
 
 	return []string{fmt.Sprintf("cube(vec3(%v), %v, xyz)", size, center)}, mbb
+}
+
+func (s *Shader) processSpherePrimitiveObject(objs []object.Object) ([]string, *MBB) {
+	s.Primitives["sphere"] = true
+	args := s.getArgObjects(objs, "r", "d")
+
+	var radius string
+	if args[0] != nil {
+		radius = args[0].Inspect()
+	}
+	var diameter string
+	if args[1] != nil {
+		diameter = args[1].Inspect()
+	}
+	if diameter != "" && radius == "" {
+		if vec3, err := parseVec3(diameter); err == nil {
+			radius = fmt.Sprintf("%v", 0.5*vec3[0])
+		}
+	}
+	if radius == "" {
+		radius = "1"
+	}
+
+	vec3, err := parseVec3(radius)
+	if err != nil {
+		log.Printf("error parsing sphere radius=%q, setting to 1", radius)
+		radius = "1"
+		vec3 = []float64{1, 1, 1}
+	}
+
+	mbb := &MBB{XMin: -vec3[0], YMin: -vec3[1], ZMin: -vec3[2], XMax: vec3[0], YMax: vec3[1], ZMax: vec3[2]}
+
+	return []string{fmt.Sprintf("sphere(float(%v), xyz)", radius)}, mbb
 }
 
 func (s *Shader) processSpherePrimitive(exps []ast.Expression) (string, *MBB) {
@@ -415,6 +452,93 @@ func (s *Shader) processCylinderPrimitive(exps []ast.Expression) (string, *MBB) 
 	return fmt.Sprintf("cylinder(float(%v), float(%v), float(%v), %v, xyz)", h, r1, r2, center), mbb
 }
 
+func (s *Shader) processCylinderPrimitiveObject(objs []object.Object) ([]string, *MBB) {
+	s.Primitives["cylinder"] = true
+	args := s.getArgObjects(objs, "h", "r1", "r2", "center", "r", "d", "d1", "d2")
+
+	var (
+		h, r1, r2, center, r, d, d1, d2 string
+	)
+	if args[0] != nil {
+		h = args[0].Inspect()
+	}
+	if args[1] != nil {
+		r1 = args[1].Inspect()
+	}
+	if args[2] != nil {
+		r2 = args[2].Inspect()
+	}
+	if args[3] != nil {
+		center = args[3].Inspect()
+	}
+	if args[4] != nil {
+		r = args[4].Inspect()
+	}
+	if args[5] != nil {
+		d = args[5].Inspect()
+	}
+	if args[6] != nil {
+		d1 = args[6].Inspect()
+	}
+	if args[7] != nil {
+		d2 = args[7].Inspect()
+	}
+
+	if d2 != "" && r2 == "" {
+		if vec3, err := parseVec3(d2); err == nil {
+			r2 = fmt.Sprintf("%v", 0.5*vec3[0])
+		}
+	}
+	if d1 != "" && r1 == "" {
+		if vec3, err := parseVec3(d1); err == nil {
+			r1 = fmt.Sprintf("%v", 0.5*vec3[0])
+		}
+	}
+	if d != "" && r1 == "" && r2 == "" {
+		if vec3, err := parseVec3(d); err == nil {
+			r1 = fmt.Sprintf("%v", 0.5*vec3[0])
+			r2 = r1
+		}
+	}
+	if r != "" && r1 == "" && r2 == "" {
+		if vec3, err := parseVec3(r); err == nil {
+			r1 = fmt.Sprintf("%v", vec3[0])
+			r2 = r1
+		}
+	}
+
+	if h == "" {
+		h = "1"
+	}
+	if r1 == "" {
+		r1 = "1"
+	}
+	if r2 == "" {
+		r2 = "1"
+	}
+
+	params := fmt.Sprintf("%v,%v,%v", h, r1, r2)
+	vec3, err := parseVec3(params)
+	if err != nil {
+		log.Printf("error parsing cylinder params %q, setting to 1", params)
+		vec3 = []float64{1, 1, 1}
+	}
+
+	radius := vec3[1]
+	if vec3[2] > radius {
+		radius = vec3[2]
+	}
+
+	mbb := &MBB{XMin: -radius, YMin: -radius, ZMin: -0.5 * vec3[0], XMax: radius, YMax: radius, ZMax: 0.5 * vec3[0]}
+	if center != "true" {
+		center = "false"
+		mbb.ZMin = 0
+		mbb.ZMax = vec3[0]
+	}
+
+	return []string{fmt.Sprintf("cylinder(float(%v), float(%v), float(%v), %v, xyz)", h, r1, r2, center)}, mbb
+}
+
 func (s *Shader) processSquarePrimitive(exps []ast.Expression) (string, *MBB) {
 	s.Primitives["square"] = true
 	args := s.getArgs(exps, "size", "center")
@@ -442,6 +566,38 @@ func (s *Shader) processSquarePrimitive(exps []ast.Expression) (string, *MBB) {
 	}
 
 	return fmt.Sprintf("square(vec2(%v), %v, xyz)", size, center), mbb
+}
+
+func (s *Shader) processSquarePrimitiveObject(objs []object.Object) ([]string, *MBB) {
+	s.Primitives["square"] = true
+	args := s.getArgObjects(objs, "size", "center")
+
+	size := "1"
+	if args[0] != nil && args[0].Inspect() != "" {
+		size = strings.Trim(args[0].Inspect(), "[]")
+	}
+
+	vec2, err := parseVec2(size)
+	if err != nil {
+		log.Printf("error parsing square size=%q, setting to 1", size)
+		size = "1"
+		vec2 = []float64{1, 1}
+	}
+
+	var mbb *MBB
+
+	var center string
+	if args[1] != nil {
+		center = args[1].Inspect()
+	}
+	if center == "true" {
+		mbb = &MBB{XMin: -0.5 * vec2[0], YMin: -0.5 * vec2[1], XMax: 0.5 * vec2[0], YMax: 0.5 * vec2[1]}
+	} else {
+		center = "false"
+		mbb = &MBB{XMax: vec2[0], YMax: vec2[1]}
+	}
+
+	return []string{fmt.Sprintf("square(vec2(%v), %v, xyz)", size, center)}, mbb
 }
 
 func (s *Shader) processCirclePrimitive(exps []ast.Expression) (string, *MBB) {

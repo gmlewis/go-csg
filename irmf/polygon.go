@@ -19,11 +19,13 @@ func (s *Shader) processPolygonPrimitiveObject(objs []object.Object) ([]string, 
 		log.Fatalf("missing polygon points")
 	}
 
-	if args[1] == nil {
+	paths, ok := args[1].(*object.Array)
+	if !ok || paths == nil {
 		return s.processSimplePolygonPrimitiveObject(points)
 	}
 
 	// TODO: Support "paths".
+	log.Fatalf("polygon paths not yet supported")
 
 	return nil, nil
 }

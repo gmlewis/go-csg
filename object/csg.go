@@ -30,6 +30,30 @@ func (c *CubePrimitive) Inspect() string {
 // Type returns the type of the object.
 func (c *CubePrimitive) Type() T { return CubePrimitiveT }
 
+// CylinderPrimitive represents an object of that type.
+type CylinderPrimitive struct {
+	Arguments []Object
+}
+
+// Inspect returns a representation of the object value.
+func (c *CylinderPrimitive) Inspect() string {
+	var out bytes.Buffer
+
+	var args []string
+	for _, p := range c.Arguments {
+		args = append(args, p.Inspect())
+	}
+
+	out.WriteString("cylinder(")
+	out.WriteString(strings.Join(args, ", "))
+	out.WriteString(");\n")
+
+	return out.String()
+}
+
+// Type returns the type of the object.
+func (c *CylinderPrimitive) Type() T { return CylinderPrimitiveT }
+
 // GroupBlockPrimitive represents an object of that type.
 type GroupBlockPrimitive struct {
 	Body Object
@@ -86,3 +110,51 @@ func (c *PolygonPrimitive) Inspect() string {
 
 // Type returns the type of the object.
 func (c *PolygonPrimitive) Type() T { return PolygonPrimitiveT }
+
+// SpherePrimitive represents an object of that type.
+type SpherePrimitive struct {
+	Arguments []Object
+}
+
+// Inspect returns a representation of the object value.
+func (c *SpherePrimitive) Inspect() string {
+	var out bytes.Buffer
+
+	var args []string
+	for _, p := range c.Arguments {
+		args = append(args, p.Inspect())
+	}
+
+	out.WriteString("sphere(")
+	out.WriteString(strings.Join(args, ", "))
+	out.WriteString(");\n")
+
+	return out.String()
+}
+
+// Type returns the type of the object.
+func (c *SpherePrimitive) Type() T { return SpherePrimitiveT }
+
+// SquarePrimitive represents an object of that type.
+type SquarePrimitive struct {
+	Arguments []Object
+}
+
+// Inspect returns a representation of the object value.
+func (c *SquarePrimitive) Inspect() string {
+	var out bytes.Buffer
+
+	var args []string
+	for _, p := range c.Arguments {
+		args = append(args, p.Inspect())
+	}
+
+	out.WriteString("square(")
+	out.WriteString(strings.Join(args, ", "))
+	out.WriteString(");\n")
+
+	return out.String()
+}
+
+// Type returns the type of the object.
+func (c *SquarePrimitive) Type() T { return SquarePrimitiveT }
