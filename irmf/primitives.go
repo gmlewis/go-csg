@@ -113,14 +113,14 @@ func (s *Shader) getArgs(exps []ast.Expression, names ...string) []string {
 	return result
 }
 
-func (s *Shader) getArgObjects(objs []object.Object, names ...string) []string {
-	result := make([]string, len(names))
-	values := map[string]string{}
+func (s *Shader) getArgObjects(objs []object.Object, names ...string) []object.Object {
+	result := make([]object.Object, len(names))
+	values := map[string]object.Object{}
 	// var count int
 	for _, obj := range objs {
 		switch obj := obj.(type) {
 		case *object.NamedArgument:
-			values[obj.Name] = obj.Value.Inspect()
+			values[obj.Name] = obj.Value
 		// case *ast.NamedArgument:
 		// 	values[obj.Name.String()] = obj.Value.String()
 		// case *ast.StringLiteral, *ast.IntegerLiteral, *ast.FloatLiteral, *ast.BooleanLiteral, *ast.ArrayLiteral:
@@ -295,9 +295,9 @@ func (s *Shader) processCubePrimitiveObject(objs []object.Object) ([]string, *MB
 	s.Primitives["cube"] = true
 	args := s.getArgObjects(objs, "size", "center")
 
-	size := strings.Trim(args[0], "[]")
-	if size == "" {
-		size = "1"
+	size := "1"
+	if args[0] != nil {
+		size = strings.Trim(args[0].Inspect(), "[]")
 	}
 
 	vec3, err := parseVec3(size)
@@ -309,7 +309,7 @@ func (s *Shader) processCubePrimitiveObject(objs []object.Object) ([]string, *MB
 
 	var mbb *MBB
 
-	center := args[1]
+	center := args[1].Inspect()
 	if center == "true" {
 		mbb = &MBB{XMin: -0.5 * vec3[0], YMin: -0.5 * vec3[1], ZMin: -0.5 * vec3[2], XMax: 0.5 * vec3[0], YMax: 0.5 * vec3[1], ZMax: 0.5 * vec3[2]}
 	} else {

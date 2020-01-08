@@ -11,6 +11,23 @@ import (
 	"github.com/gmlewis/go-csg/object"
 )
 
+func (s *Shader) processPolygonPrimitiveObject(objs []object.Object) ([]string, *MBB) {
+	args := s.getArgObjects(objs, "points", "paths")
+
+	points, ok := args[0].(*object.Array)
+	if !ok || points == nil {
+		log.Fatalf("missing polygon points")
+	}
+
+	if args[1] == nil {
+		return s.processSimplePolygonPrimitiveObject(points)
+	}
+
+	// TODO: Support "paths".
+
+	return nil, nil
+}
+
 func (s *Shader) processPolygonPrimitive(exps []ast.Expression) (string, *MBB) {
 	var points, paths *object.Array
 
@@ -86,6 +103,51 @@ func getPT(array *object.Array) ptT {
 	}
 
 	return result
+}
+
+func (s *Shader) processSimplePolygonPrimitiveObject(points *object.Array) ([]string, *MBB) {
+	var xvals, yvals []float64
+	var pts []ptT
+	for _, el := range points.Elements {
+		switch el := el.(type) {
+		case *object.Array:
+			pt := getPT(el)
+			pts = append(pts, pt)
+			xvals = append(xvals, pt.x)
+			yvals = append(yvals, pt.y)
+		default:
+			log.Fatalf("polygon unexpected element type %T (%+v)", el, el)
+		}
+	}
+
+	if len(xvals) < 3 || len(yvals) < 3 {
+		log.Fatalf("polygon expected to have a least 3 points")
+	}
+	sort.Float64s(xvals)
+	sort.Float64s(yvals)
+
+	xmin := xvals[0]
+	xmax := xvals[len(xvals)-1]
+	ymin := yvals[0]
+	ymax := yvals[len(yvals)-1]
+	mbb := &MBB{XMin: xmin, YMin: ymin, XMax: xmax, YMax: ymax}
+
+	fNum := len(s.Functions)
+	fName := fmt.Sprintf("simplePolygon%v", fNum)
+
+	s.Primitives["testTwoLineSegments"] = true
+
+	lines := processSimplePolygonSegments(pts, yvals)
+
+	newFunc := fmt.Sprintf(`float %v(in vec3 xyz) {
+	if (any(lessThan(xyz.xy, vec2(%v,%v))) || any(greaterThan(xyz.xy, vec2(%v,%v)))) { return 0.0; }
+	%v
+	return 1.0;
+}
+`, fName, xmin, ymin, xmax, ymax, strings.Join(lines, "\n\t"))
+	s.Functions = append(s.Functions, newFunc)
+
+	return []string{fmt.Sprintf("%v(xyz)", fName)}, mbb
 }
 
 func (s *Shader) processSimplePolygonPrimitive(points *object.Array) (string, *MBB) {
