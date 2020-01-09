@@ -50,6 +50,7 @@ $ ./run.sh 11
 - [x] rotate_extrude
 - [x] sphere
 - [x] square
+- [ ] text
 - [x] union
 
 PRs are welcome! :smile:
