@@ -73,6 +73,33 @@ func (g *GroupBlockPrimitive) Inspect() string {
 // Type returns the type of the object.
 func (g *GroupBlockPrimitive) Type() T { return GroupBlockPrimitiveT }
 
+// MultmatrixBlockPrimitive represents an object of that type.
+type MultmatrixBlockPrimitive struct {
+	Arguments []Object
+	Body      Object
+}
+
+// Inspect returns a representation of the object value.
+func (m *MultmatrixBlockPrimitive) Inspect() string {
+	var out bytes.Buffer
+
+	var args []string
+	for _, p := range m.Arguments {
+		args = append(args, p.Inspect())
+	}
+
+	out.WriteString("multmatrix(")
+	out.WriteString(strings.Join(args, ", "))
+	out.WriteString(") {\n")
+	out.WriteString(m.Body.Inspect())
+	out.WriteString("\n}")
+
+	return out.String()
+}
+
+// Type returns the type of the object.
+func (m *MultmatrixBlockPrimitive) Type() T { return MultmatrixBlockPrimitiveT }
+
 // NamedArgument represents an object of that type.
 type NamedArgument struct {
 	Name  string

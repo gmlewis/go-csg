@@ -123,17 +123,12 @@ func (s *Shader) processObject(obj object.Object) ([]string, *MBB) {
 
 	case *object.GroupBlockPrimitive:
 		if obj.Body != nil {
-			calls, mbb := s.processObject(obj.Body)
-			if len(calls) > 0 {
-				fNum := len(s.Functions)
-				fName := fmt.Sprintf("groupBlock%v", fNum)
-				newFunc := fmt.Sprintf(`float %v(in vec3 xyz) {
-	return %v;
-}
-`, fName, strings.Join(calls, " + "))
-				s.Functions = append(s.Functions, newFunc)
-				return []string{fmt.Sprintf("%v(xyz)", fName)}, mbb
-			}
+			return s.processGroupBlockPrimitiveObject(obj.Body)
+		}
+
+	case *object.MultmatrixBlockPrimitive:
+		if obj.Body != nil {
+			return s.processMultmatrixBlockPrimitiveObject(obj.Arguments, obj.Body)
 		}
 
 	case *object.PolygonPrimitive:

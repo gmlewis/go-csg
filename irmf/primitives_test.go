@@ -421,13 +421,13 @@ func TestProcessMultmatrixBlockPrimitive(t *testing.T) {
 		{
 			src: "multmatrix([[1, 0, 0, -19], [0, 1, 0, -0.5], [0, 0, 1, 0], [0, 0, 0, 1]]) {sphere();}",
 			want: []string{
-				`float multimatrixBlock0(in vec3 xyz) {
+				`float multmatrixBlock0(in vec3 xyz) {
 	mat4 xfm = mat4(vec4(1, 0, 0, 19), vec4(0, 1, 0, 0.5), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, 1.0) * xfm).xyz;
 	return sphere(float(1), xyz);
 }
 `,
-				fmt.Sprintf(mainBodyFmt, "multimatrixBlock0(xyz)"),
+				fmt.Sprintf(mainBodyFmt, "multmatrixBlock0(xyz)"),
 			},
 			mbb: &MBB{XMin: -20, XMax: -18, YMin: -1.5, YMax: 0.5, ZMin: -1, ZMax: 1},
 		},
@@ -472,13 +472,13 @@ func TestProcessUnionBlockPrimitive(t *testing.T) {
 }
 `,
 			want: []string{
-				`float multimatrixBlock0(in vec3 xyz) {
+				`float multmatrixBlock0(in vec3 xyz) {
 	mat4 xfm = mat4(vec4(1, 0, 0, -2), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, 1.0) * xfm).xyz;
 	return sphere(float(2), xyz);
 }
 `,
-				"float union1(in vec3 xyz) {\n\treturn clamp(sphere(float(1), xyz) + multimatrixBlock0(xyz), 0.0, 1.0);\n}\n",
+				"float union1(in vec3 xyz) {\n\treturn clamp(sphere(float(1), xyz) + multmatrixBlock0(xyz), 0.0, 1.0);\n}\n",
 				fmt.Sprintf(mainBodyFmt, "union1(xyz)"),
 			},
 			mbb: &MBB{XMin: -1, XMax: 4, YMin: -2, YMax: 2, ZMin: -2, ZMax: 2},
@@ -524,13 +524,13 @@ func TestProcessDifferenceBlockPrimitive(t *testing.T) {
 }
 `,
 			want: []string{
-				`float multimatrixBlock0(in vec3 xyz) {
+				`float multmatrixBlock0(in vec3 xyz) {
 	mat4 xfm = mat4(vec4(1, 0, 0, -2), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, 1.0) * xfm).xyz;
 	return sphere(float(2), xyz);
 }
 `,
-				"float difference1(in vec3 xyz) {\n\treturn clamp(sphere(float(1), xyz) - multimatrixBlock0(xyz), 0.0, 1.0);\n}\n",
+				"float difference1(in vec3 xyz) {\n\treturn clamp(sphere(float(1), xyz) - multmatrixBlock0(xyz), 0.0, 1.0);\n}\n",
 				fmt.Sprintf(mainBodyFmt, "difference1(xyz)"),
 			},
 			mbb: &MBB{XMin: -1, XMax: 4, YMin: -2, YMax: 2, ZMin: -2, ZMax: 2},
@@ -576,13 +576,13 @@ func TestProcessIntersectionBlockPrimitive(t *testing.T) {
 }
 `,
 			want: []string{
-				`float multimatrixBlock0(in vec3 xyz) {
+				`float multmatrixBlock0(in vec3 xyz) {
 	mat4 xfm = mat4(vec4(1, 0, 0, -2), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, 1.0) * xfm).xyz;
 	return sphere(float(2), xyz);
 }
 `,
-				"float intersection1(in vec3 xyz) {\n\treturn clamp(sphere(float(1), xyz) * multimatrixBlock0(xyz), 0.0, 1.0);\n}\n",
+				"float intersection1(in vec3 xyz) {\n\treturn clamp(sphere(float(1), xyz) * multmatrixBlock0(xyz), 0.0, 1.0);\n}\n",
 				fmt.Sprintf(mainBodyFmt, "intersection1(xyz)"),
 			},
 			mbb: &MBB{XMin: -1, XMax: 4, YMin: -2, YMax: 2, ZMin: -2, ZMax: 2},
@@ -626,7 +626,7 @@ func TestProcessLinearExtrudeBlockPrimitive(t *testing.T) {
 	}
 }`,
 			want: []string{
-				`float multimatrixBlock0(in vec3 xyz) {
+				`float multmatrixBlock0(in vec3 xyz) {
 	mat4 xfm = mat4(vec4(1, 0, 0, -1), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, 1.0) * xfm).xyz;
 	return circle(float(1), xyz);
@@ -639,7 +639,7 @@ func TestProcessLinearExtrudeBlockPrimitive(t *testing.T) {
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	vec2 s = mix(vec2(1),vec2(1,1),z);
 	xyz.xy /= s;
-	return multimatrixBlock0(xyz);
+	return multmatrixBlock0(xyz);
 }
 `,
 				fmt.Sprintf(mainBodyFmt, "linearExtrudeBlock1(xyz)"),
@@ -653,7 +653,7 @@ func TestProcessLinearExtrudeBlockPrimitive(t *testing.T) {
 	}
 }`,
 			want: []string{
-				`float multimatrixBlock0(in vec3 xyz) {
+				`float multmatrixBlock0(in vec3 xyz) {
 	mat4 xfm = mat4(vec4(1, 0, 0, -1), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, 1.0) * xfm).xyz;
 	return circle(float(1), xyz);
@@ -666,7 +666,7 @@ func TestProcessLinearExtrudeBlockPrimitive(t *testing.T) {
 	if (abs(xyz.z) > 0.5) { return 0.0; }
 	vec2 s = mix(vec2(1),vec2(1,1),z);
 	xyz.xy /= s;
-	return multimatrixBlock0(xyz);
+	return multmatrixBlock0(xyz);
 }
 `,
 				fmt.Sprintf(mainBodyFmt, "linearExtrudeBlock1(xyz)"),
@@ -680,7 +680,7 @@ func TestProcessLinearExtrudeBlockPrimitive(t *testing.T) {
 	}
 }`,
 			want: []string{
-				`float multimatrixBlock0(in vec3 xyz) {
+				`float multmatrixBlock0(in vec3 xyz) {
 	mat4 xfm = mat4(vec4(1, 0, 0, -1), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, 1.0) * xfm).xyz;
 	return circle(float(1), xyz);
@@ -695,7 +695,7 @@ func TestProcessLinearExtrudeBlockPrimitive(t *testing.T) {
 	vec2 s = mix(vec2(1),vec2(1,1),z);
 	xyz.xy /= s;
 	xyz = (vec4(xyz, 1) * rotZ(angle)).xyz;
-	return multimatrixBlock0(xyz);
+	return multmatrixBlock0(xyz);
 }
 `,
 				fmt.Sprintf(mainBodyFmt, "linearExtrudeBlock1(xyz)"),
@@ -750,7 +750,7 @@ func TestProcessRotateExtrudeBlockPrimitive(t *testing.T) {
 	}
 }`,
 			want: []string{
-				`float multimatrixBlock0(in vec3 xyz) {
+				`float multmatrixBlock0(in vec3 xyz) {
 	mat4 xfm = mat4(vec4(1, 0, 0, -1), vec4(0, 1, 0, 0), vec4(0, 0, 1, 0), vec4(0, 0, 0, 1));
 	xyz = (vec4(xyz, 1.0) * xfm).xyz;
 	return circle(float(1), xyz);
@@ -762,7 +762,7 @@ func TestProcessRotateExtrudeBlockPrimitive(t *testing.T) {
 	if (angle>float(360)*3.1415926535897932384626433832795/180.0) { return 0.0; }
 	vec3 slice=(vec4(xyz,1)*rotZ(-angle)).xyz;
 	xyz = slice.xzy;
-	return multimatrixBlock0(xyz);
+	return multmatrixBlock0(xyz);
 }
 `,
 				fmt.Sprintf(mainBodyFmt, "rotateExtrudeBlock1(xyz)"),

@@ -143,6 +143,15 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 		body := Eval(node.Body, env)
 		return &object.GroupBlockPrimitive{Body: body}
 
+	case *ast.MultmatrixBlockPrimitive:
+		args := evalExpressions(node.Arguments, env)
+		if len(args) == 1 && isError(args[0]) {
+			return args[0]
+		}
+
+		body := Eval(node.Body, env)
+		return &object.MultmatrixBlockPrimitive{Arguments: args, Body: body}
+
 	case *ast.NamedArgument:
 		value := Eval(node.Value, env)
 		return &object.NamedArgument{Name: node.Name.String(), Value: value}

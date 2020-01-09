@@ -140,6 +140,55 @@ func (s *Shader) getArgObjects(objs []object.Object, names ...string) []object.O
 	return result
 }
 
+func (s *Shader) getMat4Objs(objs []object.Object) ([]float64, []float64, []float64, []float64) {
+	if len(objs) != 1 {
+		log.Fatalf("getMat4Objs: expected one argument, got %v", len(objs))
+	}
+	arr, ok := objs[0].(*object.Array)
+	if !ok || len(arr.Elements) != 4 {
+		log.Fatalf("getMat4Objs: expected array with 4 elements, got %v", len(arr.Elements))
+	}
+
+	o0, ok := arr.Elements[0].(*object.Array)
+	if !ok || len(o0.Elements) != 4 {
+		log.Fatalf("getMat4Objs: arr[0] does not have 4 elements: %T (%+v)", arr.Elements[0], arr.Elements[0])
+	}
+	o1, ok := arr.Elements[1].(*object.Array)
+	if !ok || len(o1.Elements) != 4 {
+		log.Fatalf("getMat4Objs: arr[1] does not have 4 elements: %T (%+v)", arr.Elements[1], arr.Elements[1])
+	}
+	o2, ok := arr.Elements[2].(*object.Array)
+	if !ok || len(o2.Elements) != 4 {
+		log.Fatalf("getMat4Objs: arr[2] does not have 4 elements: %T (%+v)", arr.Elements[2], arr.Elements[2])
+	}
+	o3, ok := arr.Elements[3].(*object.Array)
+	if !ok || len(o3.Elements) != 4 {
+		log.Fatalf("getMat4Objs: arr[3] does not have 4 elements: %T (%+v)", arr.Elements[3], arr.Elements[3])
+	}
+
+	f := func(o object.Object) float64 {
+		if v, ok := o.(*object.Float); ok {
+			return v.Value
+		}
+		if v, ok := o.(*object.Integer); ok {
+			return float64(v.Value)
+		}
+		log.Fatalf("o type %T (%+v)", o, o)
+		return 0
+	}
+
+	fields := func(o *object.Array) []float64 {
+		return []float64{f(o.Elements[0]), f(o.Elements[1]), f(o.Elements[2]), f(o.Elements[3])}
+	}
+
+	vec0 := fields(o0)
+	vec1 := fields(o1)
+	vec2 := fields(o2)
+	vec3 := fields(o3)
+
+	return vec0, vec1, vec2, vec3
+}
+
 func (s *Shader) getMat4Args(exps []ast.Expression) []string {
 	var result []string
 	for _, exp := range exps {
@@ -625,6 +674,48 @@ func (s *Shader) processCirclePrimitive(exps []ast.Expression) (string, *MBB) {
 	mbb := &MBB{XMin: -vec3[0], YMin: -vec3[1], XMax: vec3[0], YMax: vec3[1]}
 
 	return fmt.Sprintf("circle(float(%v), xyz)", radius), mbb
+}
+
+func (s *Shader) processGroupBlockPrimitiveObject(body object.Object) ([]string, *MBB) {
+	calls, mbb := s.processObject(body)
+	if len(calls) == 0 {
+		return nil, nil
+	}
+
+	fNum := len(s.Functions)
+	fName := fmt.Sprintf("groupBlock%v", fNum)
+	newFunc := fmt.Sprintf(`float %v(in vec3 xyz) {
+	return %v;
+}
+`, fName, strings.Join(calls, " + "))
+	s.Functions = append(s.Functions, newFunc)
+	return []string{fmt.Sprintf("%v(xyz)", fName)}, mbb
+}
+
+func (s *Shader) processMultmatrixBlockPrimitiveObject(objs []object.Object, body object.Object) ([]string, *MBB) {
+	calls, mbb := s.processObject(body)
+	if len(calls) == 0 {
+		return nil, nil
+	}
+
+	fNum := len(s.Functions)
+	fName := fmt.Sprintf("multmatrixBlock%v", fNum)
+
+	vec0, vec1, vec2, vec3 := s.getMat4Objs(objs)
+
+	inv0, inv1, inv2, inv3 := matrixInverse(vec0, vec1, vec2, vec3)
+
+	newFunc := fmt.Sprintf(`float %v(in vec3 xyz) {
+	mat4 xfm = mat4(vec4(%v), vec4(%v), vec4(%v), vec4(%v));
+	xyz = (vec4(xyz, 1.0) * xfm).xyz;
+	return %v;
+}
+`, fName, vs(inv0), vs(inv1), vs(inv2), vs(inv3), strings.Join(calls, " + "))
+	s.Functions = append(s.Functions, newFunc)
+
+	newMBB := matrixMult(mbb, vec0, vec1, vec2, vec3)
+
+	return []string{fmt.Sprintf("%v(xyz)", fName)}, newMBB
 }
 
 func (s *Shader) processMultmatrixBlockPrimitive(args []ast.Expression, exps []ast.Statement) (string, *MBB) {
