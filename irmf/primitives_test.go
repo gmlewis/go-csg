@@ -478,8 +478,8 @@ func TestProcessUnionBlockPrimitive(t *testing.T) {
 	return sphere(float(2), xyz);
 }
 `,
-				"float union1(in vec3 xyz) {\n\treturn clamp(sphere(float(1), xyz) + multmatrixBlock0(xyz), 0.0, 1.0);\n}\n",
-				fmt.Sprintf(mainBodyFmt, "union1(xyz)"),
+				"float unionBlock1(in vec3 xyz) {\n\treturn clamp(sphere(float(1), xyz) + multmatrixBlock0(xyz), 0.0, 1.0);\n}\n",
+				fmt.Sprintf(mainBodyFmt, "unionBlock1(xyz)"),
 			},
 			mbb: &MBB{XMin: -1, XMax: 4, YMin: -2, YMax: 2, ZMin: -2, ZMax: 2},
 		},

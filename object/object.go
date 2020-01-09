@@ -36,6 +36,7 @@ const (
 	PolygonPrimitiveT         = "POLYGON"
 	SpherePrimitiveT          = "SPHERE"
 	SquarePrimitiveT          = "SQUARE"
+	UnionBlockPrimitiveT      = "UNION"
 )
 
 // Object represents an object or value type within the language.

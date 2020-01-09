@@ -140,6 +140,11 @@ func (s *Shader) processObject(obj object.Object) ([]string, *MBB) {
 	case *object.SquarePrimitive:
 		return s.processSquarePrimitiveObject(obj.Arguments)
 
+	case *object.UnionBlockPrimitive:
+		if obj.Body != nil {
+			return s.processUnionBlockPrimitiveObject(obj.Body)
+		}
+
 	default:
 		log.Fatalf("unhandled object type %T (%+v)", obj, obj)
 	}

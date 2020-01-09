@@ -183,6 +183,10 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 	case *ast.UndefLiteral:
 		return Null
 
+	case *ast.UnionBlockPrimitive:
+		body := Eval(node.Body, env)
+		return &object.UnionBlockPrimitive{Body: body}
+
 	default:
 		log.Fatalf("unhandled AST Node type %T (%+v)", node, node)
 	}

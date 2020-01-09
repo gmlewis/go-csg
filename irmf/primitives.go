@@ -767,7 +767,7 @@ func (s *Shader) processUnionBlockPrimitive(exps []ast.Statement) (string, *MBB)
 	}
 
 	fNum := len(s.Functions)
-	fName := fmt.Sprintf("union%v", fNum)
+	fName := fmt.Sprintf("unionBlock%v", fNum)
 	newFunc := fmt.Sprintf(`float %v(in vec3 xyz) {
 	return clamp(%v, 0.0, 1.0);
 }
@@ -972,4 +972,20 @@ func (s *Shader) processRotateExtrudeBlockPrimitive(args []ast.Expression, exps 
 	newMBB := &MBB{XMin: xmin, YMin: ymin, ZMin: zmin, XMax: xmax, YMax: ymax, ZMax: zmax}
 
 	return fmt.Sprintf("%v(xyz)", fName), newMBB
+}
+
+func (s *Shader) processUnionBlockPrimitiveObject(body object.Object) ([]string, *MBB) {
+	calls, mbb := s.processObject(body)
+	if len(calls) == 0 {
+		return nil, nil
+	}
+
+	fNum := len(s.Functions)
+	fName := fmt.Sprintf("unionBlock%v", fNum)
+	newFunc := fmt.Sprintf(`float %v(in vec3 xyz) {
+	return clamp(%v, 0.0, 1.0);
+}
+`, fName, strings.Join(calls, " + "))
+	s.Functions = append(s.Functions, newFunc)
+	return []string{fmt.Sprintf("%v(xyz)", fName)}, mbb
 }

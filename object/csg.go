@@ -185,3 +185,22 @@ func (c *SquarePrimitive) Inspect() string {
 
 // Type returns the type of the object.
 func (c *SquarePrimitive) Type() T { return SquarePrimitiveT }
+
+// UnionBlockPrimitive represents an object of that type.
+type UnionBlockPrimitive struct {
+	Body Object
+}
+
+// Inspect returns a representation of the object value.
+func (g *UnionBlockPrimitive) Inspect() string {
+	var out bytes.Buffer
+
+	out.WriteString("union() {\n")
+	out.WriteString(g.Body.Inspect())
+	out.WriteString("\n}")
+
+	return out.String()
+}
+
+// Type returns the type of the object.
+func (g *UnionBlockPrimitive) Type() T { return UnionBlockPrimitiveT }
