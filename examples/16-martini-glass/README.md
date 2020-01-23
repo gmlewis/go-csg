@@ -1,6 +1,6 @@
 # Martini Glass
 
-[16-martini-glass.scad](16-martini-glass.scad) is an original design example by me.
+[16-martini-glass.scad](16-martini-glass.scad) is an original design by me.
 
 ![16-martini-glass](16-martini-glass.png)
 
