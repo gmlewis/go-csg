@@ -1,0 +1,9 @@
+difference() {
+	rotate_extrude(angle = 360, convexity = 2, $fn = 200, $fa = 12, $fs = 2) {
+		polygon(points = [[0, 0], [50, 0], [47, 3], [6, 6], [6, 66], [99, 159], [96, 159], [0, 69]], paths = undef, convexity = 1);
+	}
+	multmatrix([[-1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]) {
+		text(text = "Glenn", size = 27, spacing = 1, font = "", direction = "ltr", language = "en", script = "Latn", halign = "center", valign = "center", $fn = 0, $fa = 12, $fs = 2);
+	}
+}
+
